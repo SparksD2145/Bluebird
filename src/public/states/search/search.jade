@@ -1,0 +1,75 @@
+//-
+    @file Home page of Bluebird.
+    @author Thomas Ibarra <sparksd2145@gmail.com>
+div.row.searchPage
+    div.col-xs-12
+        div.row.pagebar.text-left
+            div.btn-group
+                a.btn.btn-primary.dropdown-toggle(data-toggle="dropdown") Filters &nbsp;
+                    span.caret
+                ul.dropdown-menu(role=menu)
+                    li(ng-repeat="button in filterOptions", ng-click="button.active = !button.active; button.filter();", ng-class="{ active: button.active }")
+                        a {{ button.text }}
+            div.btn-group
+                a.btn.btn-primary.dropdown-toggle(data-toggle="dropdown") Sorting &nbsp;
+                    span.caret
+                ul.dropdown-menu(role=menu)
+                    li(ng-repeat="button in filterOptions", ng-click="button.active = !button.active; button.filter();")
+                        a {{ button.text }}
+        div.row.spaced(ng-hide="isLoaded || noMatch")
+            div.col-xs-12
+                div.jumbotron.text-center
+                    h1
+                        span.fa-stack.fa-lg
+                            i.fa.fa-circle.fa-stack-2x
+                            i.fa.fa-circle-o-notch.fa-spin.fa-stack-2x.fa-inverse
+                            i.fa.fa-fighter-jet.fa-rotate-270.fa-stack-1x.fa-inverse
+                    p(ng-if="!extendedSearch") Searching...
+                    p(ng-if="extendedSearch") Querying...
+        div.row(ng-show="isLoaded && !noMatch")
+            //div.col-xs-12.col-sm-4.col-md-3
+            div.col-xs-12
+                div.row.product-list.spaced
+                    div.col-xs-12.col-sm-6.col-md-4(ng-repeat="result in products")
+                        a.result-item(data-sku="", ng-href="/#!/product/{{ result._id }}")
+                            div.container-fluid
+                                div.row
+                                    div.thumbnail.col-xs-4.col-sm-4.col-md-3.product-thumbnail
+                                        div(style="background: url('{{ result.images.thumbnailImage }}'); background-size: contain; background-repeat: no-repeat; background-position: center;").product-image
+                                            div.badges
+                                                //- Badges are listed in reverse order of priority. One will override the other, place most important at top.
+                                                span.badge(ng-if="result.marketplace.isMarketplaceItem", style="background-color: yellow;")
+                                                    small Marketplace
+                                                span.badge(ng-if="!result.availability.hasInStoreAvailability", style="background-color: red;")
+                                                    small Online Only
+                                                span.badge(ng-if="result.pricing.isOnSale", style="background-color: #3ebbdd;")
+                                                    small On Sale
+                                    div.col-xs-8.col-sm-8.col-md-9
+                                        div.row.product-name
+                                            div.col-xs-12
+                                                h5
+                                                    b {{ result.name }}
+                                        div.row.product-data
+                                            div.col-xs-6.col-sm-12.col-md-6
+                                                b SKU:&nbsp;
+                                                span {{ result.identifiers.sku }}
+                                            div.col-xs-6.col-sm-12.col-md-6
+                                                b UPC:&nbsp;
+                                                span {{ result.identifiers.upc }}
+                    div.col-xs-12.col-sm-6.col-md-4
+                        a.result-item(ng-click="useExtendedSearch()", ng-hide="extendedSearch")
+                            div.container-fluid
+                                div.row
+                                    div.col-xs-12
+                                        h5
+                                            b Didn't find it?
+                                div.row
+                                    div.col-xs-12
+                                        h5 Rats! Click here to try again.
+        div.row.spaced(ng-show="noMatch")
+            div.col-xs-12
+                div.bg-warning.text-warning
+                    div.jumbotron
+                        i.fa.fa-times-circle.pull-left.fa-4x
+                        h3 Drat! Foiled again.
+                        h5 Well, it seems this search was a bust. How about another?
