@@ -153,6 +153,7 @@ ProductRepository.prototype.runBBYProductAvailabilityQuery = function(query, cal
                 products.push(product.sku);
             });
 
+            store["phone"] = store["phone"].replace(/[-]/g, '');
             store["products"] = products;
             stores.push(store);
         });
