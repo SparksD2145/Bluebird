@@ -88,7 +88,7 @@ div.row.spaced
                                 td.text-right(style="border-top: none;")
                                     abbr(title="Phone Number") P
                                     |: &nbsp;
-                                    span {{ store.phone }}
+                                    a(ng-href="{{store.phone}}") {{ store.phoneNumber }}
             // Reviews
             div.col-xs-12.col-sm-6.module(ng-if="product.reviews.customerReviewCount")
                 div.row
