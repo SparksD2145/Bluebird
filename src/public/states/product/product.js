@@ -24,39 +24,6 @@ Bluebird.States['Product'] = {
                     product.availability.releaseDateValid = !invalidDateRegex.test(product.availability.releaseDate);
                 }
 
-                if(product.reviews.customerReviewAverage) {
-                    var size = Math.ceil(parseFloat(product.reviews.customerReviewAverage));
-
-                    // Create stars
-                    var stars = [];
-                    for(var i = 1; i < size + 1; i++) {
-                        stars.push(i);
-                    }
-                    product.reviews.reviewStars = stars;
-
-                    // Create adjective
-                    switch(size){
-                        case 0:
-                            product.reviews.adjective = 'quietly';
-                            break;
-                        case 1:
-                            product.reviews.adjective = 'very poorly';
-                            break;
-                        case 2:
-                            product.reviews.adjective = 'poorly';
-                            break;
-                        case 3:
-                            product.reviews.adjective = 'adequately';
-                            break;
-                        case 4:
-                            product.reviews.adjective = 'well';
-                            break;
-                        case 5:
-                            product.reviews.adjective = 'exceptionally well';
-                            break;
-                    }
-                }
-
                 Availability.query(product.identifiers.sku, function(stores){
                     product.stores = stores;
                     product.availability.anyStores = !_.isEmpty(product.stores);
