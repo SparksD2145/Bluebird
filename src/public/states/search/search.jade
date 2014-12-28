@@ -5,12 +5,12 @@ div.row.searchPage
     div.col-xs-12
         div.row.pagebar.text-left
             div.btn-group
-                a.btn.btn-primary.dropdown-toggle(data-toggle="dropdown") Filters &nbsp;
+                a.btn.btn-primary.btn-xs.dropdown-toggle(data-toggle="dropdown") Filters &nbsp;
                     span.caret
                 ul.dropdown-menu(role=menu)
                     li(ng-repeat="button in filterOptions", ng-click="button.active = !button.active; button.filter();", ng-class="{ active: button.active }")
                         a {{ button.text }}
-            div.btn-group
+            //-div.btn-group
                 a.btn.btn-primary.dropdown-toggle(data-toggle="dropdown") Sorting &nbsp;
                     span.caret
                 ul.dropdown-menu(role=menu)

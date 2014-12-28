@@ -104,9 +104,7 @@ ProductRepository.prototype.buildQuery = function(queryArray){
 };
 ProductRepository.prototype.runBBYOpenQuery = function(query, callback){
 
-    var queryURL = this.app.get('bbyOpenAddress');
-        //queryURL += 'stores(storeId=1082)+'; // @todo DONT DO THIS, CHANGE TO USABLE STORE LOOKUP
-        queryURL += 'products(' + query + ')';
+    var queryURL = this.app.get('bbyOpenAddress') + 'products(' + query + ')';
     var queryOptions = {
         query: {
             format: 'json',
