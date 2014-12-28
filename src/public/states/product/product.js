@@ -5,8 +5,8 @@ Bluebird.States['Product'] = {
     controller: [
         '$scope', '$stateParams', '$resource',
         '_',
-        'Bluebird.Services.Products',
-        function($scope, $stateParams, $resource, _, Products){
+        'Bluebird.Services.Products', 'Bluebird.Services.Availability',
+        function($scope, $stateParams, $resource, _, Products, Availability){
 
             var rebuildProduct = function(product){
                 if (product.descriptions) {
@@ -57,7 +57,16 @@ Bluebird.States['Product'] = {
                     }
                 }
 
-                return product;
+                Availability.query(product.identifiers.sku, function(stores){
+                    product.stores = stores;
+                    product.availability.anyStores = !_.isEmpty(product.stores);
+
+                    $scope.product = product;
+                    $scope.isLoaded = true;
+
+                    return product;
+                });
+
             };
 
             if($stateParams){
@@ -73,18 +82,11 @@ Bluebird.States['Product'] = {
                     Products.query($stateParams.query, false, function(prd){
                         var product = _.first(prd);
 
-                        product = rebuildProduct(product);
-
-                        $scope.product = product;
-                        $scope.isLoaded = true;
-
+                        rebuildProduct(product);
                     });
                 } else {
 
-                    product = rebuildProduct(product);
-
-                    $scope.product = product;
-                    $scope.isLoaded = true;
+                    rebuildProduct(product);
                 }
 
             }

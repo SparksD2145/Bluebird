@@ -1,3 +1,8 @@
+/**
+ * @file Product Repository
+ * @author Thomas Ibarra <sparksd2145.dev@gmail.com>
+ */
+
 var _ = require('underscore'),
     moment = require('moment'),
     rest = require('restler'),
@@ -6,26 +11,21 @@ var _ = require('underscore'),
 var Product = require('./models/Product'),
     apiKey = require('./apiKey');
 
-function QueryType(){ this.value = undefined; this.bbyQueryForm = undefined; }
-QueryType.prototype.init = function(value, queryForm){
-    this.value = value;
-    this.bbyQueryForm = queryForm + this.value;
-};
-
-function UPC(upc){ this.init(upc, 'upc='); }
-UPC.prototype = new QueryType();
-
-function SKU(sku){ this.init(sku, 'sku='); }
-SKU.prototype = new QueryType();
-
-function TEXT(text){ this.init(text, 'name='); }
-TEXT.prototype = new QueryType();
-
-
+/**
+ * Handles product queries.
+ * @requires module:express
+ * @requires module:underscore
+ * @type {exports}
+ * @returns {object}
+ */
 function ProductRepository(app) {
     this.app = app;
     this.productMaxAge = moment.duration({
-        hours: 1
+        days: 1
+    });
+
+    this.availabilityMaxAge = moment.duration({
+        days: 1
     });
 
     var dbAddress = app.get('databaseAddress');
@@ -40,7 +40,7 @@ ProductRepository.prototype.query = function(queryString, useExtendedSearch, nex
     if(useExtendedSearch !== true){
         this.retrieve(builtQuery.db, next);
     } else {
-        this.runBBYOpenQuery(builtQuery.bby, next);
+        this.runBBYProductQuery(builtQuery.bby, next);
     }
 };
 
@@ -102,7 +102,7 @@ ProductRepository.prototype.buildQuery = function(queryArray){
         bby: bbyOpenQueries.join('')
     };
 };
-ProductRepository.prototype.runBBYOpenQuery = function(query, callback){
+ProductRepository.prototype.runBBYProductQuery = function(query, callback){
 
     var queryURL = this.app.get('bbyOpenAddress') + 'products(' + query + ')';
     var queryOptions = {
@@ -123,6 +123,44 @@ ProductRepository.prototype.runBBYOpenQuery = function(query, callback){
         callback(result);
     });
 };
+ProductRepository.prototype.runBBYProductAvailabilityQuery = function(query, callback){
+
+    if(_.isEmpty(query)) return false;
+
+    var queries = this.utilities.parseQuery(query);
+    var builtQuery = this.buildQuery(queries);
+
+    var queryURL = this.app.get('bbyOpenAddress')
+        + 'stores(city=San Antonio)+' // @todo Use dynamic searching instead of static city name
+        + 'products(' + builtQuery.bby + ')';
+
+    var queryOptions = {
+        query: {
+            format: 'json',
+            apiKey: apiKey
+        }
+    };
+
+    var scoped = this;
+    rest.get(queryURL, queryOptions).on('complete', function(results){
+        // Result returns as stores, we want to isolate only "result.stores"
+        var stores = [];
+
+        _.each(results["stores"], function(store){
+            var products = [];
+
+            _.each(store["products"], function(product){
+                products.push(product.sku);
+            });
+
+            store["products"] = products;
+            stores.push(store);
+        });
+
+        callback(stores);
+    });
+};
+
 ProductRepository.prototype.retrieve = function(query, callback){
     var maxAge = this.productMaxAge;
     var scope = this;
@@ -409,5 +447,20 @@ ProductRepository.prototype.utilities.parseQuery = function(queryString){
 
     return queryTests(queries);
 };
+
+function QueryType(){ this.value = undefined; this.bbyQueryForm = undefined; }
+QueryType.prototype.init = function(value, queryForm){
+    this.value = value;
+    this.bbyQueryForm = queryForm + this.value;
+};
+
+function UPC(upc){ this.init(upc, 'upc='); }
+UPC.prototype = new QueryType();
+
+function SKU(sku){ this.init(sku, 'sku='); }
+SKU.prototype = new QueryType();
+
+function TEXT(text){ this.init(text, 'name='); }
+TEXT.prototype = new QueryType();
 
 module.exports = ProductRepository;

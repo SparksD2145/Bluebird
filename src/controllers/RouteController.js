@@ -1,5 +1,5 @@
 /**
- * @file RouteController service.
+ * @file RouteController controller.
  * @author Thomas Ibarra <sparksd2145.dev@gmail.com>
  */
 
@@ -16,6 +16,7 @@ function RouteController(app) {
     var router = require('express').Router();
     var _ = require('underscore');
 
+    /** Require ProductRepository for product operations */
     var ProductRepository = require('../repositories/product/productRepository');
     ProductRepository = new ProductRepository(app);
 
@@ -64,8 +65,8 @@ function RouteController(app) {
             res.render(state, {});
         });
 
-        /* GET /api/search/:type/:query */
-        router.get('/api/search/:type/:query', function (req, res) {
+        /* GET /api/:type/:query */
+        router.get('/api/:type/:query', function (req, res) {
             var sendGeneralFailure = function(){
                 var err = new Error('Not Found');
                 err.status = 404;
@@ -77,13 +78,27 @@ function RouteController(app) {
             if(_.isEmpty(req.params) || _.isEmpty(req.params.type) || _.isEmpty(req.params.query)) sendGeneralFailure();
             if(!_.isString(req.params.type) || !_.isString(req.params.query)) sendGeneralFailure();
 
-            // useExtendedSearch is of type String due to constraints of string to boolean conversion.
-            var useExtendedSearch = 'false';
-
-            if (!_.isEmpty(req.query) && !_.isEmpty(req.query.extendedSearch)) useExtendedSearch = req.query.extendedSearch === 'true';
 
             if(req.params.type.toLowerCase() == 'product'){
+                // useExtendedSearch is of type String due to constraints of string to boolean conversion.
+                var useExtendedSearch = 'false';
+
+                if (!_.isEmpty(req.query) && !_.isEmpty(req.query.extendedSearch))
+                    useExtendedSearch = req.query.extendedSearch === 'true';
+
                 ProductRepository.query(req.params.query.toLowerCase(), useExtendedSearch, function(result){
+                    if (result instanceof Error) {
+                        console.error('Error:', result.message);
+                        sendGeneralError();
+                    } else {
+                        res.json(result);
+                    }
+                });
+            }
+
+            if(req.params.type.toLowerCase() == 'availability'){
+
+                ProductRepository.runBBYProductAvailabilityQuery(req.params.query.toLowerCase(), function(result){
                     if (result instanceof Error) {
                         console.error('Error:', result.message);
                         sendGeneralError();
@@ -98,7 +113,7 @@ function RouteController(app) {
         router.all('/*', function(req, res) {
             res.render('views/master', {
                 title: 'Bluebird',
-                devmode: true
+                devmode: app.get('env') === 'development'
             });
         });
     })();

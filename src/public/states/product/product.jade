@@ -4,6 +4,17 @@
 
 div.row.spaced
     div.col-xs-12
+        div.row.spaced(ng-hide="isLoaded")
+            div.col-xs-12
+                div.jumbotron.text-center
+                    h1
+                        span.fa-stack.fa-lg
+                            i.fa.fa-circle.fa-stack-2x
+                            i.fa.fa-circle-o-notch.fa-spin.fa-stack-2x.fa-inverse
+                            i.fa.fa-fighter-jet.fa-rotate-270.fa-stack-1x.fa-inverse
+                    p Retrieving Availability...
+
+
         div.row(ng-show="isLoaded")
             div.col-xs-12.col-sm-6.module
                 div.row
@@ -63,6 +74,21 @@ div.row.spaced
                             li Maximum {{ product.availability.quantityLimit }} per person. &nbsp;
                             li {{ product.availability.hasOnlineAvailability? "Available" : "Not available" }} for online ordering. &nbsp;
                             li(ng-if="product.availability.releaseDateValid") Available as of {{ product.availability.releaseDate }}.
+
+            div.col-xs-12.col-sm-6.module(ng-if="product.availability.anyStores")
+                div.row
+                    div.col-xs-12
+                        table.table.table-striped.table-hover.table-condensed
+                            thead(style="border-top: none;")
+                                h4 Available in the following stores:
+                            tr(ng-repeat="store in product.stores", style="border-top: none;")
+                                th(style="border-top: none;")
+                                    h6 {{ store.name }}
+                                        small &nbsp; \#{{ store.storeId }}
+                                td.text-right(style="border-top: none;")
+                                    abbr(title="Phone Number") P
+                                    | &nbsp;:
+                                    a(ng-href="'callto:' + store.phone") {{ store.phone }}
             // Reviews
             div.col-xs-12.col-sm-6.module(ng-if="product.reviews.customerReviewCount")
                 div.row
@@ -77,9 +103,9 @@ div.row.spaced
                             i.fa.fa-star(ng-repeat="reviewStars in product.reviews.reviewStars")
                             br
                             small ({{ product.reviews.customerReviewCount }} reviews)
-
-div.row.spaced
-    div.col-xs-12
-        div.row(ng-show="isLoaded")
-            div.col-xs-12
-                pre {{ product | json }}
+//-
+    div.row.spaced
+        div.col-xs-12
+            div.row(ng-show="isLoaded")
+                div.col-xs-12
+                    pre {{ product | json }}
