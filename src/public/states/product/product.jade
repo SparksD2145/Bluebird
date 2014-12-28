@@ -87,8 +87,8 @@ div.row.spaced
                                         small &nbsp; \#{{ store.storeId }}
                                 td.text-right(style="border-top: none;")
                                     abbr(title="Phone Number") P
-                                    | &nbsp;:
-                                    a(ng-href="'callto:' + store.phone") {{ store.phone }}
+                                    |: &nbsp;
+                                    span {{ store.phone }}
             // Reviews
             div.col-xs-12.col-sm-6.module(ng-if="product.reviews.customerReviewCount")
                 div.row
