@@ -24,8 +24,6 @@ Bluebird.States['Home'] = {
 
             var where = Math.floor(Math.random() * quotes.length);
             $scope.quote = quotes[where];
-
-            $scope.alphaTestingEnabled = false;
         }
     ]
 };
