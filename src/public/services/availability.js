@@ -4,9 +4,9 @@
  */
 
 Bluebird.service('Bluebird.Services.Availability', [
-    '$resource',
-    '_',
-    function ProductCollection($resource, _){
+    '$resource', 'geolocation',
+    '_', 'Modernizr',
+    function ProductCollection($resource, geolocation, _, modernizr){
         /**
          * Internal storage for products within the collection.
          * @type {Array}
@@ -89,15 +89,35 @@ Bluebird.service('Bluebird.Services.Availability', [
                 return callback(result);
             }.bind(this);
 
-            var args = [
-                {
-                    query: query
-                }, function(products){
-                    internalCallback(products);
-                }
-            ];
 
-            api.query.apply(this, args);
+            var location = 78232;
+
+            if(modernizr.geolocation){
+                geolocation.getLocation().then(function(geoposition){
+                    location = geoposition.coords.latitude + ',' + geoposition.coords.longitude;
+
+                    var args = [
+                        {
+                            query: query,
+                            location: location
+                        }, function (products) {
+                            internalCallback(products);
+                        }
+                    ];
+                    api.query.apply(this, args);
+                })
+            } else {
+                var args = [
+                    {
+                        query: query,
+                        location: location
+                    }, function (products) {
+                        internalCallback(products);
+                    }
+                ];
+                api.query.apply(this, args);
+            }
+
         };
     }
 ]);

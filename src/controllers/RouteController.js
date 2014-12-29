@@ -98,7 +98,16 @@ function RouteController(app) {
 
             if(req.params.type.toLowerCase() == 'availability'){
 
-                ProductRepository.runBBYProductAvailabilityQuery(req.params.query.toLowerCase(), function(result){
+                if (_.isEmpty(req.query) || _.isUndefined(req.query.location)) {
+                    sendGeneralFailure();
+                    return false;
+                }
+
+                if (!_.isEmpty(req.query) && !req.query.distance) {
+                    req.query.distance = 25; // default distance (miles) setting
+                }
+
+                ProductRepository.runBBYProductAvailabilityQuery(req.params.query.toLowerCase(), req.query.location, req.query.distance, function(result){
                     if (result instanceof Error) {
                         console.error('Error:', result.message);
                         sendGeneralError();

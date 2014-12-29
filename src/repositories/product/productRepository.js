@@ -123,15 +123,16 @@ ProductRepository.prototype.runBBYProductQuery = function(query, callback){
         callback(result);
     });
 };
-ProductRepository.prototype.runBBYProductAvailabilityQuery = function(query, callback){
+ProductRepository.prototype.runBBYProductAvailabilityQuery = function(query, location, distance, callback){
 
     if(_.isEmpty(query)) return false;
+    if(_.isEmpty(location)) return false;
 
     var queries = this.utilities.parseQuery(query);
     var builtQuery = this.buildQuery(queries);
 
     var queryURL = this.app.get('bbyOpenAddress')
-        + 'stores(city=San Antonio)+' // @todo Use dynamic searching instead of static city name
+        + 'stores(area(' + location + ',' + distance + '))+'
         + 'products(' + builtQuery.bby + ')';
 
     var queryOptions = {
