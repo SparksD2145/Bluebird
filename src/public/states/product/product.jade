@@ -86,7 +86,7 @@ div.row.spaced.module
                                 li {{ product.availability.hasOnlineAvailability? "Available" : "Not available" }} for online ordering. &nbsp;
                                 li(ng-if="product.availability.releaseDateValid") Available as of {{ product.availability.releaseDate }}.
                                 li This product {{ product.availability.isFreeShippingEligible? "is" : "is not" }} eligible for free shipping.
-                                li When shipping, this product {{ product.availability.hasInStorePickup? "with" : "without" }} personal store pickup{{ product.availability.hasFriendsAndFamilyPickup? " and pickup by friends and family." : "." }}
+                                li When ordering, this product {{ product.availability.hasInStorePickup? "has" : "does not have" }} personal store pickup{{ product.availability.hasFriendsAndFamilyPickup? " and pickup by friends and family." : "." }}
             div.row
                 // Product Inventory
                 div.col-xs-12.col-sm-6.module
