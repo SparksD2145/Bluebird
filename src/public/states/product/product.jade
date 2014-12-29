@@ -1,8 +1,7 @@
 //-
-    @file Home page of Bluebird.
+    @file Product page.
     @author Thomas Ibarra <sparksd2145@gmail.com>
-
-div.row.spaced
+div.row.spaced.module
     div.col-xs-12
         div.row.spaced(ng-hide="isLoaded")
             div.col-xs-12
@@ -13,68 +12,65 @@ div.row.spaced
                             i.fa.fa-circle-o-notch.fa-spin.fa-stack-2x.fa-inverse
                             i.fa.fa-fighter-jet.fa-rotate-270.fa-stack-1x.fa-inverse
                     p Retrieving Availability...
-
-
-        div.row(ng-show="isLoaded")
-            div.col-xs-12.col-sm-6.module
-                div.row
-                    div.col-xs-12.col-sm-2.text-center
-                        img.img-thumbnail.product-header-img(ng-src="{{product.images.image}}")
-                    div.col-xs-12.col-sm-10
-                        div.row
-                            div.col-xs-12
-                                h2 {{ product.name }}
-                        div.row.spaced
-                            div.col-xs-4
-                                strong SKU:
-                                | &nbsp;
-                                div {{ product.identifiers.sku }}
-                            div.col-xs-4
-                                strong
-                                    abbr(title="Universal Product Code") UPC:
-                                | &nbsp;
-                                div {{ product.identifiers.upc }}
-
-                            div.col-xs-4(ng-if="product.identifiers.modelNumber")
-                                strong
-                                    strong Model:
-                                | &nbsp;
-                                div {{ product.identifiers.modelNumber }}
-
-                        div.row.spaced(ng-if="product.descriptions.longDescription")
-                            div.col-xs-12
-                                p {{ product.descriptions.longDescription }}
-
-            div.col-xs-12.col-sm-6.module
-                div.row
-                    div.col-xs-12
-                        h4 Pricing
-                div.row(ng-if="product.pricing.isOnSale")
-                    div.col-xs-6
-                        h5.text-danger
-                            strong Sale Price: {{ product.pricing.salePrice | currency }}
-                        h5.text-danger
-                            small {{ product.savings.percentSavings }}% Off
-                    div.col-xs-6.text-right
-                        h6 Regular Price: {{ product.pricing.regularPrice | currency }}
-                        h5.text-right
-                            small (Save {{ product.savings.dollarSavings | currency }})
-
-                div.row(ng-if="!product.pricing.isOnSale")
-                    div.col-xs-12
-                        h5 Regular Price: {{ product.pricing.regularPrice | currency }}
-
-            div.col-xs-12.col-sm-6.module
-                div.row
-                    div.col-xs-12
-                        h4 Availability
-                div.row
-                    div.col-xs-12
-                        ul.list-unstyled
-                            li Maximum {{ product.availability.quantityLimit }} per person. &nbsp;
-                            li {{ product.availability.hasOnlineAvailability? "Available" : "Not available" }} for online ordering. &nbsp;
-                            li(ng-if="product.availability.releaseDateValid") Available as of {{ product.availability.releaseDate }}.
-
+        div.container-fluid(ng-show="isLoaded")
+            div.row
+                div.col-xs-12.col-sm-6.module
+                    div.row
+                        div.col-xs-12.col-sm-2.text-center
+                            img.img-thumbnail.product-header-img(ng-src="{{product.images.image}}")
+                        div.col-xs-12.col-sm-10
+                            div.row
+                                div.col-xs-12
+                                    h2 {{ product.name }}
+                            div.row.spaced
+                                div.col-xs-4
+                                    strong SKU:
+                                    | &nbsp;
+                                    div {{ product.identifiers.sku }}
+                                div.col-xs-4
+                                    strong
+                                        abbr(title="Universal Product Code") UPC:
+                                    | &nbsp;
+                                    div {{ product.identifiers.upc }}
+                                div.col-xs-4(ng-if="product.identifiers.modelNumber")
+                                    strong
+                                        strong Model:
+                                    | &nbsp;
+                                    div {{ product.identifiers.modelNumber }}
+                            div.row.spaced(ng-if="product.descriptions.longDescription")
+                                div.col-xs-12
+                                    p {{ product.descriptions.longDescription }}
+                div.col-xs-12.col-sm-6.module
+                    div.row
+                        div.col-xs-12
+                            h4 Pricing
+                    div.row(ng-if="product.pricing.isOnSale")
+                        div.col-xs-6
+                            h5.text-danger
+                                strong Sale Price: {{ product.pricing.salePrice | currency }}
+                            h5.text-danger
+                                small {{ product.savings.percentSavings }}% Off
+                        div.col-xs-6.text-right
+                            h6 Regular Price: {{ product.pricing.regularPrice | currency }}
+                            h5.text-right
+                                small (Save {{ product.savings.dollarSavings | currency }})
+                    div.row(ng-if="!product.pricing.isOnSale")
+                        div.col-xs-12
+                            h5 Regular Price: {{ product.pricing.regularPrice | currency }}
+                // Reviews
+                div.col-xs-12.col-sm-6.module(ng-if="product.reviews.customerReviewCount")
+                    div.row
+                        div.col-xs-12
+                            h4 Reception
+                    div.row
+                        div.col-xs-6
+                            h6 This product has been {{ product.reviews.adjective }} recieved.
+                            h6 Our inventory system indicates this item {{ product.reviews.isCustomerTopRated? 'as' : 'as not' }} top rated.
+                        div.col-xs-6
+                            h6(style="color:orange")
+                                i.fa.fa-star(ng-repeat="reviewStars in product.reviews.reviewStars")
+                                br
+                                small ({{ product.reviews.customerReviewCount }} reviews)
                 // Availability
                 div.col-xs-12.col-sm-6.module
                     div.row
@@ -89,9 +85,7 @@ div.row.spaced
                                 li Maximum {{ product.availability.quantityLimit }} per person. &nbsp;
                                 li {{ product.availability.hasOnlineAvailability? "Available" : "Not available" }} for online ordering. &nbsp;
                                 li(ng-if="product.availability.releaseDateValid") Available as of {{ product.availability.releaseDate }}.
-
             div.row
-
                 // Product Inventory
                 div.col-xs-12.col-sm-6.module
                     div.row
@@ -105,15 +99,13 @@ div.row.spaced
                                             small &nbsp; \#{{ store.storeId }}
                                     td.text-right(style="border-top: none;")
                                         abbr(title="Phone Number") P
-                                        |: &nbsp;
+                                        | : &nbsp;
                                         a(ng-href="{{ store.phone }}") {{ store.phoneNumber }}
-
                         div.col-xs-12(ng-hide="product.availability.anyStores")
                             div.alert.alert-danger
                                 strong Darn! &nbsp;
                                 span It seems this product is not in stock nearby. &nbsp;
                                 span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order!
-
                 // Protection Plans
                 div.col-xs-12.col-sm-6.module
                     div.row
@@ -125,8 +117,7 @@ div.row.spaced
                                     small.text-muted {{ plan.sku }}
                                 div.col-xs-3.text-right
                                     span {{ plan.regularPrice | currency }}
-
-    //-div.row.spaced
+    //-div.row.spaced(
         div.col-xs-12
             div.row(ng-show="isLoaded")
                 div.col-xs-12
