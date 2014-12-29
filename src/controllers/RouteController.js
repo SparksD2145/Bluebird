@@ -50,7 +50,7 @@ function RouteController(app) {
     /** Registers URL Routes with Application */
     (function DefineRoutes() {
 
-        /* GET /:page */
+        /* GET /:state/*name */
         router.get('/state/*', function (req, res) {
             var pageStorageUrlPrefix = 'public/states/';
 
@@ -96,6 +96,7 @@ function RouteController(app) {
                 });
             }
 
+            /* GET /api/availability/:query?location=&distance= */
             if(req.params.type.toLowerCase() == 'availability'){
 
                 if (_.isEmpty(req.query) || _.isUndefined(req.query.location)) {
@@ -107,14 +108,19 @@ function RouteController(app) {
                     req.query.distance = 25; // default distance (miles) setting
                 }
 
-                ProductRepository.runBBYProductAvailabilityQuery(req.params.query.toLowerCase(), req.query.location, req.query.distance, function(result){
-                    if (result instanceof Error) {
-                        console.error('Error:', result.message);
-                        sendGeneralError();
-                    } else {
-                        res.json(result);
+                ProductRepository.runBBYProductAvailabilityQuery(
+                    req.params.query.toLowerCase(),
+                    req.query.location,
+                    req.query.distance,
+                    function(result){
+                        if (result instanceof Error) {
+                            console.error('Error:', result.message);
+                            sendGeneralError();
+                        } else {
+                            res.json(result);
+                        }
                     }
-                });
+                );
             }
         });
 
@@ -128,6 +134,5 @@ function RouteController(app) {
     })();
 
     return router;
-};
-
+}
 module.exports = RouteController;

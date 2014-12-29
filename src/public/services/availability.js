@@ -1,8 +1,15 @@
 /**
- * @file Products Collection source file.
+ * @file Product Availability service source file.
  * @author Thomas Ibarra <sparksd2145.dev@gmail.com>
  */
 
+/**
+ * Retrieves product availability from stores nearby.
+ * @requires module:ngResource
+ * @requires module:geolocation
+ * @requires module:underscore
+ * @requires module:modernizr
+ */
 Bluebird.service('Bluebird.Services.Availability', [
     '$resource', 'geolocation',
     '_', 'Modernizr',
