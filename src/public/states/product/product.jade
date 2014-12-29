@@ -44,7 +44,7 @@ div.row.spaced.module
                     div.row
                         div.col-xs-12
                             h4 Pricing
-                    div.row(ng-if="product.pricing.isOnSale")
+                    div.row.spaced-small(ng-if="product.pricing.isOnSale")
                         div.col-xs-6
                             h5.text-danger
                                 strong Sale Price: {{ product.pricing.salePrice | currency }}
@@ -54,7 +54,7 @@ div.row.spaced.module
                             h6 Regular Price: {{ product.pricing.regularPrice | currency }}
                             h5.text-right
                                 small (Save {{ product.savings.dollarSavings | currency }})
-                    div.row(ng-if="!product.pricing.isOnSale")
+                    div.row.spaced-small(ng-if="!product.pricing.isOnSale")
                         div.col-xs-12
                             h5 Regular Price: {{ product.pricing.regularPrice | currency }}
                 // Reviews
@@ -62,11 +62,10 @@ div.row.spaced.module
                     div.row
                         div.col-xs-12
                             h4 Reception
-                    div.row
-                        div.col-xs-6
-                            h6 This product has been {{ product.reviews.adjective }} recieved.
-                            h6 Our inventory system indicates this item {{ product.reviews.isCustomerTopRated? 'as' : 'as not' }} top rated.
-                        div.col-xs-6
+                    div.row.spaced-small
+                        div.col-xs-8
+                            p This product has been {{ product.reviews.adjective }} recieved. <br>Our inventory system indicates this item {{ product.reviews.isCustomerTopRated? 'as' : 'as not' }} top rated.
+                        div.col-xs-4.text-right
                             h6(style="color:orange")
                                 i.fa.fa-star(ng-repeat="reviewStars in product.reviews.reviewStars")
                                 br
@@ -79,12 +78,15 @@ div.row.spaced.module
                     div.row
                         div.col-xs-12
                             ul.list-unstyled
+                                li.text-warning(ng-if="product.marketplace.isMarketplaceItem") This item is a marketplace item.
                                 li(ng-if="!product.availability.isActive")
                                     strong.text-danger This product is no longer active in our inventory.
                                 li(ng-if="product.availability.isSpecialOrder") Currently, this product is marked as a special order item.
                                 li Maximum {{ product.availability.quantityLimit }} per person. &nbsp;
                                 li {{ product.availability.hasOnlineAvailability? "Available" : "Not available" }} for online ordering. &nbsp;
                                 li(ng-if="product.availability.releaseDateValid") Available as of {{ product.availability.releaseDate }}.
+                                li This product {{ product.availability.isFreeShippingEligible? "is" : "is not" }} eligible for free shipping.
+                                li When shipping, this product {{ product.availability.hasInStorePickup? "with" : "without" }} personal store pickup{{ product.availability.hasFriendsAndFamilyPickup? " and pickup by friends and family." : "." }}
             div.row
                 // Product Inventory
                 div.col-xs-12.col-sm-6.module
@@ -113,12 +115,15 @@ div.row.spaced.module
                             h4 Protection Plans
                             div.row.spaced-small(ng-repeat="plan in product.plans.protectionPlans")
                                 div.col-xs-9
-                                    h5 {{ plan.name }}
-                                    small.text-muted {{ plan.sku }}
+                                    p {{ plan.name }}<br>
+                                        small.text-muted {{ plan.sku }}
                                 div.col-xs-3.text-right
                                     span {{ plan.regularPrice | currency }}
-    //-div.row.spaced(
-        div.col-xs-12
-            div.row(ng-show="isLoaded")
-                div.col-xs-12
-                    pre {{ product | json }}
+                                    br
+                                    small.text-muted {{ plan.type }}
+    if false
+        div.row.spaced
+            div.col-xs-12
+                div.row(ng-show="isLoaded")
+                    div.col-xs-12
+                        pre {{ product | json }}
