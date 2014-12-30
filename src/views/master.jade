@@ -16,10 +16,21 @@ html
     body(ng-app="Bluebird")
         div.wrapper
             nav#top.navbar.navbar-default.navbar-fixed-top(role="navigation")
-                div.container-fluid.bg-primary
-                    div.navbar-left
-                        a.navbar-brand.bright.hidden-xs(href="/#!/") Bluebird
-                    form.navbar-form.navbar-left(role="search", ng-controller="Bluebird.Controllers.Search", ng-submit="handleSearch()")
-                        input.form-control(type="search", placeholder="{{ placeholder }}", ng-model="searchQuery", ng-dblClick="clearSearch()")
+                div.container-fluid.bg-primary(ng-controller="Bluebird.Controllers.Search")
+                    div.row
+                        div.col-xs-12.hidden-xs
+                            div.navbar-left
+                                a.navbar-brand.bright(href="/#!/") Bluebird
+                            form.navbar-form.navbar-left(role="search", ng-submit="handleSearch()")
+                                input.form-control(type="search", placeholder="{{ placeholder }}", ng-model="searchQuery", ng-dblClick="clearSearch()")
+
+                    // Replacement navigation bar for xs-nav
+                    div.row.visible-xs
+                        div.col-xs-1.text-center
+                            a(href="/#!/").navbar-brand.bright.visible-xs
+                                i.fa.fa-home.fa-2x(style="color:white")
+                        div.col-xs-10.col-xs-push-1
+                            form.navbar-form(role="search", ng-controller="Bluebird.Controllers.Search", ng-submit="handleSearch()")
+                                input.form-control(type="search", placeholder="{{ placeholder }}", ng-model="searchQuery", ng-dblClick="clearSearch()")
             div#main.cell
                 div.container-fluid(ui-view)
