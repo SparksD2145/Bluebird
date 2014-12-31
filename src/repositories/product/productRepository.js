@@ -52,7 +52,12 @@ ProductRepository.prototype.buildQuery = function(queryArray){
     var dbAggregateQuery = function(queries){
         return [
             { $match: { $or: queries } },
-            { $sort: { 'marketplace.isMarketplaceItem': 1 } }
+            { $sort: {
+                    'marketplace.isMarketplaceItem': 1,
+                    'reviews.isCustomerTopRated': 1,
+                    'ranking.salesRankShortTerm': -1
+                }
+            }
         ];
     };
 
