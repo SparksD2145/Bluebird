@@ -85,7 +85,7 @@ ProductRepository.prototype.buildQuery = function(queryArray){
             dbQueries.push(andQuery(subQueries));
 
             _.each(tokens, function (token, index, list) {
-                list[index] = "name=" + token + "*";
+                list[index] = '(' + "name=" + token + "*" + '|' + "name=" + token + "*" + '&marketplace=true' + ')';
                 if (index != 0) list[index] = '&' + list[index];
             });
 
@@ -109,7 +109,7 @@ ProductRepository.prototype.runBBYProductQuery = function(query, callback){
         query: {
             format: 'json',
             pageSize: 100,
-            sort: 'customerTopRated.dsc,salesRankShortTerm.dsc',
+            sort: 'customerTopRated.asc,salesRankShortTerm.dsc, marketplace.asc',
             apiKey: apiKey
         }
     };
@@ -455,7 +455,7 @@ ProductRepository.prototype.utilities.parseQuery = function(queryString){
 function QueryType(){ this.value = undefined; this.bbyQueryForm = undefined; }
 QueryType.prototype.init = function(value, queryForm){
     this.value = value;
-    this.bbyQueryForm = queryForm + this.value;
+    this.bbyQueryForm = '(' + queryForm + this.value + '|' + queryForm + this.value + '&marketplace=true)';
 };
 
 function UPC(upc){ this.init(upc, 'upc='); }
