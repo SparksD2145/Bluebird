@@ -54,7 +54,7 @@ var Bluebird = {};
         Bluebird,
         namespaces,
         angular.module('Bluebird', [
-            'ngSanitize', 'ngAnimate', 'ngResource', 'ngTouch', // Core angular libraries.
+            'ngSanitize', 'ngAnimate', 'ngResource', // Core angular libraries.
             'ui.router', 'geolocation', // Third-party angular libraries.
             'underscore', 'momentJs', 'modernizr' // Third-party libraries.
         ])

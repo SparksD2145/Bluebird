@@ -15,7 +15,7 @@ Bluebird.States['Home'] = {
                 Array(16).join(("piderman" - 1) + " ") + 'Searchman!',
                 "Make it search, Number One.",
                 "Search into Maximum Overdrive.",
-                "\"The following is classified, level Rho.\"",
+                "The following is classified, level Rho.",
                 "The search is palpable. (famous last words)",
                 "I was out of queries.",
                 "Come with me if you want to search.",
