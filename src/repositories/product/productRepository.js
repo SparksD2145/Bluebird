@@ -51,9 +51,8 @@ ProductRepository.prototype.buildQuery = function(queryArray){
 
     var dbAggregateQuery = function(queries){
         return [
-            { $match:
-            { $or: queries }
-            }
+            { $match: { $or: queries } },
+            { $sort: { 'marketplace.isMarketplaceItem': 1 } }
         ];
     };
 
@@ -109,7 +108,7 @@ ProductRepository.prototype.runBBYProductQuery = function(query, callback){
         query: {
             format: 'json',
             pageSize: 100,
-            sort: 'customerTopRated.asc,salesRankShortTerm.dsc, marketplace.asc',
+            sort: ' marketplace.asc,customerTopRated.asc,salesRankShortTerm.dsc',
             apiKey: apiKey
         }
     };
