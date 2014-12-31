@@ -62,7 +62,9 @@ function RouteController(app) {
             }
 
             var state = pageStorageUrlPrefix + req.params[0];
-            res.render(state, {});
+            res.render(state, {
+                devmode: app.get('env') === 'development'
+            });
         });
 
         /* GET /api/:type/:query */
@@ -127,7 +129,7 @@ function RouteController(app) {
         /* GET / */
         router.all('/*', function(req, res) {
             res.render('views/master', {
-                title: 'Bluebird',
+                title: app.get('name'),
                 devmode: app.get('env') === 'development'
             });
         });

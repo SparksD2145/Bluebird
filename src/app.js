@@ -13,6 +13,9 @@ var express = require('express');
 var less = require('less');
 var app = express();
 
+app.set('name', 'Bluebird');
+app.set('devmode', app.get('env') === 'development')
+
 // view engine setup
 app.set('views', path.join(__dirname, ''));
 app.set('view engine', 'jade');
@@ -53,7 +56,7 @@ app.use(function(req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res) {
-        res.status(err.status || 500);
+        //res.status(err.status || 500);
         res.render('views/error', {
             message: err.message,
             error: err
@@ -64,7 +67,7 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res) {
-    res.status(err.status || 500);
+    //res.status(err.status || 500);
     res.render('views/error', {
         message: err.message,
         error: {}
