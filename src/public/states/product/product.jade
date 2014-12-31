@@ -121,7 +121,8 @@ div.row.spaced.module
                                     span {{ plan.regularPrice | currency }}
                                     br
                                     small.text-muted {{ plan.type }}
-    if false
+    - var devmode = true;
+    if devmode
         div.row.spaced
             div.col-xs-12
                 div.row(ng-show="isLoaded")
