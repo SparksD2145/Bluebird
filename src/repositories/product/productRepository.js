@@ -43,8 +43,6 @@ ProductRepository.prototype.query = function(queryString, useExtendedSearch, nex
         this.runBBYProductQuery(builtQuery.bby, next);
     }
 };
-
-
 ProductRepository.prototype.buildQuery = function(queryArray){
     var dbQueries = [];
     var bbyOpenQueries = [];
@@ -53,9 +51,8 @@ ProductRepository.prototype.buildQuery = function(queryArray){
         return [
             { $match: { $or: queries } },
             { $sort: {
-                    'marketplace.isMarketplaceItem': 1,
-                    'reviews.isCustomerTopRated': 1,
-                    'ranking.salesRankShortTerm': -1
+                'marketplace.isMarketplaceItem': 1,
+                'availability.hasInStoreAvailability': 1
                 }
             }
         ];
@@ -107,13 +104,12 @@ ProductRepository.prototype.buildQuery = function(queryArray){
     };
 };
 ProductRepository.prototype.runBBYProductQuery = function(query, callback){
-
     var queryURL = this.app.get('bbyOpenAddress') + 'products(' + query + ')';
     var queryOptions = {
         query: {
             format: 'json',
             pageSize: 100,
-            sort: ' marketplace.asc,customerTopRated.asc,salesRankShortTerm.dsc',
+            sort: 'marketplace.asc,inStoreAvailability.asc',
             apiKey: apiKey
         }
     };
@@ -168,7 +164,6 @@ ProductRepository.prototype.runBBYProductAvailabilityQuery = function(query, loc
         callback(stores);
     });
 };
-
 ProductRepository.prototype.retrieve = function(query, callback){
     var maxAge = this.productMaxAge;
     var scope = this;
@@ -254,7 +249,6 @@ ProductRepository.prototype.save = function(products) {
     // return this for chaining
     return this;
 };
-
 ProductRepository.prototype.utilities = {};
 ProductRepository.prototype.utilities.convertResult = function (productResult) {
     try {
