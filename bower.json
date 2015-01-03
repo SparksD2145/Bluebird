@@ -1,23 +1,21 @@
 {
   "name": "Bluebird",
   "version": "0.1.0",
+  "homepage": "https://github.com/SparksD2145/Bluebird",
   "authors": [
     "Thomas Ibarra <SparksD2145.dev@gmail.com>"
   ],
-  "description": "A product search engine for best buy employees and vendors.",
-  "main": "bin/www.js",
-  "moduleType": [
-    "node"
-  ],
+  "description": "A product reference engine for bestbuy employees and vendors.",
+  "main": "bin/www",
   "keywords": [
-    "blue",
-    "bird",
     "bluebird",
     "best",
-    "buy"
+    "buy",
+    "thomas",
+    "ibarra",
+    "sparksd2145.dev"
   ],
   "license": "MIT",
-  "homepage": "bluebird.website",
   "private": true,
   "ignore": [
     "**/.*",
@@ -28,18 +26,20 @@
   ],
   "dependencies": {
     "angular-animate": "~1.3.5",
-    "angular-resource": "~1.3.5",
+    "angular-qrcode": "~5.1.0",
     "angular-cookies": "~1.3.5",
+    "angular-resource": "~1.3.5",
+    "angular-route": "~1.3.5",
+    "angular-sanitize": "~1.3.5",
     "angular-touch": "~1.3.5",
     "angular-ui-bootstrap": "~0.12.0",
-    "angular-sanitize": "~1.3.5",
-    "angular-route": "~1.3.5",
-    "jasmine": "~2.1.3",
     "angular-ui-router": "~0.2.13",
+    "angularjs-geolocation": "~0.1.1",
+    "bootstrap": "~3.3.1",
     "fontawesome": "~4.2.0",
+    "jasmine": "~2.1.3",
     "less-easing": "*",
     "modernizr": "~2.8.3",
-    "bootstrap": "~3.3.1",
     "moment": "~2.8.4",
     "underscore": "~1.7.0"
   }

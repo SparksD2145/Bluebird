@@ -13,21 +13,21 @@ var ProductResult = {
     salePrice: Number,
     onSale: Boolean,
     planPrice: Number, // nullable
-    priceWithPlan: Array, /// @todo NEEED TO DETERMINE THIS DATATYPE
+    priceWithPlan: Array,
     priceRestriction: String,
     priceUpdateDate: Date,
     digital: Boolean,
     preowned: Boolean,
-    carrierPlans: Array, // @todo Need to determine
+    carrierPlans: Array, 
     technologyCode: String,
     carrierModelNumber: String,
-    earlyTerminationFees: Array, // @todo need to determine
-    outletCenter: String, // @todo need to determine
-    secondaryMarket: String, // @todo need to determine
-    frequentlyPurchasedWith: Array,  // @todo need to determine
-    accessories: Array, // @todo need to determine
-    relatedProducts: Array, // @todo need to add to model -> RelatedProduct[],
-    techSupportPlans: Array,  // @todo need to determine
+    earlyTerminationFees: Array, 
+    outletCenter: String, 
+    secondaryMarket: String, 
+    frequentlyPurchasedWith: Array,  
+    accessories: Array, 
+    relatedProducts: Array,
+    techSupportPlans: Array,  
     salesRankShortTerm: Number,
     salesRankMediumTerm: Number,
     salesRankLongTerm: Number,
@@ -40,16 +40,16 @@ var ProductResult = {
     affiliateAddToCartUrl: String,
     linkShareAffiliateUrl: String,
     linkShareAffiliateAddToCartUrl: String,
-    upc: String, // @todo should be a number
+    upc: String, 
     productTemplate: String,
     categoryPath: Array,
-    lists: Array, // @todo need to determine
+    lists: Array, 
     customerReviewCount: Number,
-    customerReviewAverage: String, // @todo needs to be a number
+    customerReviewAverage: String,
     customerTopRated: Boolean,
-    format: String, // @todo need to determine
+    format: String, 
     freeShipping: Boolean,
-    freeShippingEligible: Boolean, //todo redundant
+    freeShippingEligible: Boolean,
     inStoreAvailability: Boolean,
     inStoreAvailabilityText: String,
     inStoreAvailabilityUpdateDate: Date,
@@ -57,9 +57,9 @@ var ProductResult = {
     onlineAvailability: Boolean,
     onlineAvailabilityText: String,
     onlineAvailabilityUpdateDate: String,
-    releaseDate: String, // @todo should be a date
+    releaseDate: String, 
     shippingCost: Number,
-    shipping: Array, // @todo shippingcosts
+    shipping: Array, 
     specialOrder: Boolean,
     shortDescription: String,
     class: String,
@@ -68,9 +68,9 @@ var ProductResult = {
     subclassId: Number,
     department: String,
     departmentId: Number,
-    buybackPlans: Array, // todo need to determine
-    protectionPlans: Array, //todo need to determine
-    productFamilies: Array, //todo need to determine
+    buybackPlans: Array, 
+    protectionPlans: Array, 
+    productFamilies: Array, 
     description: String,
     manufacturer: String,
     modelNumber: String,
@@ -79,27 +79,27 @@ var ProductResult = {
     mediumImage: String, // this is a url
     thumbnailImage: String, // this is a url
     largeImage: String, // this is a url
-    alternateViewsImage: String, // todo need to determine
-    angleImage: String, // todo need to determine
-    backViewImage: String, // todo need to determine
-    energyGuideImage: String, // todo need to determine
-    leftViewImage: String, // todo need to determine
-    accessoriesImage: String, // todo need to determine
-    remoteControlImage: String, // todo need to determine
-    rightViewImage: String, // todo need to determine
-    topViewImage: String, // todo need to determine
+    alternateViewsImage: String, 
+    angleImage: String, 
+    backViewImage: String, 
+    energyGuideImage: String, 
+    leftViewImage: String, 
+    accessoriesImage: String, 
+    remoteControlImage: String, 
+    rightViewImage: String, 
+    topViewImage: String, 
     condition: String,
     inStorePickup: Boolean,
     friendsAndFamilyPickup: Boolean,
     homeDelivery: Boolean,
     quantityLimit: Number,
     fulfilledBy: String,
-    bundledIn: Array, //todo need to determine
+    bundledIn: Array, 
     color: String,
     depth: String,
     dollarSavings: Number,
-    percentSavings: String, // todo needs to be a number
-    tradeInValue: String, //todo needs to be a number
+    percentSavings: String, 
+    tradeInValue: String, 
     height: String,
     orderable: String,
     weight: String,
