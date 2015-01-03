@@ -48,11 +48,11 @@ div.row.spaced.module
                                 div.col-xs-12
                                     h5 Point-of-Sale Optical Scanner
                             div.row.spaced
-                                div.col-xs-6
+                                div.col-xs-12.col-sm-6
                                     div.module(style="padding: 10px 10px 5px;")
                                         qrcode(data="{{ product.identifiers.sku }}", size="150")
                                         h6.text-muted SKU
-                                div.col-xs-6
+                                div.col-xs-12.col-sm-6
                                     div.module(style="padding: 10px 10px 5px;")
                                         a(ng-href="{{ product.urls.mobileUrl }}", target="_new")
                                             qrcode(data="{{ product.urls.mobileUrl }}", size="150")
@@ -107,6 +107,9 @@ div.row.spaced.module
                                 li(ng-if="product.availability.releaseDateValid") Available as of {{ product.availability.releaseDate }}.
                                 li This product {{ product.availability.isFreeShippingEligible? "is" : "is not" }} eligible for free shipping.
                                 li When ordering, this product {{ product.availability.hasInStorePickup? "has" : "does not have" }} personal store pickup{{ product.availability.hasFriendsAndFamilyPickup? " and pickup by friends and family." : "." }}
+            div.row
+                // Product Inventory
+                div.col-xs-12.col-sm-6.module
                     div.row
                         // Product Inventory
                         div.col-xs-12.col-sm-6.module
