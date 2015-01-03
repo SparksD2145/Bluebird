@@ -48,11 +48,15 @@ div.row.spaced.module
                                 div.col-xs-12
                                     h5 Point-of-Sale Optical Scanner
                             div.row.spaced
-                                div.col-xs-6
+                                div.col-xs-6.col-sm-4
                                     div.module(style="padding: 1px;")
                                         qrcode(data="{{ product.identifiers.sku }}", size="80")
                                         h6.text-muted SKU
-                                div.col-xs-6
+                                div.col-xs-6.col-sm-4.hidden-xs
+                                    div.module(style="padding: 1px;")
+                                        qrcode(data="{{ product.identifiers.upc }}", size="80")
+                                        h6.text-muted UPC
+                                div.col-xs-6.col-sm-4
                                     div.module(style="padding: 1px;")
                                         a(ng-href="{{ product.urls.mobileUrl }}", target="_new")
                                             qrcode(data="{{ product.urls.mobileUrl }}", size="80")
