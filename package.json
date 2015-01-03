@@ -31,5 +31,13 @@
     "buy"
   ],
   "author": "Thomas Ibarra <sparksd2145.dev@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com/SparksD2145/Bluebird.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SparksD2145/Bluebird/issues"
+  },
+  "homepage": "https://github.com/SparksD2145/Bluebird"
 }
