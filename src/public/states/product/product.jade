@@ -40,6 +40,25 @@ div.row.spaced.module
                             div.row.spaced(ng-if="product.descriptions.longDescription")
                                 div.col-xs-12
                                     p {{ product.descriptions.longDescription }}
+                // QR CODE
+                div.col-xs-12.col-sm-6.module
+                    div.row
+                        div.well.col-xs-12.text-center
+                            div.row
+                                div.col-xs-12
+                                    h5 Point-of-Sale Optical Scanner
+                            div.row.spaced
+                                div.col-xs-6
+                                    div.module(style="padding: 10px 10px 5px;")
+                                        qrcode(data="{{ product.identifiers.sku }}", size="150")
+                                        h6.text-muted SKU
+                                div.col-xs-6
+                                    div.module(style="padding: 10px 10px 5px;")
+                                        a(ng-href="{{ product.urls.mobileUrl }}", target="_new")
+                                            qrcode(data="{{ product.urls.mobileUrl }}", size="150")
+                                            h6 BestBuy.com URL
+
+                // Pricing
                 div.col-xs-12.col-sm-6.module
                     div.row
                         div.col-xs-12
@@ -57,6 +76,7 @@ div.row.spaced.module
                     div.row.spaced-small(ng-if="!product.pricing.isOnSale")
                         div.col-xs-12
                             h5 Regular Price: {{ product.pricing.regularPrice | currency }}
+
                 // Reviews
                 div.col-xs-12.col-sm-6.module(ng-if="product.reviews.customerReviewCount")
                     div.row
@@ -87,27 +107,28 @@ div.row.spaced.module
                                 li(ng-if="product.availability.releaseDateValid") Available as of {{ product.availability.releaseDate }}.
                                 li This product {{ product.availability.isFreeShippingEligible? "is" : "is not" }} eligible for free shipping.
                                 li When ordering, this product {{ product.availability.hasInStorePickup? "has" : "does not have" }} personal store pickup{{ product.availability.hasFriendsAndFamilyPickup? " and pickup by friends and family." : "." }}
-            div.row
-                // Product Inventory
-                div.col-xs-12.col-sm-6.module
                     div.row
-                        div.col-xs-12(ng-show="product.availability.anyStores")
-                            table.table.table-striped.table-hover.table-condensed(style="margin-bottom: 0")
-                                thead(style="border-top: none;")
-                                    h4 Available in the following stores:
-                                tr(ng-repeat="store in product.stores", style="border-top: none;")
-                                    th(style="border-top: none;")
-                                        h6 {{ store.name }}
-                                            small &nbsp; \#{{ store.storeId }}
-                                    td.text-right(style="border-top: none;")
-                                        abbr(title="Phone Number") P
-                                        | : &nbsp;
-                                        a(ng-href="{{ store.phone }}") {{ store.phoneNumber }}
-                        div.col-xs-12(ng-hide="product.availability.anyStores")
-                            div.alert.alert-danger
-                                strong Darn! &nbsp;
-                                span It seems this product is not in stock nearby. &nbsp;
-                                span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order!
+                        // Product Inventory
+                        div.col-xs-12.col-sm-6.module
+                            div.row
+                                div.col-xs-12(ng-show="product.availability.anyStores")
+                                    table.table.table-striped.table-hover.table-condensed(style="margin-bottom: 0")
+                                        thead(style="border-top: none;")
+                                            h4 Available in the following stores:
+                                        tr(ng-repeat="store in product.stores", style="border-top: none;")
+                                            th(style="border-top: none;")
+                                                h6 {{ store.name }}
+                                                    small &nbsp; \#{{ store.storeId }}
+                                            td.text-right(style="border-top: none;")
+                                                abbr(title="Phone Number") P
+                                                | : &nbsp;
+                                                a(ng-href="{{ store.phone }}") {{ store.phoneNumber }}
+                                div.col-xs-12(ng-hide="product.availability.anyStores")
+                                    div.alert.alert-danger
+                                        strong Darn! &nbsp;
+                                        span It seems this product is not in stock nearby. &nbsp;
+                                        span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order!
+
                 // Protection Plans
                 div.col-xs-12.col-sm-6.module
                     div.row
