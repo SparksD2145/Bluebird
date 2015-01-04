@@ -26,15 +26,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// Set configuration for development if development environment specified
 if(app.get('env') === 'development'){
     // Database configuration
     app.set('databaseEnabled', true);
     app.set('databaseAddress', 'mongodb://localhost:27017/bluebird');
 
-} else { // assume production
+} else {
+    // assume production
+    app.set('env', 'production');
+
     // Database configuration
     app.set('databaseEnabled', true);
-    app.set('databaseAddress', 'mongodb://localhost:27017/bluebird');
+    app.set('databaseAddress', process.env.DB_ADDRESS || 'mongodb://localhost:27017/bluebird');
 
 }
 
