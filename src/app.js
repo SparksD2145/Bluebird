@@ -3,8 +3,16 @@
  * @requires module:express
  * @author Thomas Ibarra <sparksd2145.dev@gmail.com>
  */
-
 var path = require('path');
+
+// Retrieve Bower components.
+var bower = require('bower')
+    .commands
+    .install([], {save: true }, {interactive: true})
+    .on('end', function (installed) {
+        console.log(installed);
+    });
+
 //var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');

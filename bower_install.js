@@ -1,11 +1,6 @@
-var bower = require('bower'),
-    path = require('path');
-
-bower.commands
-    .install()
-    .on('prompt', function (prompt) {
-        console.log(prompt);
-    })
+var bower = require('bower')
+    .commands
+    .install([], {save: true }, {interactive: true})
     .on('end', function (installed) {
         console.log(installed);
     });
