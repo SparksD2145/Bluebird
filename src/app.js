@@ -17,11 +17,11 @@ app.set('name', 'Bluebird');
 app.set('devmode', app.get('env') === 'development');
 
 // view engine setup
-app.use(less(path.join(__dirname, 'public', 'less'), {
-    force: true
-}));
 app.set('views', path.join(__dirname, ''));
 app.set('view engine', 'jade');
+app.use(less(path.join(__dirname + '/public'), {
+    force: true
+}));
 
 //- app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
