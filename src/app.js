@@ -10,13 +10,16 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var express = require('express');
-var less = require('less');
+var less = require('less-middleware');
 var app = express();
 
 app.set('name', 'Bluebird');
-app.set('devmode', app.get('env') === 'development')
+app.set('devmode', app.get('env') === 'development');
 
 // view engine setup
+app.use(less(path.join(__dirname, 'public', 'less'), {
+    force: true
+}));
 app.set('views', path.join(__dirname, ''));
 app.set('view engine', 'jade');
 
@@ -48,7 +51,6 @@ app.set('bbyOpenEnabled', true);
 app.set('bbyOpenAddress', 'http://api.remix.bestbuy.com/v1/');
 
 // Mount directory "/public" as public facing directory "/"
-app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Mount directory "/bower_components" as public facing directory "/libraries"
