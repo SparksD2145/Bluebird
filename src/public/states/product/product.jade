@@ -72,28 +72,29 @@ div.row.spaced.module
                                 i.fa.fa-star(ng-repeat="reviewStars in product.reviews.reviewStars")
                                 br
                                 small ({{ product.reviews.customerReviewCount }} reviews)
-            div.row
+            div.row.spaced
                 // QR CODE
                 div.col-xs-12.col-sm-6
                     div.row
-                        div.well.col-xs-12.text-center
-                            div.row
-                                div.col-xs-12
-                                    h5 Point-of-Sale Optical Scanner
-                            div.row.spaced
-                                div.col-xs-6.col-sm-4
-                                    div(style="padding: 1px;")
-                                        qrcode(data="{{ product.identifiers.sku }}", size="80")
-                                        h6.text-muted SKU
-                                div.col-xs-6.col-sm-4.hidden-xs
-                                    div(style="padding: 1px;")
-                                        qrcode(data="{{ product.identifiers.upc }}", size="80")
-                                        h6.text-muted UPC
-                                div.col-xs-6.col-sm-4
-                                    div(style="padding: 1px;")
-                                        a(ng-href="{{ product.urls.mobileUrl }}", target="_new")
-                                            qrcode(data="{{ product.urls.mobileUrl }}", size="80")
-                                            h6 BestBuy.com URL
+                        div.col-xs-12.text-center
+                            div.well
+                                div.row
+                                    div.col-xs-12
+                                        h5 Point-of-Sale Optical Scanner
+                                div.row.spaced
+                                    div.col-xs-6.col-sm-4
+                                        div(style="padding: 1px;")
+                                            qrcode(data="{{ product.identifiers.sku }}", size="80")
+                                            h6.text-muted SKU
+                                    div.col-xs-6.col-sm-4.hidden-xs
+                                        div(style="padding: 1px;")
+                                            qrcode(data="{{ product.identifiers.upc }}", size="80")
+                                            h6.text-muted UPC
+                                    div.col-xs-6.col-sm-4
+                                        div(style="padding: 1px;")
+                                            a(ng-href="{{ product.urls.mobileUrl }}", target="_new")
+                                                qrcode(data="{{ product.urls.mobileUrl }}", size="80")
+                                                h6 BestBuy.com URL
 
                 // Details
                 div.col-xs-12.col-sm-6
@@ -112,10 +113,13 @@ div.row.spaced.module
                                 li(ng-if="product.availability.releaseDateValid") Available as of {{ product.availability.releaseDate }}.
                                 li This product {{ product.availability.isFreeShippingEligible? "is" : "is not" }} eligible for free shipping.
                                 li When ordering, this product {{ product.availability.hasInStorePickup? "has" : "does not have" }} personal store pickup{{ product.availability.hasFriendsAndFamilyPickup? " and pickup by friends and family." : "." }}
-            div.row
+            div.row.spaced
                 // Product Inventory
                 div.col-xs-12.col-sm-6
                     div.row
+                        div.col-xs-12
+                            h4 Availability
+                    div.row.spaced-small
                         div.col-xs-12(ng-show="product.availability.anyStores")
                             table.table.table-striped.table-hover.table-condensed(style="margin-bottom: 0")
                                 thead(style="border-top: none;")
@@ -147,6 +151,26 @@ div.row.spaced.module
                                     span {{ plan.regularPrice | currency }}
                                     br
                                     small.text-muted {{ plan.type }}
+            div.row.spaced
+                div.col-xs-12.col-sm-6
+                    div.row
+                        div.col-xs-12
+                            h4 Product Breakdown
+                    div.row.spaced-small
+                        div.col-xs-12.col-sm-3.text-center
+                            div.alert.alert-info
+                                i.fa.fa-4x.fa-chevron-circle-right(style="margin: 10px;").hidden-xs
+                                i.fa.fa-4x.fa-chevron-circle-down(style="margin: 10px;").visible-xs
+                                h5 {{ product.classes.department }}
+                        div.col-xs-12.col-sm-3.text-center
+                            div.alert.alert-info
+                                i.fa.fa-4x.fa-chevron-circle-right(style="margin: 10px;").hidden-xs
+                                i.fa.fa-4x.fa-chevron-circle-down(style="margin: 10px;").visible-xs
+                                h5 {{ product.classes.class }}
+                        div.col-xs-12.col-sm-6.text-center
+                            div.alert.alert-info
+                                i.fa.fa-4x.fa-circle(style="margin: 10px;")
+                                h5 {{ product.classes.subclass }}
     if devmode
         div.row.spaced
             div.col-xs-12
