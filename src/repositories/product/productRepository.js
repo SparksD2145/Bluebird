@@ -9,7 +9,7 @@ var _ = require('underscore'),
     mongoose = require('mongoose');
 
 var Product = require('./models/Product'),
-    apiKey = require('./apiKey');
+    apiKey = process.env.BBY_API_KEY || require('./apiKey');
 
 /**
  * Handles product queries.
