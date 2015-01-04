@@ -41,7 +41,6 @@
     "less-easing": "*",
     "modernizr": "~2.8.3",
     "moment": "~2.8.4",
-    "underscore": "~1.7.0",
-    "Bluebird": "c:\\Users\\Thomas\\WebstormProjects\\Bluebird\\bower.json"
+    "underscore": "~1.7.0"
   }
 }

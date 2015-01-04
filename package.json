@@ -1,6 +1,6 @@
 {
   "name": "Bluebird",
-  "version": "0.1.1-6",
+  "version": "0.1.1-9",
   "description": "A product search engine for best buy employees and vendors.",
   "main": "bin/www.js",
   "subdomain": "sparksd2145-bluebird-prod",
@@ -28,7 +28,6 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postdeploy": "node bower_install.js",
     "start": "node bin/www"
   },
   "keywords": [
