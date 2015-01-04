@@ -8,7 +8,7 @@ var path = require('path');
 // Retrieve Bower components.
 var bower = require('bower')
     .commands
-    .install([], {save: true }, {interactive: true})
+    .install([path.resolve(__dirname + '/../bower.json')], {save: true }, {interactive: true})
     .on('end', function (installed) {
         console.log(installed);
     });
