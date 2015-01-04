@@ -26,9 +26,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Database configuration
-app.set('databaseEnabled', true);
-app.set('databaseAddress', 'mongodb://localhost:27017/bluebird');
+if(app.get('env') === 'development'){
+    // Database configuration
+    app.set('databaseEnabled', true);
+    app.set('databaseAddress', 'mongodb://localhost:27017/bluebird');
+
+} else { // assume production
+    // Database configuration
+    app.set('databaseEnabled', true);
+    app.set('databaseAddress', 'mongodb://localhost:27017/bluebird');
+
+}
+
 
 // BBYOpen Configuration
 app.set('bbyOpenEnabled', true);
