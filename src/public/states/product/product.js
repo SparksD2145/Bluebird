@@ -57,7 +57,7 @@ Bluebird.States['Product'] = {
                     }
                 }
 
-                if(product.availability.hasInStoreAvailability && false){
+                if(product.availability.hasInStoreAvailability){
                     Availability.query(product.identifiers.sku, function(stores){
                         product.stores = stores;
                         product.availability.anyStores = !_.isEmpty(product.stores);
