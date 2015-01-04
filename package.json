@@ -28,9 +28,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "globally-install-bower": "npm install -g bower",
-    "bower-install": "bower install",
-    "bower-update": "bower update",
+    "postdeploy": "node bower_install.js",
     "start": "node bin/www"
   },
   "keywords": [
