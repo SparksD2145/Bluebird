@@ -116,9 +116,6 @@ div.row.spaced.module
             div.row.spaced
                 // Product Inventory
                 div.col-xs-12.col-sm-6
-                    div.row
-                        div.col-xs-12
-                            h4 Availability
                     div.row.spaced-small
                         div.col-xs-12(ng-show="product.availability.anyStores")
                             table.table.table-striped.table-hover.table-condensed(style="margin-bottom: 0")
@@ -132,7 +129,10 @@ div.row.spaced.module
                                         abbr(title="Phone Number") P
                                         | : &nbsp;
                                         a(ng-href="{{ store.phone }}") {{ store.phoneNumber }}
-                        div.col-xs-12(ng-hide="product.availability.anyStores")
+                    div.row(ng-hide="product.availability.anyStores").spaced-small
+                        div.col-xs-12
+                            h4 Availability
+                        div.col-xs-12
                             div.alert.alert-danger
                                 strong Darn! &nbsp;
                                 span It seems this product is not in stock nearby. &nbsp;
