@@ -8,8 +8,8 @@ var _ = require('underscore'),
     rest = require('restler'),
     mongoose = require('mongoose');
 
-var Product = require('./models/Product'),
-    apiKey = process.env.BBY_API_KEY || require('./apiKey');
+var Product = require('./models/Product');
+var apiKey = "";
 
 /**
  * Handles product queries.
@@ -20,15 +20,13 @@ var Product = require('./models/Product'),
  */
 function ProductRepository(app) {
     this.app = app;
+
+    apiKey = this.app.get('config').bbyOpen.key;
     this.productMaxAge = moment.duration({
         days: 1
     });
 
-    this.availabilityMaxAge = moment.duration({
-        days: 1
-    });
-
-    var dbAddress = app.get('databaseAddress');
+    var dbAddress = this.app.get('config').database.address;
     var db = mongoose.connect(dbAddress);
 }
 ProductRepository.prototype.query = function(queryString, useExtendedSearch, next){
