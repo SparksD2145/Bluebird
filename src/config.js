@@ -10,12 +10,12 @@ environments['development'] = {
         developmentMode: true
     },
     database: {
-        address: env.DB_ADDRESS,
+        address: env.DB_ADDRESS.value,
         active: true
     },
     bbyOpen: {
         address: 'http://api.remix.bestbuy.com/v1/',
-        key: env.BBY_API_KEY,
+        key: env.BBY_API_KEY.value,
         active: true
     }
 };
@@ -25,12 +25,12 @@ environments['production'] = {
         developmentMode: false
     },
     database: {
-        address: env.DB_ADDRESS,
+        address: env.DB_ADDRESS.value,
         active: true
     },
     bbyOpen: {
         address: 'http://api.remix.bestbuy.com/v1/',
-        key: env.BBY_API_KEY,
+        key: env.BBY_API_KEY.value,
         active: true
     }
 };
