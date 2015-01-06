@@ -23,7 +23,8 @@ div.row.searchPage
                         span.fa-stack.fa-lg
                             i.fa.fa-circle.fa-stack-2x
                             i.fa.fa-circle-o-notch.fa-spin.fa-stack-2x.fa-inverse
-                            i.fa.fa-fighter-jet.fa-rotate-270.fa-stack-1x.fa-inverse
+                            i.fa-stack-1x
+                                img(src="/static/images/logos/bluebird-logo.png", width="130", style='padding-bottom:15px;')
                     p(ng-if="!extendedSearch") Searching...
                     p(ng-if="extendedSearch") Querying...
         div.row(ng-show="isLoaded && !noMatch")
