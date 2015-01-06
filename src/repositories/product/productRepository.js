@@ -221,7 +221,8 @@ ProductRepository.prototype.save = function(products) {
                     .updateLastModified()
                     .generateKeywords()
                     .save(function (err) {
-                        console.error(err)
+                        if(err instanceof Error)
+                            console.error(err);
                     });
                 return true;
             } else {
