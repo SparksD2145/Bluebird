@@ -18,7 +18,10 @@ Bluebird.controller('Bluebird.Controllers.Search', [
 
         $scope.handleSearch = function(){
             if(!_.isEmpty($scope.searchQuery)) {
-                $state.go('search', { query: $scope.searchQuery });
+
+                var query = $scope.searchQuery;
+
+                $state.go('search', { query: query });
             }
         }
     }

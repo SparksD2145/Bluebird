@@ -8,18 +8,18 @@ Bluebird.States['Home'] = {
         '$scope',
         function($scope){
             var quotes = [
-                "Searching should always be this easy.",
-                "Great Scott!",
-                'An unusual game. The only winning search is not to struggle.',
-                "Searching whole countries with the cunning use of flags.",
-                Array(16).join(("piderman" - 1) + " ") + 'Searchman!',
-                "Make it search, Number One.",
-                "Search into Maximum Overdrive.",
-                "The following is classified, level Rho.",
-                "The search is palpable. (famous last words)",
-                "I was out of queries.",
-                "Come with me if you want to search.",
-                "Search up a Bluebird Special."
+                "Searching should always be this easy.", // Default quote
+                "Great Scott!", // Back to the Future
+                'An unusual game. The only winning search is not to struggle.', // WarGames -- http://www.imdb.com/title/tt0086567/
+                "Searching whole countries with the cunning use of flags.", // Eddie Izzard, Dress to Kill
+                Array(16).join(("piderman" - 1) + " ") + 'Searchman!', // https://www.destroyallsoftware.com/talks/wat
+                "Make it search, Number One.", // Star Trek
+                "Search into Maximum Overdrive.", // Spongebob Squarepants -- https://www.youtube.com/watch?v=zJFmeppMe6o
+                "The following is classified, level Rho.", // Freespace 2 -- https://www.youtube.com/watch?v=NpuaiOyBW5c
+                "The search is palpable. (famous last words)", // https://www.youtube.com/watch?v=8Ijmx3MH9_w
+                "I was out of queries.", // Live Free or Die Hard "You just killed a helicopter with a car! I was out of bullets." -- https://www.youtube.com/watch?v=8YXi9JAgdf0
+                "Come with me if you want to search.", // Terminator
+                "Search up a Bluebird Special." // Nowhere really, just thought it sounded cool
             ];
 
             var where = Math.floor(Math.random() * quotes.length);
