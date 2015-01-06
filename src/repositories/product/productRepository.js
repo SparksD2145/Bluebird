@@ -166,7 +166,7 @@ ProductRepository.prototype.retrieve = function(query, callback){
     var maxAge = this.productMaxAge;
     var scope = this;
 
-    Product
+    return Product
         .aggregate(query)
         .exec(function(err, results){
             if (err instanceof Error) {
