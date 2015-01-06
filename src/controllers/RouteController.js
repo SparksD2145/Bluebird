@@ -21,7 +21,7 @@ function RouteController(app) {
     var _ = require('underscore');
 
     // Initialize an instance of the debugger
-    var debug = app.get('debug')('RouteController');
+    var debug = new (app.get('debug'))('RouteController');
 
     // Let developers know an instance of the controller is being created.
     debug.log('Initializing an instance of RouteController.');

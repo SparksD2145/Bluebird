@@ -35,7 +35,7 @@ var config = require('./config')(process.env.NODE_ENV);
 app.set('config', config);
 
 // Load debugger
-app.set('debugger', require('./debugger'));
+app.set('debug', require('./debugger'));
 
 // view engine setup
 app.set('views', path.join(__dirname, ''));
