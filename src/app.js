@@ -1,9 +1,17 @@
 /**
  * @file Application master file, contains primary aspects of launching RSSNavigator Webservice. Based on Express/Node boilerplate.
- * @requires module:express
  * @author Thomas Ibarra <sparksd2145.dev@gmail.com>
+ * @requires module:express
+ * @requires module:path
+ * @requires module:bower
+ * @requires module:serve-favicon
+ * @requires module:morgan
+ * @requires module:cookie-parser
+ * @requires module:less-middleware
+ * @requires module:Configuration
+ * @requires module:RouteController
+ * @exports Bluebird
  */
-var path = require('path');
 
 // Retrieve Bower components.
 var bower = require('bower')
@@ -15,6 +23,7 @@ var bower = require('bower')
 
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var express = require('express');
@@ -24,6 +33,9 @@ var app = express();
 // Load Configuration
 var config = require('./config')(process.env.NODE_ENV);
 app.set('config', config);
+
+// Load debugger
+app.set('debugger', require('./debugger'));
 
 // view engine setup
 app.set('views', path.join(__dirname, ''));

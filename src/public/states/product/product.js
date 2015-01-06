@@ -1,4 +1,7 @@
-/** @file Product Page */
+/**
+ * @file Product Page
+ * @author Thomas Ibarra <sparksd2145.dev@gmail.com>
+ */
 
 Bluebird.States['Product'] = {
     name: 'product',
@@ -8,15 +11,19 @@ Bluebird.States['Product'] = {
         'Bluebird.Services.Products', 'Bluebird.Services.Availability',
         function($scope, $stateParams, $resource, _, Products, Availability){
 
+            // Rebuild product information to better display information to user
             var rebuildProduct = function(product){
+                // Unescape the long description returned by the server.
                 if (product.descriptions) {
                     product.descriptions.longDescription = _.unescape(product.descriptions.longDescription);
                 }
 
+                // Calibrate savings value to a no-decimal value.
                 if (product.savings.percentSavings) {
                     product.savings.percentSavings = parseFloat(product.savings.percentSavings).toFixed(0);
                 }
 
+                // Format the product's release date, if available.
                 if (product.availability.releaseDate) {
                     product.availability.releaseDate = moment(product.availability.releaseDate).calendar();
 
@@ -24,6 +31,7 @@ Bluebird.States['Product'] = {
                     product.availability.releaseDateValid = !invalidDateRegex.test(product.availability.releaseDate);
                 }
 
+                // Make review average useful and generate stars.
                 if(product.reviews.customerReviewAverage) {
                     var size = Math.ceil(parseFloat(product.reviews.customerReviewAverage));
 
@@ -57,6 +65,7 @@ Bluebird.States['Product'] = {
                     }
                 }
 
+                // Get product availability if it's available in stores.
                 if(product.availability.hasInStoreAvailability){
                     Availability.query(product.identifiers.sku, function(stores){
                         product.stores = stores;
@@ -77,6 +86,7 @@ Bluebird.States['Product'] = {
                 }
             };
 
+            // Load product.
             if($stateParams){
                 try {
                     $stateParams.query = parseInt($stateParams.query);
@@ -93,11 +103,11 @@ Bluebird.States['Product'] = {
                         rebuildProduct(product);
                     });
                 } else {
-
                     rebuildProduct(product);
                 }
 
             }
+            // @todo there should be an error here that is returned to a user when a product isn't specified.
         }
     ],
     templateUrl: 'product/product',

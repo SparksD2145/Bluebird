@@ -1,4 +1,7 @@
-/** @file Learn More Page */
+/**
+ * @file Learn More Page
+ * @author Thomas Ibarra <sparksd2145.dev@gmail.com>
+ */
 
 Bluebird.States['LearnMore'] = {
     name: 'learn',

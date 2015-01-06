@@ -1,6 +1,7 @@
 /**
  * @file Product Repository
  * @author Thomas Ibarra <sparksd2145.dev@gmail.com>
+ * @todo Documentation of this repository and addition of debugging are musts before further development.
  */
 
 var _ = require('underscore'),

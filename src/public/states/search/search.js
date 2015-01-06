@@ -1,5 +1,7 @@
-/** @file Home Page */
-
+/**
+ * @file Search Page
+ * @author Thomas Ibarra <sparksd2145.dev@gmail.com>
+ */
 Bluebird.States['Search'] = {
     name: 'search',
     url: '/search/:query',
@@ -79,6 +81,7 @@ Bluebird.States['Search'] = {
                 $scope.productSelected = products.find({ _id: id });
             };
 
+            // Run search query
             $scope.query();
 
             // Set up Buttons
@@ -88,6 +91,7 @@ Bluebird.States['Search'] = {
                 this.filter = $scope.filter;
             }
 
+            // Filters usable
             $scope.filterOptions = {
                 inStore: new Button({
                     text: 'In Store Only',

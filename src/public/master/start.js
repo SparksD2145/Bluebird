@@ -16,23 +16,28 @@ var Bluebird = {};
     // Enumerate internal namespaces.
     var namespaces = {
         /**
-         * Core components of the application.
+         * Raw core, non-angular components of the application.
+         * @namespace
          */
         Components: {},
         /**
          * Core AngularJS Controllers of the application.
+         * @namespace
          */
         Controllers: {},
         /**
          * Core AngularJS Directives of the application.
+         * @namespace
          */
         Directives: {},
         /**
          * Pages of the application.
+         * @namespace
          */
         States: {},
         /**
          * Core AngularJS Services of the application.
+         * @namespace
          */
         Services: {},
         /**
@@ -42,7 +47,7 @@ var Bluebird = {};
         Dependencies: []
     };
 
-    // Add dependencies to temporary structure.
+    // Add non-angular dependencies to temporary structure.
     namespaces.Dependencies.push(
         new Dependency('underscore', '_', window._),
         new Dependency('momentJs', 'moment', window.moment),
@@ -92,22 +97,25 @@ function Dependency(name, ref, obj){
 /**
  * Application-wide configuration for routing based functionality.
  * @todo restructure Bluebird.config to function as a queue of configuration tasks instead of a single use call.
- * @todo rebuild routing methodology to better suit application's dynamic nature.
  */
 Bluebird.config([
     '$locationProvider', '$stateProvider', '$urlRouterProvider',
     'Bluebird.StatesProvider',
     function($locationProvider, $stateProvider, $router, statesCollection) {
+        // Compile states and gather collection.
         var states = statesCollection.compile().getCollection();
 
+        // Load states into state provider for addressing.
         _.each(states, function(state){
             $stateProvider.state(state.name, state);
         });
 
+        // When no address is passed, return home.
         $router.when('', ['$state', function($state){
             $state.go('home');
         }]);
 
+        // Use Html5 mode, but use crunch-bang (#!) as routing for non-html5 compliant browsers.
         $locationProvider
             .html5Mode(true)
             .hashPrefix("!");

@@ -1,5 +1,7 @@
-/** @file Home Page */
-
+/**
+ * @file Home Page
+ * @author Thomas Ibarra <sparksd2145.dev@gmail.com>
+ */
 Bluebird.States['Home'] = {
     name: 'home',
     templateUrl: 'home/home',
@@ -7,6 +9,8 @@ Bluebird.States['Home'] = {
     controller: [
         '$scope',
         function($scope){
+
+            /** Quotes for random quote display on home page, and their associated spoilers. */
             var quotes = [
                 "Searching should always be this easy.", // Default quote
                 "Great Scott!", // Back to the Future
@@ -22,6 +26,7 @@ Bluebird.States['Home'] = {
                 "Search up a Bluebird Special." // Nowhere really, just thought it sounded cool
             ];
 
+            // Get a quote!
             var where = Math.floor(Math.random() * quotes.length);
             $scope.quote = quotes[where];
         }

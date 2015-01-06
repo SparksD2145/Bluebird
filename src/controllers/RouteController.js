@@ -1,14 +1,18 @@
 /**
  * @file RouteController controller.
  * @author Thomas Ibarra <sparksd2145.dev@gmail.com>
+ * @exports RouteController
  */
 
 /**
- * Handles URL addressing and processing.
+ * Handles URL addressing and processing via an Express.Router instance.
+ * @class
+ * @module RouteController
  * @requires module:express
  * @requires module:underscore
- * @type {exports}
- * @returns {object}
+ * @requires module:debug
+ * @requires module:ProductRepository
+ * @returns {RouteController}
  */
 function RouteController(app) {
 
@@ -16,12 +20,20 @@ function RouteController(app) {
     var router = require('express').Router();
     var _ = require('underscore');
 
+    // Initialize an instance of the debugger
+    var debug = app.get('debug')('RouteController');
+
+    // Let developers know an instance of the controller is being created.
+    debug.log('Initializing an instance of RouteController.');
+
     /** Require ProductRepository for product operations */
     var ProductRepository = require('../repositories/product/productRepository');
     ProductRepository = new ProductRepository(app);
 
     /** Registers URL Route Parameters with Application */
     (function DefineRouteParameters(){
+        debug.log('Defining Route Parameters.');
+
         /** Define 'page' routing parameter and pass to request */
         router.param('page', function(req, res, next, page){
             if(!_.isEmpty(page) && _.isString(page)) req.page = page;
@@ -50,23 +62,31 @@ function RouteController(app) {
     /** Registers URL Routes with Application */
     (function DefineRoutes() {
 
+        debug.log('Defining Routes.');
+
         /* GET /:state/*name */
+        /** Retrieve individual states */
         router.get('/state/*', function (req, res) {
+            /** Work from the states directory */
             var pageStorageUrlPrefix = 'public/states/';
 
-            if(_.isEmpty(req.params[0])) {
+            /** If no state parameter was passed, return a 404 error */
+            if(typeof req.params[0] === 'undefined') {
                 var err = new Error('Not Found');
                 err.status = 404;
                 next(err);
                 return false;
             }
 
+            /** Get the state and render */
             var state = pageStorageUrlPrefix + req.params[0];
             res.render(state, {
-                devmode: app.get('env') === 'development'
+                /** Provide all JADE states a devMode attribute to indicate if in development mode. */
+                devMode: app.get('config').application.developmentMode
             });
         });
 
+        /* API ROUTES */
         /* GET /api/:type/:query */
         router.get('/api/:type/:query', function (req, res) {
             var sendGeneralFailure = function(){
@@ -80,14 +100,17 @@ function RouteController(app) {
             if(_.isEmpty(req.params) || _.isEmpty(req.params.type) || _.isEmpty(req.params.query)) sendGeneralFailure();
             if(!_.isString(req.params.type) || !_.isString(req.params.query)) sendGeneralFailure();
 
-
+            /** Product Search */
             if(req.params.type.toLowerCase() == 'product'){
-                // useExtendedSearch is of type String due to constraints of string to boolean conversion.
+
+                // Extended search can quickly drain our query limit, setting it to false by default prevents this.
                 var useExtendedSearch = 'false';
 
+                // Check client's request to see if extendedSearch is true and cast it as a boolean.
                 if (!_.isEmpty(req.query) && !_.isEmpty(req.query.extendedSearch))
                     useExtendedSearch = req.query.extendedSearch === 'true';
 
+                // Perform a product query.
                 ProductRepository.query(req.params.query.toLowerCase(), useExtendedSearch, function(result){
                     if (result instanceof Error) {
                         console.error('Error:', result.message);
@@ -126,11 +149,12 @@ function RouteController(app) {
             }
         });
 
-        /* GET / */
+        /* Master Route (used for html5 addressing */
+        /* ALL / */
         router.all('/*', function(req, res) {
             res.render('views/master', {
                 title: app.get('config').application.name,
-                devmode: app.get('config').application.developmentMode,
+                devMode: app.get('config').application.developmentMode
             });
         });
     })();
