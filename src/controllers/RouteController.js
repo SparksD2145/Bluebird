@@ -129,8 +129,8 @@ function RouteController(app) {
         /* GET / */
         router.all('/*', function(req, res) {
             res.render('views/master', {
-                title: app.get('name'),
-                devmode: app.get('env') === 'development'
+                title: app.get('config').application.name,
+                devmode: app.get('config').application.developmentMode,
             });
         });
     })();
