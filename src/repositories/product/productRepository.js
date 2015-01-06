@@ -26,7 +26,7 @@ function ProductRepository(app) {
         days: 1
     });
 
-    var dbAddress = this.app.get('config').database.address;
+    var dbAddress = app.get('config').database.address;
     var db = mongoose.connect(dbAddress);
 }
 ProductRepository.prototype.query = function(queryString, useExtendedSearch, next){
