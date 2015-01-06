@@ -30,7 +30,7 @@ environments['production'] = {
     },
     bbyOpen: {
         address: 'http://api.remix.bestbuy.com/v1/',
-        key: env.BBY_API_KEY.value,
+        key: env.BBY_API_KEY,
         active: true
     }
 };
