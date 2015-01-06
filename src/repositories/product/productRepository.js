@@ -51,7 +51,7 @@ ProductRepository.prototype.buildQuery = function(queryArray){
             { $match: { $or: queries } },
             { $sort: {
                 'marketplace.isMarketplaceItem': 1,
-                'availability.hasInStoreAvailability': 1
+                'availability.hasInStoreAvailability': -1
                 }
             }
         ];
@@ -108,7 +108,7 @@ ProductRepository.prototype.runBBYProductQuery = function(query, callback){
         query: {
             format: 'json',
             pageSize: 100,
-            sort: 'marketplace.asc,inStoreAvailability.asc',
+            sort: 'marketplace.asc,inStoreAvailability.dsc',
             apiKey: apiKey
         }
     };
