@@ -102,7 +102,7 @@ ProductRepository.prototype.buildQuery = function(queryArray){
     };
 };
 ProductRepository.prototype.runBBYProductQuery = function(query, callback){
-    var queryURL = this.app.get('bbyOpenAddress') + 'products(' + query + ')';
+    var queryURL = this.app.get('config').bbyOpen.address + 'products(' + query + ')';
     var queryOptions = {
         query: {
             format: 'json',
@@ -129,7 +129,7 @@ ProductRepository.prototype.runBBYProductAvailabilityQuery = function(query, loc
     var queries = this.utilities.parseQuery(query);
     var builtQuery = this.buildQuery(queries);
 
-    var queryURL = this.app.get('bbyOpenAddress')
+    var queryURL = this.app.get('config').bbyOpen.address
         + 'stores(area(' + location + ',' + distance + '))+'
         + 'products(' + builtQuery.bby + ')';
 
@@ -166,7 +166,7 @@ ProductRepository.prototype.retrieve = function(query, callback){
     var maxAge = this.productMaxAge;
     var scope = this;
 
-    return Product
+    Product
         .aggregate(query)
         .exec(function(err, results){
             if (err instanceof Error) {
