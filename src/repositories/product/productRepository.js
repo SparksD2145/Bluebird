@@ -443,7 +443,9 @@ ProductRepository.prototype.utilities.parseQuery = function(queryString){
 
     };
 
-    var queries = queryString.split(/[;,]\s?/g);
+    var queries = queryString
+        .replace(/[&]/g, '')
+        .split(/[;,]\s?/g);
 
     return queryTests(queries);
 };
