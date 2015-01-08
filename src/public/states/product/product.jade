@@ -11,8 +11,16 @@ div.row.spaced.module
                             i.fa.fa-circle.fa-stack-2x(style="color: #002442;")
                             i.fa.fa-circle-o-notch.fa-spin.fa-stack-2x.fa-inverse
                             i.fa-stack-1x
-                                img(src="/static/images/logos/bluebird-logo.png", width="75", style='padding-bottom:15px;')
+                                span(style="width:100px; display:inline-block; vertical-align: middle")
+                                    img(src="/static/images/logos/bluebird-logo.png").img-responsive
                     p Retrieving Availability...
+        div.container-fluid(ng-show="productNotFound")
+            div.row
+                div.col-xs-12.col-sm-6
+                    div.alert.alert-danger
+                        h4
+                            strong Darn!
+                        p It looks like the SKU for this product doesn't exist! Perhaps searching for the product may yeild the products you are looking for.
         div.container-fluid(ng-show="isLoaded")
             div.row
                 div.col-xs-12.col-sm-6
@@ -116,7 +124,15 @@ div.row.spaced.module
                                 li When ordering, this product {{ product.availability.hasInStorePickup? "has" : "does not have" }} personal store pickup{{ product.availability.hasFriendsAndFamilyPickup? " and pickup by friends and family." : "." }}
             div.row.spaced
                 // Product Inventory
-                div.col-xs-12.col-sm-6
+                div.col-xs-12.col-sm-6(ng-show="geolocationUnavailable")
+                    div.row.spaced-small
+                        div.col-xs-12
+                            h4 Availability
+                        div.col-xs-12
+                            div.alert.alert-warning
+                                strong Uh oh! &nbsp;
+                                span It seems this as though your device's location abilities are either disabled or simply unusable. Availability is, well, unavailable for the time being.
+                div.col-xs-12.col-sm-6(ng-hide="geolocationUnavailable")
                     div.row.spaced-small
                         div.col-xs-12(ng-show="product.availability.anyStores")
                             table.table.table-striped.table-hover.table-condensed(style="margin-bottom: 0")

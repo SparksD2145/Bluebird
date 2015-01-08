@@ -67,15 +67,25 @@ Bluebird.States['Product'] = {
 
                 // Get product availability if it's available in stores.
                 if(product.availability.hasInStoreAvailability){
-                    Availability.query(product.identifiers.sku, function(stores){
-                        product.stores = stores;
-                        product.availability.anyStores = !_.isEmpty(product.stores);
 
-                        $scope.product = product;
-                        $scope.isLoaded = true;
+                    if(Availability.canQuery()){
+                        Availability.query(product.identifiers.sku, function(stores){
 
-                        return product;
-                    });
+                            if(stores instanceof Error) {
+                                // Geolocation service could not be utilized
+                                $scope.showGeolocationError();
+                            }
+
+                            product.stores = stores;
+                            product.availability.anyStores = !_.isEmpty(product.stores);
+
+                            $scope.product = product;
+                            $scope.isLoaded = true;
+
+                            return product;
+                        });
+                    }
+
                 } else {
                     product.availability.anyStores = false;
 
@@ -107,7 +117,13 @@ Bluebird.States['Product'] = {
                 }
 
             }
-            // @todo there should be an error here that is returned to a user when a product isn't specified.
+
+            $scope.showGeolocationError = function(){
+                $scope.geolocationUnavailable = true;
+            };
+            $scope.showProductNotFoundError = function(){
+                $scope.productNotFound = true;
+            };
         }
     ],
     templateUrl: 'product/product',

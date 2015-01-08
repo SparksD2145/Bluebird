@@ -97,10 +97,10 @@ Bluebird.service('Bluebird.Services.Availability', [
             }.bind(this);
 
 
-            var location = 78232;
+            var location = 78232; // @todo do not use magic numbers
 
-            if(modernizr.geolocation){
-                geolocation.getLocation().then(function(geoposition){
+            geolocation.getLocation()
+                .then(function (geoposition) {
                     location = geoposition.coords.latitude + ',' + geoposition.coords.longitude;
 
                     var args = [
@@ -113,18 +113,14 @@ Bluebird.service('Bluebird.Services.Availability', [
                     ];
                     api.query.apply(this, args);
                 })
-            } else {
-                var args = [
-                    {
-                        query: query,
-                        location: location
-                    }, function (products) {
-                        internalCallback(products);
-                    }
-                ];
-                api.query.apply(this, args);
-            }
-
+                .catch(function(errMsg){
+                    // Could not retrieve geolocation data.
+                    callback(new Error(errMsg));
+                });
         };
+
+        this.canQuery = function(){
+            return modernizr.geolocation;
+        }
     }
 ]);
