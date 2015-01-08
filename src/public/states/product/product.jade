@@ -150,7 +150,7 @@ div.row.spaced.module
                         div.col-xs-12
                             h4 Availability
                         div.col-xs-12
-                            div.alert.alert-danger
+                            div.alert.alert-warning
                                 strong Darn! &nbsp;
                                 span It seems this product is not in stock nearby. &nbsp;
                                 span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order!
@@ -168,26 +168,24 @@ div.row.spaced.module
                                     span {{ plan.regularPrice | currency }}
                                     br
                                     small.text-muted {{ plan.type }}
+                        div.col-xs-12(ng-if="product.plans.protectionPlans.length == 0")
+                            h4 Protection Plans
+                            div.alert.alert-info.spaced-small
+                                span There are no protection plans available for this product.
             div.row.spaced
                 div.col-xs-12.col-sm-6
                     div.row
                         div.col-xs-12
                             h4 Product Breakdown
                     div.row.spaced-small
-                        div.col-xs-1.text-right
-                            i.fa.fa-chevron-circle-down
-                        div.col-xs-11.text-left
-                            h5 {{ product.classes.department }}
-                    div.row
-                        div.col-xs-1.text-right
-                            i.fa.fa-chevron-circle-down
-                        div.col-xs-11.text-left
-                            h5 {{ product.classes.class }}
-                    div.row
-                        div.col-xs-1.text-right
-                            i.fa.fa-circle
-                        div.col-xs-11.text-left
-                            h5 {{ product.classes.subclass }}
+                        div.col-xs-12.text-left
+                            ol
+                                li
+                                    h5 {{ product.classes.department }}
+                                li
+                                    h5 {{ product.classes.class }}
+                                li
+                                    h5 {{ product.classes.subclass }}
     if devMode
         div.row.spaced
             div.col-xs-12

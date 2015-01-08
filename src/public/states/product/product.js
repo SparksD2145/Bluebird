@@ -108,9 +108,12 @@ Bluebird.States['Product'] = {
 
                 if(!product){
                     Products.query($stateParams.query, false, function(prd){
-                        var product = _.first(prd);
-
-                        rebuildProduct(product);
+                        if(_.isEmpty(prd)){
+                            $scope.showProductNotFoundError();
+                        } else {
+                            var product = _.first(prd);
+                            rebuildProduct(product);
+                        }
                     });
                 } else {
                     rebuildProduct(product);
