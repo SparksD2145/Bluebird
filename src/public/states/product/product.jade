@@ -174,20 +174,20 @@ div.row.spaced.module
                         div.col-xs-12
                             h4 Product Breakdown
                     div.row.spaced-small
-                        div.col-xs-12.col-sm-3.text-center
-                            div.alert.alert-info
-                                i.fa.fa-4x.fa-chevron-circle-right(style="margin: 10px;").hidden-xs
-                                i.fa.fa-4x.fa-chevron-circle-down(style="margin: 10px;").visible-xs
-                                h5 {{ product.classes.department }}
-                        div.col-xs-12.col-sm-3.text-center
-                            div.alert.alert-info
-                                i.fa.fa-4x.fa-chevron-circle-right(style="margin: 10px;").hidden-xs
-                                i.fa.fa-4x.fa-chevron-circle-down(style="margin: 10px;").visible-xs
-                                h5 {{ product.classes.class }}
-                        div.col-xs-12.col-sm-6.text-center
-                            div.alert.alert-info
-                                i.fa.fa-4x.fa-circle(style="margin: 10px;")
-                                h5 {{ product.classes.subclass }}
+                        div.col-xs-1.text-right
+                            i.fa.fa-chevron-circle-down
+                        div.col-xs-11.text-left
+                            h5 {{ product.classes.department }}
+                    div.row
+                        div.col-xs-1.text-right
+                            i.fa.fa-chevron-circle-down
+                        div.col-xs-11.text-left
+                            h5 {{ product.classes.class }}
+                    div.row
+                        div.col-xs-1.text-right
+                            i.fa.fa-circle
+                        div.col-xs-11.text-left
+                            h5 {{ product.classes.subclass }}
     if devMode
         div.row.spaced
             div.col-xs-12
