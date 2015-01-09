@@ -11,7 +11,7 @@ div.row.spaced.module
                             i.fa.fa-circle.fa-stack-2x(style="color: #002442;")
                             i.fa.fa-circle-o-notch.fa-spin.fa-stack-2x.fa-inverse
                             i.fa-stack-1x
-                                span(style="width:100px; display:inline-block; vertical-align: middle")
+                                span(style="width:80px; display:inline-block; vertical-align: middle")
                                     img(src="/static/images/logos/bluebird-logo.png").img-responsive
                     p Retrieving Availability...
         div.container-fluid(ng-show="productNotFound")
@@ -65,9 +65,22 @@ div.row.spaced.module
                             h6 Regular Price: {{ product.pricing.regularPrice | currency }}
                             h5.text-right
                                 small (Save {{ product.savings.dollarSavings | currency }})
-                    div.row.spaced-small(ng-if="!product.pricing.isOnSale")
+                    div.row.spaced-small
                         div.col-xs-12
                             h5 Regular Price: {{ product.pricing.regularPrice | currency }}
+
+                div.col-xs-12.col-sm-6(ng-if="product.pricing.priceWithPlan && product.pricing.priceWithPlan.length > 0")
+                    div.row.spaced
+                        div.col-xs-12
+                            h4 Cellular Pricing
+                    div.row.spaced-small
+                        div.col-xs-12
+                            div.row
+                                div.col-xs-6
+                                    h6 New Two-year Contract: {{ product.pricing.priceWithPlan[0].newTwoYearPlan | currency }}
+                                div.col-xs-6.text-right
+                                    h6 With Two-Year Upgrade: {{ product.pricing.priceWithPlan[0].upgradeTwoYearPlan | currency }}
+
                 // Reviews
                 div.col-xs-12.col-sm-6(ng-if="product.reviews.customerReviewCount")
                     div.row.spaced
