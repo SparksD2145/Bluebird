@@ -53,7 +53,8 @@ ProductRepository.prototype.buildQuery = function(queryArray){
                 'marketplace.isMarketplaceItem': 1,
                 'availability.hasInStoreAvailability': -1
                 }
-            }
+            },
+            { $limit: 60 }
         ];
     };
 
@@ -107,7 +108,7 @@ ProductRepository.prototype.runBBYProductQuery = function(query, callback){
     var queryOptions = {
         query: {
             format: 'json',
-            pageSize: 100,
+            pageSize: 60,
             sort: 'marketplace.asc,inStoreAvailability.dsc',
             apiKey: apiKey
         }
