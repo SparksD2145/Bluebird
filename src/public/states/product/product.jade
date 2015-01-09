@@ -65,7 +65,7 @@ div.row.spaced.module
                             h6 Regular Price: {{ product.pricing.regularPrice | currency }}
                             h5.text-right
                                 small (Save {{ product.savings.dollarSavings | currency }})
-                    div.row.spaced-small
+                    div.row.spaced-small(ng-if="!product.pricing.isOnSale")
                         div.col-xs-12
                             h5 Regular Price: {{ product.pricing.regularPrice | currency }}
 
