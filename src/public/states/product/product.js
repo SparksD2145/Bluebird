@@ -65,13 +65,16 @@ Bluebird.States['Product'] = {
                     }
                 }
 
+                $scope.product = product;
+                $scope.isLoaded = true;
+
                 // Get product availability if it's available in stores.
                 if(product.availability.hasInStoreAvailability){
 
-                    if(Availability.canQuery()){
-                        Availability.query(product.identifiers.sku, function(stores){
+                    if(Availability.canQuery()) {
+                        Availability.query(product.identifiers.sku, function (stores) {
 
-                            if(stores instanceof Error) {
+                            if (stores instanceof Error) {
                                 // Geolocation service could not be utilized
                                 $scope.showGeolocationError();
                             }
@@ -79,19 +82,18 @@ Bluebird.States['Product'] = {
                             product.stores = stores;
                             product.availability.anyStores = !_.isEmpty(product.stores);
 
-                            $scope.product = product;
-                            $scope.isLoaded = true;
+                            $scope.showAvailability();
 
                             return product;
                         });
+                    } else {
+                        $scope.showGeolocationError();
+                        $scope.showAvailability();
                     }
 
                 } else {
                     product.availability.anyStores = false;
-
-                    $scope.product = product;
-                    $scope.isLoaded = true;
-
+                    $scope.showAvailability();
                     return product;
                 }
             };
@@ -120,7 +122,9 @@ Bluebird.States['Product'] = {
                 }
 
             }
-
+            $scope.showAvailability = function(){
+                $scope.availabilityLoaded = true;
+            };
             $scope.showGeolocationError = function(){
                 $scope.geolocationUnavailable = true;
             };
