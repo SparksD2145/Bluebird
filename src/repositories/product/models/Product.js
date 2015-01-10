@@ -203,8 +203,27 @@ productSchema.methods.generateKeywords = function() {
         keywordsOut = _.union(keywordsOut, tokens);
     }
 
+    // Use Manufacturer as Keyword
     if (!_.isEmpty(this.identifiers.manufacturer)){
         var tokens = getTokens(this.identifiers.manufacturer);
+        keywordsOut = _.union(keywordsOut, tokens);
+    }
+
+    // Use Model number as Keyword
+    if (!_.isEmpty(this.identifiers.modelNumber)){
+        var tokens = getTokens(this.identifiers.modelNumber);
+        keywordsOut = _.union(keywordsOut, tokens);
+    }
+
+    // Use UPC as Keyword
+    if (!_.isEmpty(this.identifiers.upc)){
+        var tokens = getTokens(this.identifiers.upc);
+        keywordsOut = _.union(keywordsOut, tokens);
+    }
+
+    // Use SKU as Keyword
+    if (!_.isEmpty(this.identifiers.sku)){
+        var tokens = getTokens(this.identifiers.sku);
         keywordsOut = _.union(keywordsOut, tokens);
     }
 
