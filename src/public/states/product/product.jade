@@ -126,26 +126,26 @@ div.row.spaced.module
                                 li When ordering, this product {{ product.availability.hasInStorePickup? "has" : "does not have" }} personal store pickup{{ product.availability.hasFriendsAndFamilyPickup? " and pickup by friends and family." : "." }}
             div.row.spaced
                 // Product Inventory
-                div.col-xs-12.col-sm-6(ng-show="!availabilityLoaded")
+                div.col-xs-12.col-sm-6.spaced(ng-show="!availabilityLoaded")
                     div.well.text-center
                         h5
                             div(style="width:80px; display:inline-block; vertical-align: middle")
                                 img(src="/static/images/logos/bluebird-logo.png").img-responsive.fa-spin
                         br
                         h5 Retrieving Availability...
-                div.col-xs-12.col-sm-6(ng-show="geolocationUnavailable && availabilityLoaded")
-                    div.row.spaced-small
+                div.col-xs-12.col-sm-6.spaced(ng-show="geolocationUnavailable && availabilityLoaded")
+                    div.row
                         div.col-xs-12
                             h4 Availability
-                        div.col-xs-12
+                        div.col-xs-12.spaced-small
                             div.alert.alert-warning
                                 strong Uh oh! &nbsp;
                                 span It seems this as though your device's location abilities are either disabled or simply unusable. Availability is, well, unavailable for the time being.
-                div.col-xs-12.col-sm-6(ng-show="!geolocationUnavailable && availabilityLoaded")
-                    div.row.spaced-small
+                div.col-xs-12.col-sm-6.spaced(ng-show="!geolocationUnavailable && availabilityLoaded")
+                    div.row
                         div.col-xs-12(ng-show="product.availability.anyStores")
                             table.table.table-striped.table-hover.table-condensed(style="margin-bottom: 0")
-                                thead(style="border-top: none;")
+                                thead(style="border-top: none; margin-bottom: 5px")
                                     h4 Available in the following stores:
                                 tr(ng-repeat="store in product.stores", style="border-top: none;")
                                     th(style="border-top: none;")
@@ -155,17 +155,17 @@ div.row.spaced.module
                                         abbr(title="Phone Number") P
                                         | : &nbsp;
                                         a(ng-href="{{ store.phone }}") {{ store.phoneNumber }}
-                    div.row(ng-show="!product.availability.anyStores && availabilityLoaded").spaced-small
+                    div.row(ng-show="!product.availability.anyStores && availabilityLoaded").spaced
                         div.col-xs-12
                             h4 Availability
-                        div.col-xs-12
+                        div.col-xs-12.spaced-small
                             div.alert.alert-warning
                                 strong Darn! &nbsp;
                                 span It seems this product is not in stock nearby. &nbsp;
                                 span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order!
 
                 // Protection Plans
-                div.col-xs-12.col-sm-6
+                div.col-xs-12.col-sm-6.spaced
                     div.row
                         div.col-xs-12(ng-if="product.plans.protectionPlans.length > 0")
                             h4 Protection Plans
