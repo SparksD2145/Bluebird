@@ -96,7 +96,6 @@ function Dependency(name, ref, obj){
 
 /**
  * Application-wide configuration for routing based functionality.
- * @todo restructure Bluebird.config to function as a queue of configuration tasks instead of a single use call.
  */
 Bluebird.config([
     '$locationProvider', '$stateProvider', '$urlRouterProvider',
