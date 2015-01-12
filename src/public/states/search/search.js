@@ -127,26 +127,10 @@ Bluebird.States['Search'] = {
 
                 // Filters usable
                 $scope.sortOptions = {
-                    inStore: new Button({
-                        text: 'In Store Only',
-                        active: false
-                    }),
-                    online: new Button({
-                        text: 'Online Only',
-                        active: false
-                    }),
-                    onSale: new Button({
-                        text: 'On Sale',
-                        active: false
-                    }),
-                    hasFreeShipping: new Button({
-                        text: 'Free Shipping',
-                        active: false
-                    })
                 };
 
                 // Link buttons to their appropriate keys
-                _.each($scope.filterOptions, function(button, key){
+                _.each($scope.sortOptions, function(button, key){
                     button.key = key;
                 });
             })();
