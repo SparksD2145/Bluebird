@@ -30,6 +30,10 @@ function RouteController(app) {
     var ProductRepository = require('../repositories/product/productRepository');
     ProductRepository = new ProductRepository(app);
 
+    /** Require StatisticsRepository for application statistics operations */
+    var StatisticsRepository = require('../repositories/statistics/statisticsRepository');
+    StatisticsRepository = new StatisticsRepository(app);
+
     /** Registers URL Route Parameters with Application */
     (function DefineRouteParameters(){
         debug.log('Defining Route Parameters.');
@@ -55,6 +59,8 @@ function RouteController(app) {
         /** Define 'query' routing parameter and pass to request */
         router.param('query', function(req, res, next, query){
             if(!_.isEmpty(query) && _.isString(query)) req.id = query;
+
+            StatisticsRepository.addQuery(query, req);
             next();
         });
     })();

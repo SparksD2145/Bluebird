@@ -53,8 +53,8 @@ div.row.searchPage
                                                 b SKU:&nbsp;
                                                 span {{ result.identifiers.sku }}
                                             div.col-xs-6.col-sm-12.col-md-6
-                                                b UPC:&nbsp;
-                                                span {{ result.identifiers.upc }}
+                                                b Price:&nbsp;
+                                                span {{ result.pricing.isOnSale? result.pricing.salePrice : result.pricing.regularPrice }}
                     div.col-xs-12.col-sm-6.col-md-4
                         a.result-item(ng-click="useExtendedSearch()", ng-hide="extendedSearch")
                             div.container-fluid

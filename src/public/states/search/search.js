@@ -84,37 +84,73 @@ Bluebird.States['Search'] = {
             // Run search query
             $scope.query();
 
-            // Set up Buttons
-            function Button(data){
-                this.text = data.text;
-                this.active = data.active;
-                this.filter = $scope.filter;
-            }
+            (function setUpFilters(){
+                // Set up Buttons
+                function Button(data){
+                    this.text = data.text;
+                    this.active = data.active;
+                    this.filter = $scope.filter;
+                }
 
-            // Filters usable
-            $scope.filterOptions = {
-                inStore: new Button({
-                    text: 'In Store Only',
-                    active: false
-                }),
-                online: new Button({
-                    text: 'Online Only',
-                    active: false
-                }),
-                onSale: new Button({
-                    text: 'On Sale',
-                    active: false
-                }),
-                hasFreeShipping: new Button({
-                    text: 'Free Shipping',
-                    active: false
-                })
-            };
+                // Filters usable
+                $scope.filterOptions = {
+                    inStore: new Button({
+                        text: 'In Store Only',
+                        active: false
+                    }),
+                    online: new Button({
+                        text: 'Online Only',
+                        active: false
+                    }),
+                    onSale: new Button({
+                        text: 'On Sale',
+                        active: false
+                    }),
+                    hasFreeShipping: new Button({
+                        text: 'Free Shipping',
+                        active: false
+                    })
+                };
 
-            // Link buttons to their appropriate keys
-            _.each($scope.filterOptions, function(button, key){
-                button.key = key;
-            });
+                // Link buttons to their appropriate keys
+                _.each($scope.filterOptions, function(button, key){
+                    button.key = key;
+                });
+            })();
+            (function setUpSorts(){
+                // Set up Buttons
+                function Button(data){
+                    this.text = data.text;
+                    this.active = data.active;
+                    this.filter = $scope.filter;
+                }
+
+                // Filters usable
+                $scope.sortOptions = {
+                    inStore: new Button({
+                        text: 'In Store Only',
+                        active: false
+                    }),
+                    online: new Button({
+                        text: 'Online Only',
+                        active: false
+                    }),
+                    onSale: new Button({
+                        text: 'On Sale',
+                        active: false
+                    }),
+                    hasFreeShipping: new Button({
+                        text: 'Free Shipping',
+                        active: false
+                    })
+                };
+
+                // Link buttons to their appropriate keys
+                _.each($scope.filterOptions, function(button, key){
+                    button.key = key;
+                });
+            })();
+
         }
     ],
     templateUrl: 'search/search'

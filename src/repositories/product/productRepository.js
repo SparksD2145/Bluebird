@@ -16,7 +16,7 @@ var apiKey = "";
  * Handles product queries.
  * @requires module:express
  * @requires module:underscore
- * @type {exports}
+ * @type {Function}
  * @returns {object}
  */
 function ProductRepository(app) {
@@ -26,11 +26,18 @@ function ProductRepository(app) {
     this.productMaxAge = moment.duration({
         days: 1
     });
-
-    var dbAddress = app.get('config').database.address;
-    var db = mongoose.connect(dbAddress);
 }
+
+/**
+ * Perform query for a product.
+ * @param queryString Query string to search with.
+ * @param [useExtendedSearch=false] Utilize an extended search.
+ * @param next Callback to execute and return data to.
+ * @returns Product[]
+ */
 ProductRepository.prototype.query = function(queryString, useExtendedSearch, next){
+
+    // Don't query if there is no query to run.
     if(_.isEmpty(queryString)) return false;
 
     var queries = this.utilities.parseQuery(queryString);
@@ -42,6 +49,12 @@ ProductRepository.prototype.query = function(queryString, useExtendedSearch, nex
         this.runBBYProductQuery(builtQuery.bby, next);
     }
 };
+
+/**
+ * Build query instructions based on query string array
+ * @param queryArray Array of tokenized keywords.
+ * @returns {{db, bby: string}}
+ */
 ProductRepository.prototype.buildQuery = function(queryArray){
     var dbQueries = [];
     var bbyOpenQueries = [];
@@ -62,13 +75,13 @@ ProductRepository.prototype.buildQuery = function(queryArray){
         if(query instanceof UPC){
             dbQueries.push({'identifiers.upc': query.value });
 
-            var bbyForm = index < list.length - 1 ? query.bbyQueryForm + '|' : query.bbyQueryForm;
-            bbyOpenQueries.push(bbyForm);
+            var bbyFormUPC = index < list.length - 1 ? query.bbyQueryForm + '|' : query.bbyQueryForm;
+            bbyOpenQueries.push(bbyFormUPC);
         } else if (query instanceof SKU){
             dbQueries.push({'identifiers.sku': query.value });
 
-            var bbyForm = index < list.length - 1 ? query.bbyQueryForm + '|' : query.bbyQueryForm;
-            bbyOpenQueries.push(bbyForm);
+            var bbyFormSKU = index < list.length - 1 ? query.bbyQueryForm + '|' : query.bbyQueryForm;
+            bbyOpenQueries.push(bbyFormSKU);
         } else if(query instanceof TEXT) {
             var tokens = query.value.split(' ');
 
@@ -103,6 +116,12 @@ ProductRepository.prototype.buildQuery = function(queryArray){
         bby: bbyOpenQueries.join('')
     };
 };
+
+/**
+ * Perform a BestBuy Open API search
+ * @param query Queryable string built from buildQuery()
+ * @param callback
+ */
 ProductRepository.prototype.runBBYProductQuery = function(query, callback){
     var queryURL = this.app.get('config').bbyOpen.address + 'products(' + query + ')';
     var queryOptions = {
@@ -123,6 +142,15 @@ ProductRepository.prototype.runBBYProductQuery = function(query, callback){
         callback(result);
     });
 };
+
+/**
+ * Perform a BestBuy Open API availability search
+ * @param query
+ * @param location
+ * @param distance
+ * @param callback
+ * @returns {boolean}
+ */
 ProductRepository.prototype.runBBYProductAvailabilityQuery = function(query, location, distance, callback){
 
     if(_.isEmpty(query)) return false;
@@ -142,7 +170,6 @@ ProductRepository.prototype.runBBYProductAvailabilityQuery = function(query, loc
         }
     };
 
-    var scoped = this;
     rest.get(queryURL, queryOptions).on('complete', function(results){
         // Result returns as stores, we want to isolate only "result.stores"
         var stores = [];
@@ -164,6 +191,13 @@ ProductRepository.prototype.runBBYProductAvailabilityQuery = function(query, loc
         callback(stores);
     });
 };
+
+/**
+ * Retrieve product from the database
+ * @param query
+ * @param callback
+ * @returns {Array|{index: number, input: string}}
+ */
 ProductRepository.prototype.retrieve = function(query, callback){
     var maxAge = this.productMaxAge;
     var scope = this;
@@ -206,6 +240,12 @@ ProductRepository.prototype.retrieve = function(query, callback){
         });
 
 };
+
+/**
+ * Save a product to the database
+ * @param products
+ * @returns {ProductRepository}
+ */
 ProductRepository.prototype.save = function(products) {
     var saveSingle = function(product){
         Product.findById(product._id, function(err, result){
@@ -232,7 +272,7 @@ ProductRepository.prototype.save = function(products) {
                 result
                     .updateLastModified()
                     .generateKeywords()
-                    .save(function(err){ console.error() });
+                    .save(function(err){ console.error(err) });
 
                 return true;
             }
@@ -250,7 +290,18 @@ ProductRepository.prototype.save = function(products) {
     // return this for chaining
     return this;
 };
+/**
+ * Utility namespace
+ * @namespace
+ * @type {{}}
+ */
 ProductRepository.prototype.utilities = {};
+
+/**
+ * Convert product results from bbyopen to Product model
+ * @param productResult
+ * @returns {*}
+ */
 ProductRepository.prototype.utilities.convertResult = function (productResult) {
     try {
         var productList = [];
@@ -415,12 +466,16 @@ ProductRepository.prototype.utilities.convertResult = function (productResult) {
     } catch (e) {
         throw e; // @todo this is bad, fix this
     }
-
-    return null;
 };
+
+/**
+ * Parse query string, tokenize and return a type.
+ * @param queryString
+ * @returns {boolean}
+ */
 ProductRepository.prototype.utilities.parseQuery = function(queryString){
 
-    if(_.isUndefined(queryString)) return false;
+    if(_.isEmpty(queryString)) return false;
 
     var queryTests = function(queryArray) {
         var queriesTyped = [];
