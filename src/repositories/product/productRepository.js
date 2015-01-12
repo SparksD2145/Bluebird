@@ -16,7 +16,7 @@ var apiKey = "";
  * Handles product queries.
  * @requires module:express
  * @requires module:underscore
- * @type {exports}
+ * @type {Function}
  * @returns {object}
  */
 function ProductRepository(app) {
@@ -26,9 +26,6 @@ function ProductRepository(app) {
     this.productMaxAge = moment.duration({
         days: 1
     });
-
-    var dbAddress = app.get('config').database.address;
-    var db = mongoose.connect(dbAddress);
 }
 
 /**
@@ -78,13 +75,13 @@ ProductRepository.prototype.buildQuery = function(queryArray){
         if(query instanceof UPC){
             dbQueries.push({'identifiers.upc': query.value });
 
-            var bbyForm = index < list.length - 1 ? query.bbyQueryForm + '|' : query.bbyQueryForm;
-            bbyOpenQueries.push(bbyForm);
+            var bbyFormUPC = index < list.length - 1 ? query.bbyQueryForm + '|' : query.bbyQueryForm;
+            bbyOpenQueries.push(bbyFormUPC);
         } else if (query instanceof SKU){
             dbQueries.push({'identifiers.sku': query.value });
 
-            var bbyForm = index < list.length - 1 ? query.bbyQueryForm + '|' : query.bbyQueryForm;
-            bbyOpenQueries.push(bbyForm);
+            var bbyFormSKU = index < list.length - 1 ? query.bbyQueryForm + '|' : query.bbyQueryForm;
+            bbyOpenQueries.push(bbyFormSKU);
         } else if(query instanceof TEXT) {
             var tokens = query.value.split(' ');
 
@@ -173,7 +170,6 @@ ProductRepository.prototype.runBBYProductAvailabilityQuery = function(query, loc
         }
     };
 
-    var scoped = this;
     rest.get(queryURL, queryOptions).on('complete', function(results){
         // Result returns as stores, we want to isolate only "result.stores"
         var stores = [];
@@ -276,7 +272,7 @@ ProductRepository.prototype.save = function(products) {
                 result
                     .updateLastModified()
                     .generateKeywords()
-                    .save(function(err){ console.error() });
+                    .save(function(err){ console.error(err) });
 
                 return true;
             }
@@ -470,8 +466,6 @@ ProductRepository.prototype.utilities.convertResult = function (productResult) {
     } catch (e) {
         throw e; // @todo this is bad, fix this
     }
-
-    return null;
 };
 
 /**

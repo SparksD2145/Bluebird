@@ -14,7 +14,7 @@
  */
 
 // Retrieve Bower components.
-var bower = require('bower')
+require('bower')
     .commands
     .install([], {save: true }, {interactive: true})
     .on('end', function (installed) {
@@ -45,6 +45,12 @@ app.set('view engine', 'jade');
 app.use(less(path.join(__dirname + '/public'), {
     force: true
 }));
+
+// Connect to the database.
+var dbAddress = app.get('config').database.address;
+var mongoose = require('mongoose');
+var db = mongoose.connect(dbAddress);
+app.set('db', db);
 
 app.use(favicon(__dirname + '/public/static/favicon.ico'));
 app.use(logger('dev'));
