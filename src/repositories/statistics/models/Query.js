@@ -16,8 +16,8 @@ var queryTemplate = {
     date: Date,
     query: String,
     origin: String,
-    path: String,
-    fromXHR: Boolean
+    route: Object,
+    params: Array
 };
 
 // Create the Schema from its template

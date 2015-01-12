@@ -12,7 +12,6 @@ var Query = require('./models/Query');
  */
 function StatisticsRepository(app){
     this.app = app;
-    var debug = this.app.get('debug')('StatisticsRepository');
 }
 
 /**
@@ -23,15 +22,15 @@ function StatisticsRepository(app){
 StatisticsRepository.prototype.addQuery = function(queryString, request){
     var query = new Query({
         origin: request.ip,
-        path: request.url,
+        params: request.params,
+        route: request.route,
         query: queryString,
-        fromXHR: request.xhr,
         date: moment().toDate()
     });
 
     query.save(function(err){
         if(err instanceof Error) {
-            debug.error(err);
+            console.error(err);
             return false;
         }
         return true;
