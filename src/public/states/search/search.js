@@ -38,8 +38,7 @@ Bluebird.States['Search'] = {
                             pass.push(result.availability.hasFreeShipping);
                         }
 
-                        if(_.all(pass)) { return true; }
-                        else return false;
+                        return _.all(pass);
                     });
                 } else {
                     $scope.products = [].concat($scope.results);
@@ -117,16 +116,18 @@ Bluebird.States['Search'] = {
                     button.key = key;
                 });
             })();
+
             (function setUpSorts(){
                 // Set up Buttons
                 function Button(data){
                     this.text = data.text;
                     this.active = data.active;
-                    this.filter = $scope.filter;
+                    this.sort = $scope.filter;
                 }
 
-                // Filters usable
+                // Sorts usable
                 $scope.sortOptions = {
+
                 };
 
                 // Link buttons to their appropriate keys
