@@ -5,17 +5,19 @@ div.row.searchPage
     div.col-xs-12
         div.row.pagebar.text-left
             div.btn-group
-                a.btn.btn-primary.btn-xs.dropdown-toggle(data-toggle="dropdown") Filters &nbsp;
+                a.btn.btn-primary.btn-sm.dropdown-toggle(data-toggle="dropdown") Filters &nbsp;
                     span.caret
                 ul.dropdown-menu(role=menu)
-                    li(ng-repeat="button in filterOptions", ng-click="button.active = !button.active; button.filter();", ng-class="{ active: button.active }")
-                        a {{ button.text }}
-            //-div.btn-group
-                a.btn.btn-primary.dropdown-toggle(data-toggle="dropdown") Sorting &nbsp;
+                    li(ng-repeat="button in filterOptions", ng-click="button.active = !button.active; button.filter();", ng-class="{ active: button.active }", style="padding: 10px")
+                        a(style="padding: 10px")
+                            h4 {{ button.text }}
+            div.btn-group
+                a.btn.btn-primary.btn-sm.dropdown-toggle(data-toggle="dropdown") Sorting &nbsp;
                     span.caret
                 ul.dropdown-menu(role=menu)
-                    li(ng-repeat="button in filterOptions", ng-click="button.active = !button.active; button.filter();")
-                        a {{ button.text }}
+                    li(ng-repeat="button in sortOptions", ng-click="button.sort(button.key);", style="padding: 10px")
+                        a(style="padding: 10px")
+                            h4 {{ button.text }}
         div.row.spaced(ng-hide="isLoaded || noMatch")
             div.col-xs-12
                 div.jumbotron.text-center

@@ -16,36 +16,6 @@ Bluebird.States['Search'] = {
             $scope.noMatch = false;
             $scope.results = [];
 
-            $scope.filter = function(){
-
-                if(_.some($scope.filterOptions, function(filter) { return filter.active; })){
-                    $scope.products = _.filter($scope.results, function(result){
-                        var pass = [];
-
-                        if($scope.filterOptions.online.active){
-                            pass.push(!result.availability.hasInStoreAvailability);
-                        }
-
-                        if($scope.filterOptions.inStore.active){
-                            pass.push(result.availability.hasInStoreAvailability);
-                        }
-
-                        if($scope.filterOptions.onSale.active) {
-                            pass.push(result.pricing.isOnSale);
-                        }
-
-                        if($scope.filterOptions.hasFreeShipping.active) {
-                            pass.push(result.availability.hasFreeShipping);
-                        }
-
-                        return _.all(pass);
-                    });
-                } else {
-                    $scope.products = [].concat($scope.results);
-                }
-
-
-            };
 
             $scope.query = function() {
                 $scope.productSelected = null;
@@ -84,6 +54,36 @@ Bluebird.States['Search'] = {
             $scope.query();
 
             (function setUpFilters(){
+
+                // Filter Method
+                $scope.filter = function(){
+                    if(_.some($scope.filterOptions, function(filter) { return filter.active; })){
+                        $scope.products = _.filter($scope.results, function(result){
+                            var pass = [];
+
+                            if($scope.filterOptions.online.active){
+                                pass.push(!result.availability.hasInStoreAvailability);
+                            }
+
+                            if($scope.filterOptions.inStore.active){
+                                pass.push(result.availability.hasInStoreAvailability);
+                            }
+
+                            if($scope.filterOptions.onSale.active) {
+                                pass.push(result.pricing.isOnSale);
+                            }
+
+                            if($scope.filterOptions.hasFreeShipping.active) {
+                                pass.push(result.availability.hasFreeShipping);
+                            }
+
+                            return _.all(pass);
+                        });
+                    } else {
+                        $scope.products = [].concat($scope.results);
+                    }
+                };
+
                 // Set up Buttons
                 function Button(data){
                     this.text = data.text;
@@ -118,16 +118,42 @@ Bluebird.States['Search'] = {
             })();
 
             (function setUpSorts(){
+                // Sort Method
+                $scope.sort = function(key){
+                    if(key === 'defaultOrder'){
+                        $scope.products = [].concat($scope.results);
+                    } else {
+                        var tokens = key.split('.');
+                        $scope.products = _.sortBy($scope.results, function(product){
+                            return product[tokens[0]][tokens[1]];
+                        });
+                    }
+                };
+
                 // Set up Buttons
                 function Button(data){
                     this.text = data.text;
                     this.active = data.active;
-                    this.sort = $scope.filter;
+                    this.sort = $scope.sort;
                 }
 
                 // Sorts usable
                 $scope.sortOptions = {
-
+                    defaultOrder: new Button({
+                        text: 'Default Order'
+                    }),
+                    'identifiers.manufacturer': new Button({
+                        text: 'By Manufacturer'
+                    }),
+                    'identifiers.color': new Button({
+                        text: 'By Color'
+                    }),
+                    'identifiers.color': new Button({
+                        text: 'By Sku'
+                    }),
+                    'pricing.regularPrice': new Button({
+                        text: 'By Regular Price'
+                    })
                 };
 
                 // Link buttons to their appropriate keys
