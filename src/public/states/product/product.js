@@ -11,6 +11,16 @@ Bluebird.States['Product'] = {
         'Bluebird.Services.Products', 'Bluebird.Services.Availability',
         function($scope, $stateParams, $resource, _, Products, Availability){
 
+            $scope.showAvailability = function(){
+                $scope.availabilityLoaded = true;
+            };
+            $scope.showGeolocationError = function(){
+                $scope.geolocationUnavailable = true;
+            };
+            $scope.showProductNotFoundError = function(){
+                $scope.productNotFound = true;
+            };
+
             // Rebuild product information to better display information to user
             var rebuildProduct = function(product){
                 // Unescape the long description returned by the server.
@@ -122,15 +132,6 @@ Bluebird.States['Product'] = {
                 }
 
             }
-            $scope.showAvailability = function(){
-                $scope.availabilityLoaded = true;
-            };
-            $scope.showGeolocationError = function(){
-                $scope.geolocationUnavailable = true;
-            };
-            $scope.showProductNotFoundError = function(){
-                $scope.productNotFound = true;
-            };
         }
     ],
     templateUrl: 'product/product',
