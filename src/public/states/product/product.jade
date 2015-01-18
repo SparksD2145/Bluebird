@@ -2,14 +2,12 @@
     @file Product page.
     @author Thomas Ibarra <sparksd2145@gmail.com>
 div.row.spaced.module
-    div.col-xs-12
-        div.container-fluid(ng-show="productNotFound")
-            div.row
-                div.col-xs-12.col-sm-6
-                    div.alert.alert-danger
-                        h4
-                            strong Darn!
-                        p It looks like the SKU for this product doesn't exist! Perhaps searching for the product may yeild the products you are looking for.
+    div.col-xs-12(ng-show="productNotFound")
+        div.alert.alert-danger
+            h4
+                strong Darn!
+            p It looks like the SKU for this product doesn't exist! Perhaps searching for the product may yeild the products you are looking for.
+    div.col-xs-12(ng-hide="productNotFound")
         div.container-fluid(ng-show="isLoaded")
             div.row
                 div.col-xs-12.col-sm-6
