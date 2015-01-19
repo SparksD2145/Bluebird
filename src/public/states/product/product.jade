@@ -13,7 +13,8 @@ div.row.spaced.module
                 div.col-xs-12.col-sm-6
                     div.row
                         div.col-xs-12.col-sm-2.text-center
-                            img.img-thumbnail.product-header-img(ng-src="{{product.images.image}}")
+                            a(ng-href="{{product.images.largeFrontImage}}")
+                                img.img-thumbnail.product-header-img(ng-src="{{product.images.image}}")
                         div.col-xs-12.col-sm-10
                             div.row
                                 div.col-xs-12
