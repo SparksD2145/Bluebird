@@ -61,7 +61,7 @@ ProductRepository.prototype.buildQuery = function(queryArray){
 
     var dbAggregateQuery = function(queries){
         return [
-            { $match: { $and: queries } },
+            { $match: { $or: queries } },
             { $sort: {
                 'marketplace.isMarketplaceItem': 1,
                 'availability.hasInStoreAvailability': -1
