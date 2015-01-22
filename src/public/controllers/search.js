@@ -31,6 +31,10 @@ Bluebird.controller('Bluebird.Controllers.Search', [
                 // Navigate to search state.
                 $state.go('search', { query: query });
             }
+        };
+
+        $scope.openSidebar = function(){
+            angular.element('#sidebar').toggleClass('open');
         }
     }
 ]);

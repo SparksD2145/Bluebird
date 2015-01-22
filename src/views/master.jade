@@ -19,21 +19,40 @@ html
     body(ng-app="Bluebird")
         div.wrapper
             nav#top.navbar.navbar-default.navbar-fixed-top(role="navigation")
-                div.container-fluid.bg-primary(ng-controller="Bluebird.Controllers.Search")
-                    div.row
-                        div.col-xs-12.hidden-xs
+                div.container-fluid.bg-primary(ng-controller="Bluebird.Controllers.Search", style="height: 50px;")
+                    div.row.hidden-xs
+                        div.col-xs-12
                             div.navbar-left
-                                a.navbar-brand.bright(href="/#!/") Bluebird
+                                a.navbar-brand.bright(ng-click="openSidebar()")
+                                    i.fa.fa-bars(style="color:white;") &nbsp;
+                                    | Bluebird
                             form.navbar-form.navbar-left(role="search", ng-submit="handleSearch()")
                                 input.form-control(type="search", placeholder="{{ placeholder }}", ng-model="searchQuery", ng-dblClick="clearSearch()")
 
                     // Replacement navigation bar for xs-nav
-                    div.row.visible-xs
+                    div.row.visible-xs(ng-controller="Bluebird.Controllers.Search")
                         div.col-xs-1.text-center
-                            a(href="/#!/").navbar-brand.bright.visible-xs
-                                i.fa.fa-home.fa-2x(style="color:white")
+                            a.navbar-brand.bright(ng-click="openSidebar()")
+                                i.fa.fa-bars(style="color:white;")
                         div.col-xs-10.col-xs-push-1
-                            form.navbar-form(role="search", ng-controller="Bluebird.Controllers.Search", ng-submit="handleSearch()")
+                            form.navbar-form(role="search", ng-submit="handleSearch()", style="height: 50px;")
                                 input.form-control(type="search", placeholder="{{ placeholder }}", ng-model="searchQuery", ng-dblClick="clearSearch()")
+            aside#sidebar.cell(ng-controller="Bluebird.Controllers.Sidebar")
+                div.container-fluid
+                    div.row.cell
+                        div.col-xs-6.col-sm-4.content.cell
+                            ul.nav(ng-click="closeSidebar()")
+                                li
+                                    a(href="/#!/")
+                                        h4
+                                            i.fa.fa-home.fa-fw
+                                            | Home
+                                li
+                                    a(href="/#!/learn")
+                                        h4
+                                            i.fa.fa-question-circle.fa-fw
+                                            | About Bluebird
+
+                        div.col-xs-6.col-sm-8.darkened.cell
             div#main.cell
                 div.container-fluid(ui-view)
