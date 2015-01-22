@@ -37,6 +37,7 @@ html
                         div.col-xs-10.col-xs-push-1
                             form.navbar-form(role="search", ng-submit="handleSearch()", style="height: 50px;")
                                 input.form-control(type="search", placeholder="{{ placeholder }}", ng-model="searchQuery", ng-dblClick="clearSearch()")
+
             aside#sidebar.cell(ng-controller="Bluebird.Controllers.Sidebar")
                 div.container-fluid
                     div.row.cell
@@ -53,6 +54,6 @@ html
                                             i.fa.fa-question-circle.fa-fw
                                             | About Bluebird
 
-                        div.col-xs-6.col-sm-8.darkened.cell
+                        div.col-xs-6.col-sm-8.darkened.cell(ng-click="closeSidebar()")
             div#main.cell
                 div.container-fluid(ui-view)
