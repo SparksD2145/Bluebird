@@ -6,7 +6,7 @@
     "Thomas Ibarra <SparksD2145.dev@gmail.com>"
   ],
   "description": "A product reference engine for bestbuy employees and vendors.",
-  "main": "bin/www",
+  "main": "Bluebird",
   "keywords": [
     "bluebird",
     "best",

@@ -2,7 +2,7 @@
   "name": "Bluebird",
   "version": "0.2.0",
   "description": "A product search engine for best buy employees and vendors.",
-  "main": "bin/www.js",
+  "main": "Bluebird.js",
   "subdomain": "sparksd2145-bluebird-prod",
   "domains": [
     "bluebird.website",
@@ -26,7 +26,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node bin/www"
+    "start": "node Bluebird"
   },
   "keywords": [
     "bluebird",

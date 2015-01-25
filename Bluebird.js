@@ -4,7 +4,7 @@
 
 /** Initialize Debugger and load Bluebird. */
 var debug = require('debug')('Bluebird');
-var app = require('../src/app');
+var app = require('./src/app');
 
 /** Set the server port of Bluebird. */
 app.set('port', process.env.PORT || 80);
