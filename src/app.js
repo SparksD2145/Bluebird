@@ -42,8 +42,9 @@ app.set('views', path.join(__dirname, ''));
 app.set('view engine', 'jade');
 
 // Use less engine
-app.use(less(path.join(__dirname + '/public'), {
-    force: true
+app.use(less(__dirname + '/public', {
+    force: config.less.force,
+    once: config.less.once
 }));
 
 // Connect to the database.

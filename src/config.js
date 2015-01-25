@@ -17,6 +17,10 @@ environments['development'] = {
         address: 'http://api.remix.bestbuy.com/v1/',
         key: env.BBY_API_KEY,
         active: true
+    },
+    less: {
+        force: false,
+        once: false
     }
 };
 environments['production'] = {
@@ -32,6 +36,10 @@ environments['production'] = {
         address: 'http://api.remix.bestbuy.com/v1/',
         key: env.BBY_API_KEY,
         active: true
+    },
+    less: {
+        force: false,
+        once: true
     }
 };
 environments['default'] = environments.production;
