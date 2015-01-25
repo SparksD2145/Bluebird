@@ -27,12 +27,13 @@ html
                                     i.fa.fa-bars(style="color:white;") &nbsp;
                                     | Bluebird
                             form.navbar-form.navbar-left(role="search", ng-submit="handleSearch()")
+                                | &nbsp;
                                 input.form-control(type="search", placeholder="{{ placeholder }}", ng-model="searchQuery", ng-dblClick="clearSearch()")
 
                     // Replacement navigation bar for xs-nav
                     div.row.visible-xs(ng-controller="Bluebird.Controllers.Search")
                         div.col-xs-1.text-center
-                            a.navbar-brand.bright(ng-click="openSidebar()")
+                            a.navbar-brand.bright(ng-click="openSidebar()", href="#")
                                 i.fa.fa-bars(style="color:white;")
                         div.col-xs-10.col-xs-push-1
                             form.navbar-form(role="search", ng-submit="handleSearch()", style="height: 50px;")
