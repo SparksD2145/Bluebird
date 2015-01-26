@@ -107,6 +107,27 @@ function RouteController(app) {
             if(!_.isString(req.params.type) || !_.isString(req.params.query)) sendGeneralFailure();
 
             /** Product Search */
+            if(req.params.type.toLowerCase() == 'search') {
+
+                // Extended search can quickly drain our query limit, setting it to false by default prevents this.
+                var useExtendedSearch = 'false';
+
+                // Check client's request to see if extendedSearch is true and cast it as a boolean.
+                if (!_.isEmpty(req.query) && !_.isEmpty(req.query.extendedSearch))
+                    useExtendedSearch = req.query.extendedSearch === 'true';
+
+                // Perform a product query.
+                ProductRepository.query(req.params.query.toLowerCase(), useExtendedSearch, true, function (result) {
+                    if (result instanceof Error) {
+                        console.error('Error:', result.message);
+                        sendGeneralError();
+                    } else {
+                        res.json(result);
+                    }
+                });
+            }
+
+            /** Product Details */
             if(req.params.type.toLowerCase() == 'product'){
 
                 // Extended search can quickly drain our query limit, setting it to false by default prevents this.
@@ -117,7 +138,7 @@ function RouteController(app) {
                     useExtendedSearch = req.query.extendedSearch === 'true';
 
                 // Perform a product query.
-                ProductRepository.query(req.params.query.toLowerCase(), useExtendedSearch, function(result){
+                ProductRepository.query(req.params.query.toLowerCase(), useExtendedSearch, false, function(result){
                     if (result instanceof Error) {
                         console.error('Error:', result.message);
                         sendGeneralError();

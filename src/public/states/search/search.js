@@ -22,7 +22,7 @@ Bluebird.States['Search'] = {
 
                 if(_.isEmpty($stateParams.query)) console.error(new Error('Oops, there\'s nothing to search for!'));
 
-                products.query($stateParams.query, $scope.extendedSearch, function(results){
+                products.search($stateParams.query, $scope.extendedSearch, function(results){
 
                     if(!_.isEmpty(results)){
                         $scope.isLoaded = true;

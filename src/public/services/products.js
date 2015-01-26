@@ -17,6 +17,9 @@ Bluebird.service('Bluebird.Services.Products', [
         /** Products API */
         var api = $resource('/api/product/:query');
 
+        /** Products Search API */
+        var searchApi = $resource('/api/search/:query');
+
         /**
          *
          * @param product A product to add to the collection.
@@ -94,6 +97,23 @@ Bluebird.service('Bluebird.Services.Products', [
             ];
 
             api.query.apply(this, args);
+        };
+
+        this.search = function(query, extendedSearch, callback){
+            var internalCallback = function(result) {
+                return callback(result);
+            }.bind(this);
+
+            var args = [
+                {
+                    query: query,
+                    extendedSearch: extendedSearch
+                }, function(products){
+                    internalCallback(products);
+                }
+            ];
+
+            searchApi.query.apply(this, args);
         };
     }
 ]);

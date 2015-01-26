@@ -31,19 +31,20 @@ function ProductRepository(app) {
 /**
  * Perform query for a product.
  * @param queryString Query string to search with.
- * @param [useExtendedSearch=false] Utilize an extended search.
+ * @param [useBBYOpen=false] Utilize an extended bbyopen search.
+ * @param [isSearch=false] Project the returned data as a simplified construct.
  * @param next Callback to execute and return data to.
  * @returns Product[]
  */
-ProductRepository.prototype.query = function(queryString, useExtendedSearch, next){
+ProductRepository.prototype.query = function(queryString, useBBYOpen, isSearch, next){
 
     // Don't query if there is no query to run.
     if(_.isEmpty(queryString)) return false;
 
     var queries = this.utilities.parseQuery(queryString);
-    var builtQuery = this.buildQuery(queries);
+    var builtQuery = this.buildQuery(queries, isSearch);
 
-    if(useExtendedSearch !== true){
+    if(useBBYOpen !== true){
         this.retrieve(builtQuery.db, next);
     } else {
         this.runBBYProductQuery(builtQuery.bby, next);
@@ -53,22 +54,47 @@ ProductRepository.prototype.query = function(queryString, useExtendedSearch, nex
 /**
  * Build query instructions based on query string array
  * @param queryArray Array of tokenized keywords.
+ * @param [isSearch=false] Perform projection of database return results to minify result.
  * @returns {{db, bby: string}}
  */
-ProductRepository.prototype.buildQuery = function(queryArray){
+ProductRepository.prototype.buildQuery = function(queryArray, isSearch){
     var dbQueries = [];
     var bbyOpenQueries = [];
 
     var dbAggregateQuery = function(queries){
-        return [
-            { $match: { $or: queries } },
-            { $sort: {
-                'marketplace.isMarketplaceItem': 1,
-                'availability.hasInStoreAvailability': -1
-                }
-            },
-            { $limit: 50 }
-        ];
+        if(!isSearch) {
+            return [
+                {$match: {$or: queries}},
+                {
+                    $sort: {
+                        'marketplace.isMarketplaceItem': 1,
+                        'availability.hasInStoreAvailability': -1
+                    }
+                },
+                {$limit: 50}
+            ];
+        } else {
+            return [
+                {$match: {$or: queries}},
+                {
+                    $sort: {
+                        'marketplace.isMarketplaceItem': 1,
+                        'availability.hasInStoreAvailability': -1
+                    }
+                },
+                {$limit: 50},
+                { $project: {
+                    name: 1,
+                    'pricing.salePrice': 1,
+                    'pricing.regularPrice': 1,
+                    'pricing.isOnSale': 1,
+                    'availability.hasInStoreAvailability': 1,
+                    'marketplace.isMarketplaceItem': 1,
+                    'identifiers.sku': 1,
+                    'images.thumbnailImage': 1
+                }}
+            ];
+        }
     };
 
     _.each(queryArray, function(query, index, list){
