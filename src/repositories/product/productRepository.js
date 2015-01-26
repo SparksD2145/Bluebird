@@ -254,7 +254,7 @@ ProductRepository.prototype.retrieve = function(query, callback){
                 // Retrieve the ids of all out of date products and build them as a string query.
                 outOfDate = _.pluck(outOfDate, '_id').join(',');
 
-                scope.query(outOfDate, true, function(resultArray){
+                scope.query(outOfDate, true, false, function(resultArray){
                     var dataFinal = upToDate.concat(resultArray);
 
                     return callback(dataFinal);
