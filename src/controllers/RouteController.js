@@ -130,15 +130,8 @@ function RouteController(app) {
             /** Product Details */
             if(req.params.type.toLowerCase() == 'product'){
 
-                // Extended search can quickly drain our query limit, setting it to false by default prevents this.
-                var useExtendedSearch = 'false';
-
-                // Check client's request to see if extendedSearch is true and cast it as a boolean.
-                if (!_.isEmpty(req.query) && !_.isEmpty(req.query.extendedSearch))
-                    useExtendedSearch = req.query.extendedSearch === 'true';
-
                 // Perform a product query.
-                ProductRepository.query(req.params.query.toLowerCase(), useExtendedSearch, false, function(result){
+                ProductRepository.query(req.params.query.toLowerCase(), false, false, function(result){
                     if (result instanceof Error) {
                         console.error('Error:', result.message);
                         sendGeneralError();
