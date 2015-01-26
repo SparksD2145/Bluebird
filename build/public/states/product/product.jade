@@ -1,0 +1,202 @@
+//-
+    @file Product page.
+    @author Thomas Ibarra <sparksd2145@gmail.com>
+div.row.spaced.module
+    div.col-xs-12(ng-show="productNotFound")
+        div.alert.alert-danger
+            h4
+                strong Darn!
+            p It looks like the SKU for this product doesn't exist! Perhaps searching for the product may yeild the products you are looking for.
+    div.col-xs-12(ng-hide="productNotFound")
+        div.container-fluid(ng-show="isLoaded")
+            div.row
+                div.col-xs-12.col-sm-6
+                    div.row
+                        div.col-xs-12.col-sm-2.text-center
+                            a(ng-href="{{product.images.largeFrontImage}}" target="_new")
+                                img.img-thumbnail.product-header-img(ng-src="{{product.images.image}}")
+                        div.col-xs-12.col-sm-10
+                            div.row
+                                div.col-xs-12
+                                    h2 {{ product.name }}
+                            div.row.spaced
+                                div.col-xs-4
+                                    strong SKU:
+                                    | &nbsp;
+                                    div {{ product.identifiers.sku }}
+                                div.col-xs-4
+                                    strong
+                                        abbr(title="Universal Product Code") UPC:
+                                    | &nbsp;
+                                    div {{ product.identifiers.upc }}
+                                div.col-xs-4(ng-if="product.identifiers.modelNumber")
+                                    strong
+                                        strong Model:
+                                    | &nbsp;
+                                    div {{ product.identifiers.modelNumber }}
+                            div.row.spaced(ng-if="product.descriptions.longDescription")
+                                div.col-xs-12
+                                    p {{ product.descriptions.longDescription }}
+
+                // Pricing
+                div.col-xs-12.col-sm-6
+                    div.row
+                        div.col-xs-12
+                            h4 Pricing
+                    div.row.spaced-small(ng-if="product.pricing.isOnSale")
+                        div.col-xs-6
+                            h5.text-danger
+                                strong Sale Price: {{ product.pricing.salePrice | currency }}
+                            h5.text-danger
+                                small {{ product.savings.percentSavings }}% Off
+                        div.col-xs-6.text-right
+                            h6 Regular Price: {{ product.pricing.regularPrice | currency }}
+                            h5.text-right
+                                small (Save {{ product.savings.dollarSavings | currency }})
+                    div.row.spaced-small(ng-if="!product.pricing.isOnSale")
+                        div.col-xs-12
+                            h5 Regular Price: {{ product.pricing.regularPrice | currency }}
+
+                div.col-xs-12.col-sm-6(ng-if="product.pricing.priceWithPlan && product.pricing.priceWithPlan.length > 0")
+                    div.row.spaced
+                        div.col-xs-12
+                            h4 Cellular Pricing
+                    div.row.spaced-small
+                        div.col-xs-12
+                            div.row
+                                div.col-xs-6
+                                    h6 New Two-year Contract: {{ product.pricing.priceWithPlan[0].newTwoYearPlan | currency }}
+                                div.col-xs-6.text-right
+                                    h6 With Two-Year Upgrade: {{ product.pricing.priceWithPlan[0].upgradeTwoYearPlan | currency }}
+
+                // Reviews
+                div.col-xs-12.col-sm-6(ng-if="product.reviews.customerReviewCount")
+                    div.row.spaced
+                        div.col-xs-12
+                            h4 Reception
+                    div.row.spaced-small
+                        div.col-xs-8
+                            p This product has been {{ product.reviews.adjective }} recieved. <br>Our inventory system indicates this item {{ product.reviews.isCustomerTopRated? 'as' : 'as not' }} top rated.
+                        div.col-xs-4.text-right
+                            h6(style="color:orange")
+                                i.fa.fa-star(ng-repeat="reviewStars in product.reviews.reviewStars")
+                                br
+                                small ({{ product.reviews.customerReviewCount }} reviews)
+            div.row.spaced
+                // QR CODE
+                div.col-xs-12.col-sm-6
+                    div.row
+                        div.col-xs-12.text-center
+                            div.well
+                                div.row
+                                    div.col-xs-12
+                                        h5 Point-of-Sale Optical Scanner
+                                div.row.spaced
+                                    div.col-xs-6.col-sm-4
+                                        div(style="padding: 1px;")
+                                            qrcode(data="{{ product.identifiers.sku }}", size="80")
+                                            h6.text-muted SKU
+                                    div.col-xs-6.col-sm-4.hidden-xs
+                                        div(style="padding: 1px;")
+                                            qrcode(data="{{ product.identifiers.upc }}", size="80")
+                                            h6.text-muted UPC
+                                    div.col-xs-6.col-sm-4
+                                        div(style="padding: 1px;")
+                                            a(ng-href="{{ product.urls.mobileUrl }}", target="_new")
+                                                qrcode(data="{{ product.urls.mobileUrl }}", size="80")
+                                                h6 BestBuy.com URL
+
+                // Details
+                div.col-xs-12.col-sm-6
+                    div.row
+                        div.col-xs-12
+                            h4 Details
+                    div.row
+                        div.col-xs-12
+                            ul.list-unstyled
+                                li.text-warning(ng-if="product.marketplace.isMarketplaceItem") This item is a marketplace item.
+                                li(ng-if="!product.availability.isActive")
+                                    strong.text-danger This product is no longer active in our inventory.
+                                li(ng-if="product.availability.isSpecialOrder") Currently, this product is marked as a special order item.
+                                li Maximum {{ product.availability.quantityLimit }} per person. &nbsp;
+                                li {{ product.availability.hasOnlineAvailability? "Available" : "Not available" }} for online ordering. &nbsp;
+                                li(ng-if="product.availability.releaseDateValid") Available as of {{ product.availability.releaseDate }}.
+                                li This product {{ product.availability.isFreeShippingEligible? "is" : "is not" }} eligible for free shipping.
+                                li When ordering, this product {{ product.availability.hasInStorePickup? "has" : "does not have" }} personal store pickup{{ product.availability.hasFriendsAndFamilyPickup? " and pickup by friends and family." : "." }}
+            div.row.spaced
+                // Product Inventory
+                div.col-xs-12.col-sm-6.spaced(ng-show="!availabilityLoaded")
+                    div.well.text-center
+                        h5
+                            div(style="width:80px; display:inline-block; vertical-align: middle")
+                                img(src="/static/images/logos/bluebird-logo.png").img-responsive.fa-spin
+                        br
+                        h5 Retrieving Availability...
+                div.col-xs-12.col-sm-6.spaced(ng-show="geolocationUnavailable && availabilityLoaded")
+                    div.row
+                        div.col-xs-12
+                            h4 Availability
+                        div.col-xs-12.spaced-small
+                            div.alert.alert-warning
+                                strong Uh oh! &nbsp;
+                                span It seems this as though your device's location abilities are either disabled or simply unusable. Availability is, well, unavailable for the time being.
+                div.col-xs-12.col-sm-6.spaced(ng-show="!geolocationUnavailable && availabilityLoaded")
+                    div.row
+                        div.col-xs-12(ng-show="product.availability.anyStores")
+                            table.table.table-striped.table-hover.table-condensed(style="margin-bottom: 0")
+                                thead(style="border-top: none; margin-bottom: 5px")
+                                    h4 Available in the following stores:
+                                tr(ng-repeat="store in product.stores", style="border-top: none;")
+                                    th(style="border-top: none;")
+                                        h6 {{ store.name }}
+                                            small &nbsp; \#{{ store.storeId }}
+                                    td.text-right(style="border-top: none;")
+                                        abbr(title="Phone Number") P
+                                        | : &nbsp;
+                                        a(ng-href="{{ store.phone }}") {{ store.phoneNumber }}
+                    div.row(ng-show="!product.availability.anyStores && availabilityLoaded").spaced
+                        div.col-xs-12
+                            h4 Availability
+                        div.col-xs-12.spaced-small
+                            div.alert.alert-warning
+                                strong Darn! &nbsp;
+                                span It seems this product is not in stock nearby. &nbsp;
+                                span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order!
+
+                // Protection Plans
+                div.col-xs-12.col-sm-6.spaced
+                    div.row
+                        div.col-xs-12(ng-if="product.plans.protectionPlans.length > 0")
+                            h4 Protection Plans
+                            div.row.spaced-small(ng-repeat="plan in product.plans.protectionPlans")
+                                div.col-xs-9
+                                    p {{ plan.name }}<br>
+                                        small.text-muted {{ plan.sku }}
+                                div.col-xs-3.text-right
+                                    span {{ plan.regularPrice | currency }}
+                                    br
+                                    small.text-muted {{ plan.type }}
+                        div.col-xs-12(ng-if="product.plans.protectionPlans.length == 0")
+                            h4 Protection Plans
+                            div.alert.alert-info.spaced-small
+                                span There are no protection plans available for this product.
+            div.row.spaced
+                //-div.col-xs-12.col-sm-6
+                    div.row
+                        div.col-xs-12
+                            h4 Product Breakdown
+                    div.row.spaced-small
+                        div.col-xs-12.text-left
+                            ol
+                                li
+                                    h5 {{ product.classes.department }}
+                                li
+                                    h5 {{ product.classes.class }}
+                                li
+                                    h5 {{ product.classes.subclass }}
+    if devMode
+        div.row.spaced
+            div.col-xs-12
+                div.row(ng-show="isLoaded")
+                    div.col-xs-12
+                        pre {{ product | json }}

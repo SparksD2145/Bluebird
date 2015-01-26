@@ -4,6 +4,8 @@
 
 /** Initialize Debugger and load Bluebird. */
 var debug = require('debug')('Bluebird');
+
+// Provide Run function for application start
 var run = function(app){
     /** Set the server port of Bluebird. */
     app.set('port', process.env.PORT || 80);
@@ -14,16 +16,12 @@ var run = function(app){
     });
 };
 
+// Load application based on environment, assume production unless development
 if(process.env.node_env !== 'development'){
-    // Build the application and run (fix for nodejitsu deployment)
-    var exec = require('child_process').exec;
-    var buildProcess = exec('grunt build', {
-        cwd: __dirname
-    }, function(){
-        var app = require('./build/app');
-        run(app);
-    });
+    var app = require('./build/app');
+    run(app);
 } else {
     var app = require('./src/app');
+    run(app);
 }
 
