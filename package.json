@@ -31,7 +31,8 @@
     "grunt-contrib-uglify": "^0.7.0"
   },
   "scripts": {
-    "start": "node Bluebird"
+    "start": "node Bluebird",
+    "predeploy": "grunt build"
   },
   "keywords": [
     "bluebird",

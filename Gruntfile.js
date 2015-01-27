@@ -53,6 +53,11 @@ module.exports = function(grunt){
     // Build a production ready version of Bluebird (grunt build)
     grunt.registerTask('build', 'Build a production-ready version of Bluebird.', function(){
 
-        grunt.task.run(['clean:cssFiles', 'copy:build', 'uglify:build']);
+        grunt.task.run([
+            'clean:cssFiles',
+            'clean:build',
+            'copy:build',
+            'uglify:build'
+        ]);
     });
 };
