@@ -1,0 +1,1 @@
+Bluebird.controller("Bluebird.Controllers.Sidebar",["$scope",function(a){a.closeSidebar=function(){angular.element("#sidebar").removeClass("open")}}]);
