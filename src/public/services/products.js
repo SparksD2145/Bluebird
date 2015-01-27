@@ -5,14 +5,18 @@
 
 Bluebird.service('Bluebird.Services.Products', [
     '$resource',
-    '_',
-    function ProductCollection($resource, _){
+    '$localStorage', '_',
+    function ProductCollection($resource, $storage, _){
         /**
          * Internal storage for products within the collection.
          * @type {Array}
          * @internal
          */
         var productsStored = [];
+
+        /** Internal storage under local storage */
+        $storage.products = {};
+        $storage.queries = {};
 
         /** Products API */
         var api = $resource('/api/product/:query');
@@ -34,7 +38,7 @@ Bluebird.service('Bluebird.Services.Products', [
                 // Add only products that have not been added prior
                 return productsStored = _.union(productsStored, product);
             } else {
-                productsStored.save(product);
+                productsStored.push(product);
                 return productsStored;
             }
         };
@@ -83,10 +87,15 @@ Bluebird.service('Bluebird.Services.Products', [
 
         this.query = function(query, extendedSearch, callback) {
             var internalCallback = function(result) {
+
+                // Add to local storage
+                $storage.products[query.toString()] = result;
+
                 this.add(result);
                 return callback(result);
             }.bind(this);
 
+            // Arguments to pass to query function
             var args = [
                 {
                     query: query,
@@ -96,11 +105,20 @@ Bluebird.service('Bluebird.Services.Products', [
                 }
             ];
 
+            if(!extendedSearch && _.has(_.keys($storage.products), query)){
+                internalCallback($storage.products[query]);
+            } else {
+                searchApi.query.apply(this, args);
+            }
             api.query.apply(this, args);
         };
 
         this.search = function(query, extendedSearch, callback){
             var internalCallback = function(result) {
+
+                // Add to local storage
+                $storage.queries[query.toString()] = result;
+
                 return callback(result);
             }.bind(this);
 
@@ -113,7 +131,11 @@ Bluebird.service('Bluebird.Services.Products', [
                 }
             ];
 
-            searchApi.query.apply(this, args);
+            if(!extendedSearch && _.has(_.keys($storage.queries), query)){
+                internalCallback($storage.queries[query]);
+            } else {
+                searchApi.query.apply(this, args);
+            }
         };
     }
 ]);

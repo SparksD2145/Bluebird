@@ -60,7 +60,7 @@ var Bluebird = {};
         namespaces,
         angular.module('Bluebird', [
             'ngSanitize', 'ngAnimate', 'ngResource', // Core angular libraries.
-            'ui.router', 'geolocation', 'monospaced.qrcode', // Third-party angular libraries.
+            'ui.router', 'geolocation', 'monospaced.qrcode', 'ngStorage', // Third-party angular libraries.
             'underscore', 'momentJs', 'modernizr' // Third-party libraries.
         ])
     );

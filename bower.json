@@ -41,6 +41,7 @@
     "less-easing": "*",
     "modernizr": "~2.8.3",
     "moment": "~2.8.4",
+    "ngstorage": "~0.3.0",
     "underscore": "~1.7.0"
   }
 }
