@@ -6,6 +6,7 @@ html
         meta(name="theme-color", content="#337ab7")
         meta(name="mobile-web-app-capable", content="yes")
         meta(name="apple-mobile-web-app-capable", content="yes")
+        meta(name="description", content="Bluebird is an unofficial product reference engine for best buy employees and vendors, powered by the Best Buy Developer APIs and the Bluebird team.")
         base(href="/")
 
         if devMode
@@ -42,20 +43,20 @@ html
             aside#sidebar.cell(ng-controller="Bluebird.Controllers.Sidebar")
                 div.container-fluid
                     div.row.cell
-                        div.col-xs-6.col-sm-4.content.cell
+                        div.col-xs-8.col-sm-4.content.cell
                             ul.nav(ng-click="closeSidebar()")
                                 li
                                     a(href="/#!/")
                                         h4
                                             i.fa.fa-home.fa-fw
-                                            | Home
+                                            span Home
                                 li
                                     a(href="/#!/learn")
                                         h4
                                             i.fa.fa-question-circle.fa-fw
-                                            | About Bluebird
+                                            span About Bluebird
 
-                        div.col-xs-6.col-sm-8.darkened.cell(ng-click="closeSidebar()")
+                        div.col-xs-4.col-sm-8.darkened.cell(ng-click="closeSidebar()")
 
             div#main.cell
                 div.container-fluid(ui-view)
