@@ -19,10 +19,7 @@ Bluebird.service('Bluebird.Services.Products', [
         $storage.queries = {};
 
         /** Products API */
-        var api = $resource('/api/product/:query');
-
-        /** Products Search API */
-        var searchApi = $resource('/api/search/:query');
+        var api = $resource('/api/product');
 
         /**
          *
@@ -85,6 +82,13 @@ Bluebird.service('Bluebird.Services.Products', [
             }
         };
 
+        /**
+         * Retrieves a detailed product result from the search service.
+         * @param query A product to search for.
+         * @param extendedSearch Perform an extended BBYOPEN Search
+         * @param callback A callback function to execute upon completion
+         * @returns {*}
+         */
         this.query = function(query, extendedSearch, callback) {
             var internalCallback = function(result) {
 
@@ -99,7 +103,8 @@ Bluebird.service('Bluebird.Services.Products', [
             var args = [
                 {
                     query: query,
-                    extendedSearch: extendedSearch
+                    extendedSearch: extendedSearch,
+                    condensed: false
                 }, function(products){
                     internalCallback(products);
                 }
@@ -112,6 +117,13 @@ Bluebird.service('Bluebird.Services.Products', [
             }
         };
 
+        /**
+         * Retrieves a condensed product result from the search service.
+         * @param query A product to search for.
+         * @param extendedSearch Perform an extended BBYOPEN Search
+         * @param callback A callback function to execute upon completion
+         * @returns {*}
+         */
         this.search = function(query, extendedSearch, callback){
             var internalCallback = function(result) {
 
@@ -124,7 +136,8 @@ Bluebird.service('Bluebird.Services.Products', [
             var args = [
                 {
                     query: query,
-                    extendedSearch: extendedSearch
+                    extendedSearch: extendedSearch,
+                    condensed: true
                 }, function(products){
                     internalCallback(products);
                 }
@@ -133,7 +146,7 @@ Bluebird.service('Bluebird.Services.Products', [
             if(!extendedSearch && _.has(_.keys($storage.queries), query)){
                 internalCallback($storage.queries[query]);
             } else {
-                searchApi.query.apply(this, args);
+                api.query.apply(this, args);
             }
         };
     }

@@ -94,7 +94,7 @@ function RouteController(app) {
 
         /* API ROUTES */
         /* GET /api/:type/:query */
-        router.get('/api/:type/:query', function (req, res) {
+        router.get('/api/:type', function (req, res) {
             var sendGeneralFailure = function(){
                 var err = new Error('Not Found');
                 err.status = 404;
@@ -103,42 +103,25 @@ function RouteController(app) {
                 return false;
             };
 
-            if(_.isEmpty(req.params) || _.isEmpty(req.params.type) || _.isEmpty(req.params.query)) sendGeneralFailure();
-            if(!_.isString(req.params.type) || !_.isString(req.params.query)) sendGeneralFailure();
+            if(_.isEmpty(req.params) || _.isEmpty(req.params.type) || _.isEmpty(req.query)) sendGeneralFailure();
+            if(!_.isString(req.params.type) || !_.isString(req.query.query)) sendGeneralFailure();
 
-            /** Product Search */
-            if(req.params.type.toLowerCase() == 'search') {
-
-                // Extended search can quickly drain our query limit, setting it to false by default prevents this.
-                var useExtendedSearch = 'false';
-
-                // Check client's request to see if extendedSearch is true and cast it as a boolean.
-                if (!_.isEmpty(req.query) && !_.isEmpty(req.query.extendedSearch))
-                    useExtendedSearch = req.query.extendedSearch === 'true';
-
-                // Perform a product query.
-                ProductRepository.query(req.params.query.toLowerCase(), useExtendedSearch, true, function (result) {
-                    if (result instanceof Error) {
-                        console.error('Error:', result.message);
-                        sendGeneralError();
-                    } else {
-                        res.json(result);
-                    }
-                });
-            }
-
-            /** Product Details */
+            /** Product API */
             if(req.params.type.toLowerCase() == 'product'){
 
                 // Extended search can quickly drain our query limit, setting it to false by default prevents this.
                 var useExtendedSearch = 'false';
+                var condensed = 'false';
 
                 // Check client's request to see if extendedSearch is true and cast it as a boolean.
                 if (!_.isEmpty(req.query) && !_.isEmpty(req.query.extendedSearch))
                     useExtendedSearch = req.query.extendedSearch === 'true';
 
+                if (!_.isEmpty(req.query) && !_.isEmpty(req.query.condensed))
+                    condensed = req.query.condensed === 'true';
+
                 // Perform a product query
-                ProductRepository.query(req.params.query.toLowerCase(), useExtendedSearch, false, function(result){
+                ProductRepository.query(req.query.query.toLowerCase(), useExtendedSearch, condensed, function(result){
                     if (result instanceof Error) {
                         console.error('Error:', result.message);
                         sendGeneralError();
@@ -161,7 +144,7 @@ function RouteController(app) {
                 }
 
                 ProductRepository.runBBYProductAvailabilityQuery(
-                    req.params.query.toLowerCase(),
+                    req.query.query.toLowerCase(),
                     req.query.location,
                     req.query.distance,
                     function(result){

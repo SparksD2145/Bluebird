@@ -22,7 +22,7 @@ Bluebird.service('Bluebird.Services.Availability', [
         var storesStored = [];
 
         /** Products API */
-        var api = $resource('/api/availability/:query');
+        var api = $resource('/api/availability');
 
         /**
          * Add a store to the collection
