@@ -113,6 +113,7 @@ Bluebird.service('Bluebird.Services.Products', [
             if(!extendedSearch && _.has(_.keys($storage.products), query)){
                 internalCallback($storage.products[query]);
             } else {
+                delete $storage.products[query];
                 api.query.apply(this, args);
             }
         };
@@ -146,6 +147,7 @@ Bluebird.service('Bluebird.Services.Products', [
             if(!extendedSearch && _.has(_.keys($storage.queries), query)){
                 internalCallback($storage.queries[query]);
             } else {
+                delete $storage.queries[query];
                 api.query.apply(this, args);
             }
         };
