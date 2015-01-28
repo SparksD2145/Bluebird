@@ -10,7 +10,7 @@ Bluebird.States['Home'] = {
         '$scope',
         function($scope){
 
-            /** Quotes for random quote display on home page, and their associated spoilers. */
+            /** Quotes for random quote display on home page, and their associated origins. */
             var quotes = [
                 "Searching should always be this easy.", // Default quote
                 "Great Scott!", // Back to the Future
