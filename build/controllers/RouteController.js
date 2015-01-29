@@ -86,6 +86,7 @@ function RouteController(app) {
 
             /** Get the state and render */
             var state = pageStorageUrlPrefix + req.params[0];
+
             res.render(state, {
                 /** Provide all JADE states a devMode attribute to indicate if in development mode. */
                 devMode: app.get('config').application.developmentMode
