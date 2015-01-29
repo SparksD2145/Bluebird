@@ -28,6 +28,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var express = require('express');
 var less = require('less-middleware');
+var compression = require('compression');
 var app = express();
 
 // Load Configuration
@@ -60,10 +61,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Mount directory "/public" as public facing directory "/"
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), { maxAge: '3d' }));
 
 // Mount directory "/bower_components" as public facing directory "/libraries"
-app.use('/libraries', express.static(path.join(__dirname, '../bower_components')));
+app.use('/libraries', express.static(path.join(__dirname, '../bower_components'), { maxAge: '3d' }));
 
 // Enable RouteController to handle application routes
 var routeController = require('./controllers/RouteController');
@@ -96,6 +97,7 @@ if (config.application.developmentMode) {
             error: {}
         });
     });
+    app.use(compression());
 }
 
 module.exports = app;
