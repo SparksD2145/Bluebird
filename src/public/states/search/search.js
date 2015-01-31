@@ -148,7 +148,7 @@ Bluebird.States['Search'] = {
                     'identifiers.color': new Button({
                         text: 'By Color'
                     }),
-                    'identifiers.color': new Button({
+                    'identifiers.sku': new Button({
                         text: 'By Sku'
                     }),
                     'pricing.regularPrice': new Button({
