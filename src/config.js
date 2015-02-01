@@ -18,10 +18,15 @@ environments['development'] = {
         key: env.BBY_API_KEY,
         active: true
     },
+    vehicleGuide: {
+        url: 'http://geeksquadcentral.com/services/fitguide/v1/vehicles',
+        active: true
+    },
     less: {
         force: false,
         once: false
     }
+
 };
 environments['production'] = {
     application: {
@@ -35,6 +40,10 @@ environments['production'] = {
     bbyOpen: {
         address: 'http://api.remix.bestbuy.com/v1/',
         key: env.BBY_API_KEY,
+        active: true
+    },
+    vehicleGuide: {
+        url: 'http://geeksquadcentral.com/services/fitguide/v1/vehicles',
         active: true
     },
     less: {
