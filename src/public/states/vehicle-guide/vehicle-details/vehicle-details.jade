@@ -1,0 +1,99 @@
+//-
+    @file Vehicle Guide Details page.
+    @author Thomas Ibarra <sparksd2145@gmail.com>
+
+div.row(ng-hide="vehicle && !vehicleLoading")
+    div.col-xs-12.module
+        div.jumbotron.text-center
+            h1
+                div(style="width:140px; display:inline-block; vertical-align: middle")
+                    img(src="/static/images/logos/bluebird-logo-small.png").img-responsive.fa-spin
+            br
+            h3(ng-if="!extendedSearch") Searching...
+
+div.row(ng-show="vehicle && !vehicleLoading")
+    div.col-xs-12.module
+
+        // Title Heading
+        div.row
+            div.col-xs-12.col-sm-6
+                h2  {{ vehicle.model }}
+                h3: small {{ vehicle.make }}, ({{ vehicle.year_from }} - {{ vehicle.year_to }})
+
+        //- Images
+            div.row.spaced
+                div.col-xs-3(ng-repeat="image in vehicle.images")
+                    a(ng-href="{{ image.url }}")
+                        img.thumbnail(ng-src="{{ image.thumbnailUrl }}", width="70")
+
+        // Fit Information
+        div.row.spaced
+            div.col-xs-12
+                h4 Fitting Information
+
+                div.row.spaced-small
+
+                    // Radio Fit
+                    div.col-xs-12.col-sm-6.col-md-4
+                        table.table.table-bordered
+                            thead
+                                tr.active
+                                    th(colspan="2") Radio
+                            tbody
+                                tr
+                                    th Sizing
+                                    td {{ vehicle.fit.radio.size }}
+                                tr(ng-if="vehicle.fit.radio.notes")
+                                    th Notes
+                                    td {{ vehicle.fit.radio.notes }}
+
+                    // Front Speakers Fit
+                    div.col-xs-12.col-sm-6.col-md-4
+                        table.table.table-bordered
+                            thead
+                                tr.active
+                                    th(colspan="2") Front Speakers
+                            tbody(ng-repeat="speaker in vehicle.fit.front_speaker")
+                                tr(ng-if="speaker.size")
+                                    th S{{ $index + 1 }} Size
+                                    td {{ speaker.size }}
+                                tr(ng-if="speaker.depth")
+                                    th S{{ $index + 1 }} Depth
+                                    td {{ speaker.depth }}
+                                tr(ng-if="speaker.location")
+                                    th S{{ $index + 1 }} Location
+                                    td {{ speaker.location }}
+                            tfoot(ng-if="vehicle.fit.front_speaker.notes")
+                                tr
+                                    th Notes
+                                    td {{ vehicle.fit.front_speaker.notes }}
+
+                    // Rear Speakers Fit
+                    div.col-xs-12.col-sm-6.col-md-4
+                        table.table.table-bordered
+                            thead
+                                tr.active
+                                    th(colspan="2") Rear Speakers
+                            tbody(ng-repeat="speaker in vehicle.fit.rear_speaker")
+                                tr(ng-if="speaker.size")
+                                    th S{{ $index + 1 }} Size
+                                    td {{ speaker.size }}
+                                tr(ng-if="speaker.depth")
+                                    th S{{ $index + 1 }} Depth
+                                    td {{ speaker.depth }}
+                                tr(ng-if="speaker.location")
+                                    th S{{ $index + 1 }} Location
+                                    td {{ speaker.location }}
+                            tfoot(ng-if="vehicle.fit.rear_speaker.notes")
+                                tr
+                                    th Notes
+                                    td {{ vehicle.fit.rear_speaker.notes }}
+
+
+
+
+if devMode
+    div.row.spaced(ng-show="vehicle")
+        div.col-xs-12
+            div.jumbotron.bg-primary
+                pre {{ vehicle | json }}
