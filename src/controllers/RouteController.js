@@ -57,8 +57,6 @@ function RouteController(app) {
         /** Define 'query' routing parameter and pass to request */
         router.param('query', function(req, res, next, query){
             if(!_.isEmpty(query) && _.isString(query)) req.id = query;
-
-            StatisticsRepository.addQuery(query, req);
             next();
         });
     })();
@@ -66,19 +64,52 @@ function RouteController(app) {
     /** Registers API Routes with Application */
     (function DefineAPIRoutes(){
 
+        /** Send the client a successful response with JSON data */
+        function Success(){
+            var successTemplate = function(status, response, result, callback){
+                response
+                    .status(status)
+                    .json(result);
+
+                if(_.isFunction(callback)) return callback();
+            };
+
+            return {
+                withData: _.partial(successTemplate, 200),
+                withoutData: _.partial(successTemplate, 204)
+            }
+        }
+
+        /** Send the client a failure response indicating a Bad Request */
+        function Failure(){
+            var failureTemplate = function(status, response, errorDetails, callback){
+                response
+                    .status(status)
+                    .send({ error: errorDetails })
+                    .end();
+
+                if(_.isFunction(callback)) return callback();
+            };
+
+            return {
+                badRequest: _.partial(failureTemplate, 400),
+                unauthorized: _.partial(failureTemplate, 401),
+                forbidden: _.partial(failureTemplate, 403),
+                notFound: _.partial(failureTemplate, 404),
+                methodNotAllowed: _.partial(failureTemplate, 405),
+                serverFailure: _.partial(failureTemplate, 500)
+            }
+        }
+
+
         /* API ROUTES */
 
         /* GET /api/:resource */
         router.get('/api/:resource', function (req, res) {
-            var sendGeneralFailure = function(){
-                var err = new Error('Not Found');
-                err.status = 404;
-                //next(err);
-                res.end();
-                return false;
-            };
 
-            if(_.isEmpty(req.params) || _.isEmpty(req.params.resource)) sendGeneralFailure();
+            if(_.isEmpty(req.params) || _.isEmpty(req.params.resource))
+                new Failure()
+                    .serverFailure(res, "A resource to retrieve was not provided.");
 
             /** Product API */
             if(req.params.resource.toLowerCase() == 'product'){
@@ -97,17 +128,36 @@ function RouteController(app) {
 
                 // If the request doesn't include a query, fail the request.
                 if(_.isEmpty(req.query) || !req.query.query) {
-                    sendGeneralFailure();
+                    new Failure()
+                        .badRequest(res, 'No query parameter provided, API call will abort.');
+
+                    debug.log('Client did not provide a Query to search for; API call aborted.');
+
                     return false;
                 }
 
                 // Perform a product query
                 ProductRepository.query(req.query.query.toLowerCase(), useExtendedSearch, condensed, function(result){
                     if (result instanceof Error) {
-                        console.error('Error:', result.message);
-                        sendGeneralFailure();
+                        debug.error(result);
+
+                        new Failure()
+                            .serverFailure(res, 'The server encountered an error while processing the request.');
+
+                        return false;
+
                     } else {
-                        res.json(result);
+                        // Add query to database
+                        StatisticsRepository.addQuery(req.query.query, req);
+
+                        if(!_.isEmpty(result)){
+                            return new Success()
+                                .withData(res, result);
+                        } else {
+                            return new Success()
+                                .withoutData(res, result);
+                        }
+
                     }
                 });
             }
@@ -115,19 +165,24 @@ function RouteController(app) {
             /* GET /api/availability?query&location=&distance= */
             if(req.params.resource.toLowerCase() == 'availability'){
 
-                if (_.isEmpty(req.query) || _.isUndefined(req.query.location)) {
-                    sendGeneralFailure();
-                    return false;
-                }
-
-                if (!_.isEmpty(req.query) && !req.query.distance) {
-                    req.query.distance = 25; // default distance (miles) setting
-                }
-
                 // If the request doesn't include a query, fail the request.
                 if(_.isEmpty(req.query) || !req.query.query) {
-                    sendGeneralFailure();
+                    new Failure()
+                        .badRequest(res, 'No query parameter provided, API call will abort.');
+
                     return false;
+                }
+
+                if (typeof req.query.location === 'undefined') {
+                    new Failure()
+                        .badRequest(res, 'No location parameter provided, API call will abort.');
+
+                    return false;
+                }
+
+                // Default to 25 miles if no distance preference was provided.
+                if (!_.isEmpty(req.query) && !req.query.distance) {
+                    req.query.distance = 25; // default distance (miles) setting
                 }
 
                 ProductRepository.runBBYProductAvailabilityQuery(
@@ -136,10 +191,16 @@ function RouteController(app) {
                     req.query.distance,
                     function(result){
                         if (result instanceof Error) {
-                            console.error('Error:', result.message);
-                            sendGeneralFailure();
+                            debug.error(result);
+
+                            new Failure()
+                                .serverFailure(res, 'The server encountered an error while processing the request.');
+
+                            return false;
+
                         } else {
-                            res.json(result);
+                            return new Success()
+                                .withData(res, result);
                         }
                     }
                 );
@@ -150,17 +211,27 @@ function RouteController(app) {
                     typeof req.query.year === 'undefined' ||
                     typeof req.query.model == 'undefined') {
 
-                    sendGeneralFailure();
+                    new Failure()
+                        .badRequest(res, 'A neccessary parameter was not provided.');
+
                     return false;
                 }
 
-                return VehicleGuideRepository.getVehicle(req.query.year, req.query.make, req.query.model, function (result) {
+                // If trim was provided, use trim.
+                req.query.trim = req.query.trim? req.query.trim : false;
+
+                return VehicleGuideRepository.getVehicle(req.query.year, req.query.make, req.query.model, req.query.trim, function (result) {
                     if (result instanceof Error) {
-                        console.error('Error:', result.message);
-                        sendGeneralFailure();
+                        debug.error(result);
+
+                        new Failure()
+                            .serverFailure(res, 'The server encountered an error while processing the request.');
+
                         return false;
+
                     } else {
-                        res.json(result);
+                        return Success()
+                            .withData(res, result);
                     }
                 });
             }
@@ -169,10 +240,7 @@ function RouteController(app) {
         /* GET /api/:resource */
         router.get('/api/:resource/:subresource', function (req, res) {
             var sendGeneralFailure = function(){
-                var err = new Error('Not Found');
-                err.status = 404;
-                //next(err);
-                res.end();
+                res.status(500).send({ error: 'Something isn\'t right here.'}).end();
                 return false;
             };
 

@@ -21,18 +21,24 @@ function VehicleGuideRepository(app){
     this.url = app.get('config').vehicleGuide.url;
 }
 
-VehicleGuideRepository.prototype.getVehicle = function(year, make, model, next){
+VehicleGuideRepository.prototype.getVehicle = function(year, make, model, trim, next){
     var apiUrl = this.url;
+    var queryParameters = {
+        year: year,
+        make: make,
+        model: model
+    };
+
+    if(trim){
+        queryParameters.trim = trim;
+    }
 
     rest.get(apiUrl, {
-        query: {
-            year: year,
-            make: make,
-            model: model
-        }
+        query: queryParameters
     }).on('success', function(result){
         next(result);
     });
+
 };
 
 VehicleGuideRepository.prototype.getVehicleModels = function(year, make, next){

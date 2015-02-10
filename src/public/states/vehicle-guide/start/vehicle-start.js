@@ -9,7 +9,6 @@ Bluebird.States['VehicleGuideStart'] = {
     controller: [
         '$scope', '$state',
         function($scope, $state){
-            $state.go('vehicleGuide.selection');
         }
     ]
 };

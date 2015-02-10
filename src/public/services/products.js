@@ -106,6 +106,7 @@ Bluebird.service('Bluebird.Services.Products', [
                     extendedSearch: extendedSearch,
                     condensed: false
                 }, function(products){
+
                     internalCallback(products);
                 }
             ];

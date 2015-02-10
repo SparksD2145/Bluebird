@@ -41,7 +41,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="2") Radio
                             tbody
                                 tr
-                                    th Sizing
+                                    th Size
                                     td {{ vehicle.fit.radio.size }}
                                 tr(ng-if="vehicle.fit.radio.notes")
                                     th Notes
@@ -88,9 +88,6 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                 tr
                                     th Notes
                                     td {{ vehicle.fit.rear_speaker.notes }}
-
-
-
 
 if devMode
     div.row.spaced(ng-show="vehicle")

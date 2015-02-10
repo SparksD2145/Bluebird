@@ -57,15 +57,13 @@ html
                                             span Vehicle Guide
                                 li.divider
                                 li
-                                    a(href="/#!/update").text-success
-                                        h4
-                                            i.fa.fa-check-circle.fa-fw
-                                            span Bluebird has updated!
-                                li
-                                    a(href="/#!/learn")
+                                    a(href="/#!/learn").special.about
                                         h4
                                             i.fa.fa-question-circle.fa-fw
                                             span About Bluebird
+                                    a(href="/#!/update").text-success.special.update
+                                        h4
+                                            i.fa.fa-exclamation-circle
 
                         div.col-xs-4.col-sm-8.darkened.cell(ng-click="closeSidebar()")
 
