@@ -2,7 +2,7 @@
     @file Vehicle Guide Details page.
     @author Thomas Ibarra <sparksd2145@gmail.com>
 
-div.row(ng-hide="vehicle && !vehicleLoading")
+div.row(ng-show="vehicleLoading")
     div.col-xs-12.module
         div.jumbotron.text-center
             h1
@@ -11,6 +11,26 @@ div.row(ng-hide="vehicle && !vehicleLoading")
             br
             h3(ng-if="!extendedSearch") Spinning our Tires
             h5: small (This may take a bit, sit tight!)
+
+div.row(ng-show="vehicleTrimRequired && !vehicleLoading")
+    div.col-xs-12.module
+        div.jumbotron.text-center
+            h1
+                div(style="width:140px; display:inline-block; vertical-align: middle")
+                    img(src="/static/images/logos/bluebird-logo-small.png").img-responsive
+            br
+
+            p
+                h2 Oh snap!
+                | This vehicle has more than one associated trim type, we need a little more information from you to complete this search. Please select the vehicle's trim.
+            br
+            div.row
+                select(ng-model="trimSelected").col-xs-12
+                    option(ng-repeat="trim in vehicleTrims", value="{{ trim }}") {{ trim }}
+            div.row
+                div.col-xs-12
+                    br
+                    input.btn.btn-primary(type="submit", role="button", ng-click="getVehicle()", value="Go!")
 
 div.row(ng-show="vehicle && !vehicleLoading")
     div.col-xs-12.module
@@ -39,7 +59,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Radio Fit
                     div.col-xs-12.col-sm-6.col-md-4(ng-if="vehicle.fit.radio")
-                        table.table.table-bordered
+                        table.table.table-bordered.table-responsive
                             thead
                                 tr.info
                                     th(colspan="2")
@@ -54,7 +74,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Front Speakers Fit
                     div.col-xs-12.col-sm-6.col-md-4(ng-if="vehicle.fit.front_speaker")
-                        table.table.table-bordered
+                        table.table.table-bordered.table-responsive
                             thead
                                 tr.info
                                     th(colspan="2")
@@ -76,7 +96,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Rear Speakers Fit
                     div.col-xs-12.col-sm-6.col-md-4(ng-if="vehicle.fit.rear_speaker")
-                        table.table.table-bordered
+                        table.table.table-bordered.table-responsive
                             thead
                                 tr.info
                                     th(colspan="2")
@@ -105,7 +125,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Parts
                     div.col-xs-12.col-sm-6(ng-if="vehicle.radio.parts")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -125,7 +145,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Labor
                     div.col-xs-12.col-sm-6(ng-if="vehicle.radio.labor")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -175,7 +195,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Parts
                     div.col-xs-12.col-sm-6(ng-if="vehicle.amp.parts")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -195,7 +215,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Labor
                     div.col-xs-12.col-sm-6(ng-if="vehicle.amp.labor")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -222,7 +242,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Parts
                     div.col-xs-12.col-sm-6(ng-if="vehicle.speaker.parts")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -242,7 +262,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Labor
                     div.col-xs-12.col-sm-6(ng-if="vehicle.speaker.labor")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -288,7 +308,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Parts
                     div.col-xs-12.col-sm-6(ng-if="vehicle.aux.parts")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -308,7 +328,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Labor
                     div.col-xs-12.col-sm-6(ng-if="vehicle.aux.labor")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -345,7 +365,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Parts
                     div.col-xs-12.col-sm-6(ng-if="vehicle.satellite.parts")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -365,7 +385,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Labor
                     div.col-xs-12.col-sm-6(ng-if="vehicle.satellite.labor")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -403,7 +423,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Parts
                     div.col-xs-12.col-sm-6(ng-if="vehicle.remotestart.parts")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -423,7 +443,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                     // Labor
                     div.col-xs-12.col-sm-6(ng-if="vehicle.remotestart.labor")
-                        table.table.table-bordered.table-striped
+                        table.table.table-bordered.table-striped.table-responsive
                             thead
                                 tr.info
                                     th(colspan="4")
@@ -449,18 +469,21 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                 div.col-xs-12
                                     div.alert.alert-info
                                         h5 <strong> Module {{ $index + 1 }}: {{ module.model }} </strong>
-                                        table.table
-                                            tbody
-                                                tr
-                                                    td Type: {{ module.type }}
-                                                    td Transmission Type: {{ module.transmitter_type }}
-                                                    td Manual Transmission: {{ module.manual_transmission }}
-                                                    td Range: {{ module.range }}
-                                                    td Smartphone: {{ module.smartphone }}
+                                            div.row
+                                                div.col-xs-12.col-sm-4
+                                                    p Type: {{ module.type }}
+                                                div.col-xs-12.col-sm-4
+                                                    p Transmission Type: {{ module.transmitter_type }}
+                                                div.col-xs-12.col-sm-4
+                                                    p Manual Transmission: {{ module.manual_transmission }}
+                                                div.col-xs-12.col-sm-4
+                                                    p Range: {{ module.range }}
+                                                div.col-xs-12.col-sm-4
+                                                    p Smartphone: {{ module.smartphone }}
 
                                 // Parts
                                 div.col-xs-12.col-sm-6(ng-if="module.parts")
-                                    table.table.table-bordered.table-striped
+                                    table.table.table-bordered.table-striped.table-responsive
                                         thead
                                             tr.info
                                                 th(colspan="4")
@@ -480,7 +503,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
 
                                 // Labor
                                 div.col-xs-12.col-sm-6(ng-if="module.labor")
-                                    table.table.table-bordered.table-striped
+                                    table.table.table-bordered.table-striped.table-responsive
                                         thead
                                             tr.info
                                                 th(colspan="4")
