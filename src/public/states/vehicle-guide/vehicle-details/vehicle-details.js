@@ -22,7 +22,7 @@ Bluebird.States['VehicleGuideDetails'] = {
 
                 $scope.vehicleLoading = true;
 
-                vehicles.getRawVehicle(function(result){
+                vehicles.getVehicle(function(result){
 
                     if(!result.vehicle && typeof result.trims !== 'undefined'){
 
