@@ -131,7 +131,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Parts
                             tbody
-                                tr(ng-repeat='(key, part) in vehicle.radio.parts')
+                                tr(ng-repeat='(key, part) in vehicle.radio.parts', ng-if="part.sku")
                                     th {{ part.label }}
                                     td
                                         a(ng-href="{{ part.url }}", target="_new") {{ part.description }} <span ng-if="part.model"> - {{ part.model }}</span>
@@ -151,7 +151,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Labor
                             tbody
-                                tr(ng-repeat='(key, labor) in vehicle.radio.labor')
+                                tr(ng-repeat='(key, labor) in vehicle.radio.labor', ng-if="labor.sku")
                                     th {{ labor.label }}
                                     td.
                                         {{ labor.description }}
@@ -201,7 +201,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Parts
                             tbody
-                                tr(ng-repeat='(key, part) in vehicle.amp.parts')
+                                tr(ng-repeat='(key, part) in vehicle.amp.parts', ng-if="part.sku")
                                     th {{ part.label }}
                                     td
                                         a(ng-href="{{ part.url }}", target="_new") {{ part.description }} <span ng-if="part.model"> - {{ part.model }}</span>
@@ -221,7 +221,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Labor
                             tbody
-                                tr(ng-repeat='(key, labor) in vehicle.amp.labor')
+                                tr(ng-repeat='(key, labor) in vehicle.amp.labor', ng-if="labor.sku")
                                     th {{ labor.label }}
                                     td.
                                         {{ labor.description }}
@@ -248,7 +248,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Parts
                             tbody
-                                tr(ng-repeat='(key, part) in vehicle.speaker.parts')
+                                tr(ng-repeat='(key, part) in vehicle.speaker.parts', ng-if="part.sku")
                                     th {{ part.label }}
                                     td
                                         a(ng-href="{{ part.url }}", target="_new") {{ part.description }} <span ng-if="part.model"> - {{ part.model }}</span>
@@ -268,7 +268,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Labor
                             tbody
-                                tr(ng-repeat='(key, labor) in vehicle.speaker.labor')
+                                tr(ng-repeat='(key, labor) in vehicle.speaker.labor', ng-if="labor.sku")
                                     th {{ labor.label }}
                                     td.
                                         {{ labor.description }}
@@ -314,7 +314,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Parts
                             tbody
-                                tr(ng-repeat='(key, part) in vehicle.aux.parts')
+                                tr(ng-repeat='(key, part) in vehicle.aux.parts', ng-if="part.sku")
                                     th {{ part.label }}
                                     td
                                         a(ng-href="{{ part.url }}", target="_new") {{ part.description }} <span ng-if="part.model"> - {{ part.model }}</span>
@@ -334,7 +334,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Labor
                             tbody
-                                tr(ng-repeat='(key, labor) in vehicle.aux.labor')
+                                tr(ng-repeat='(key, labor) in vehicle.aux.labor', ng-if="labor.sku")
                                     th {{ labor.label }}
                                     td.
                                         {{ labor.description }}
@@ -372,7 +372,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Parts
                             tbody
-                                tr(ng-repeat='(key, part) in vehicle.satellite.parts')
+                                tr(ng-repeat='(key, part) in vehicle.satellite.parts', ng-if="part.sku")
                                     th {{ part.label }}
                                     td
                                         a(ng-href="{{ part.url }}", target="_new") {{ part.description }} <span ng-if="part.model"> - {{ part.model }}</span>
@@ -392,7 +392,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Labor
                             tbody
-                                tr(ng-repeat='(key, labor) in vehicle.satellite.labor')
+                                tr(ng-repeat='(key, labor) in vehicle.satellite.labor', ng-if="labor.sku")
                                     th {{ labor.label }}
                                     td.
                                         {{ labor.description }}
@@ -430,7 +430,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Parts
                             tbody
-                                tr(ng-repeat='(key, part) in vehicle.remotestart.parts')
+                                tr(ng-repeat='(key, part) in vehicle.remotestart.parts', ng-if="part.sku")
                                     th {{ part.label }}
                                     td
                                         a(ng-href="{{ part.url }}", target="_new") {{ part.description }} <span ng-if="part.model"> - {{ part.model }}</span>
@@ -450,7 +450,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                     th(colspan="4")
                                         h5 Labor
                             tbody
-                                tr(ng-repeat='(key, labor) in vehicle.remotestart.labor')
+                                tr(ng-repeat='(key, labor) in vehicle.remotestart.labor', ng-if="labor.sku")
                                     th {{ labor.label }}
                                     td.
                                         {{ labor.description }}
@@ -490,7 +490,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                                 th(colspan="4")
                                                     h5 Parts
                                         tbody
-                                            tr(ng-repeat='(key, part) in module.parts')
+                                            tr(ng-repeat='(key, part) in module.parts', ng-if="part.sku")
                                                 th {{ part.label }}
                                                 td
                                                     a(ng-href="{{ part.url }}", target="_new") {{ part.description }} <span ng-if="part.model"> - {{ part.model }}</span>
@@ -510,7 +510,7 @@ div.row(ng-show="vehicle && !vehicleLoading")
                                                 th(colspan="4")
                                                     h5 Labor
                                         tbody
-                                            tr(ng-repeat='(key, labor) in module.labor')
+                                            tr(ng-repeat='(key, labor) in module.labor', ng-if="labor.sku")
                                                 th {{ labor.label }}
                                                 td.
                                                     {{ labor.description }}
