@@ -2,7 +2,7 @@
     @file Vehicle Guide Details page.
     @author Thomas Ibarra <sparksd2145@gmail.com>
 
-div.row(ng-hide="vehicle && !vehicleLoading")
+div.row(ng-show="vehicleLoading")
     div.col-xs-12.module
         div.jumbotron.text-center
             h1
@@ -11,6 +11,26 @@ div.row(ng-hide="vehicle && !vehicleLoading")
             br
             h3(ng-if="!extendedSearch") Spinning our Tires
             h5: small (This may take a bit, sit tight!)
+
+div.row(ng-show="vehicleTrimRequired && !vehicleLoading")
+    div.col-xs-12.module
+        div.jumbotron.text-center
+            h1
+                div(style="width:140px; display:inline-block; vertical-align: middle")
+                    img(src="/static/images/logos/bluebird-logo-small.png").img-responsive
+            br
+
+            p
+                h2 Oh snap!
+                | This vehicle has more than one associated trim type, we need a little more information from you to complete this search. Please select the vehicle's trim.
+            br
+            div.row
+                select(ng-model="trimSelected").col-xs-12
+                    option(ng-repeat="trim in vehicleTrims", value="{{ trim }}") {{ trim }}
+            div.row
+                div.col-xs-12
+                    br
+                    input.btn.btn-primary(type="submit", role="button", ng-click="getVehicle()", value="Go!")
 
 div.row(ng-show="vehicle && !vehicleLoading")
     div.col-xs-12.module

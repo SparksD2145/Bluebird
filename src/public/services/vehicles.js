@@ -43,8 +43,8 @@ Bluebird.service('Bluebird.Services.Vehicles', [
             // Perform Request
             vehicleRequest.$get({}, function Success(result){
 
-                internalCallback(result.vehicle);
-                next(result.vehicle);
+                internalCallback(result);
+                next(result);
 
             }, function Error(result){
                 // @todo: perform error actions here
@@ -58,6 +58,7 @@ Bluebird.service('Bluebird.Services.Vehicles', [
          * @param make Make of the vehicle.
          * @param model Model of the vehicle.
          * @param [trim] Trim of the vehicle.
+         * @todo currently bugged, need to correct algorithm
          */
         this.getVehicle = function(next, year, make, model, trim) {
             var wrappedCallback = _.wrap(next, function(originCallback, apiCallResult){
@@ -80,8 +81,11 @@ Bluebird.service('Bluebird.Services.Vehicles', [
                     return upperLevel;
                 }
 
-                // Truncate empty values and return to original callback
-                apiCallResult.vehicle = recurse(apiCallResult.vehicle);
+                if(typeof result.vehicle !== 'undefined'){
+                    // Truncate empty values and return to original callback
+                    apiCallResult.vehicle = recurse(apiCallResult.vehicle);
+                }
+
                 originCallback(apiCallResult);
             });
 
@@ -89,6 +93,7 @@ Bluebird.service('Bluebird.Services.Vehicles', [
             var args = _.union([wrappedCallback], _.rest(arguments, 1));
 
             this.getRawVehicle.apply(this, args);
+
         }
     }
 ]);

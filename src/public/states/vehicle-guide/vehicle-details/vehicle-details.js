@@ -12,8 +12,9 @@ Bluebird.States['VehicleGuideDetails'] = {
         'Bluebird.Services.Vehicles',
         function($scope, $resource, $stateParams, _, vehicles){
 
-
             $scope.getVehicle = function(){
+                $scope.vehicleTrimRequired = false;
+
                 var year = $scope.yearSelected;
                 var make = $scope.makeSelected;
                 var model = $scope.modelSelected;
@@ -21,14 +22,24 @@ Bluebird.States['VehicleGuideDetails'] = {
 
                 $scope.vehicleLoading = true;
 
-                vehicles.getVehicle(function(result){
+                vehicles.getRawVehicle(function(result){
+
+                    if(!result.vehicle && typeof result.trims !== 'undefined'){
+
+                        $scope.vehicleLoading = false;
+                        $scope.vehicleTrimRequired = true;
+
+                        $scope.vehicleTrims = result.trims;
+
+                    } else if(result.vehicle){
+                        $scope.vehicle = result.vehicle;
+                        $scope.vehicleLoading = false;
+                    }
 
                     // @todo: Ensure this is what is actually returned, and error handling
-                    $scope.vehicle = result;
-                    $scope.vehicleLoading = false;
+
 
                 }, year, make, model, trim);
-
             };
 
             if(!_.isEmpty($stateParams) && $stateParams.year && $stateParams.make && $stateParams.model) {
