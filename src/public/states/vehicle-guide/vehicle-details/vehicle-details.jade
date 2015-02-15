@@ -40,8 +40,8 @@ div.row(ng-show="vehicle && !vehicleLoading")
             div.col-xs-12.col-sm-6
                 h1  {{ vehicle.model }}
                 h2: small.
-                    {{ vehicle.make }},
-                    <span ng-if="vehicle.trim">{{ vehicle.trim }}, </span>
+                    {{ vehicle.make }}
+                    <span ng-if="vehicle.trim">{{ vehicle.trim }} </span>
                     ({{ vehicle.year_from }} - {{ vehicle.year_to }})
                 br
 
@@ -347,13 +347,14 @@ div.row(ng-show="vehicle && !vehicleLoading")
                         div.alert.alert-info <strong>All clear!</strong> This vehicle's auxillary input services have no associated labor costs.
 
                     // Auxillary Installation Notes
-                    div.row.spaced-small(ng-if="vehicle.aux.notes")
-                        div.col-xs-12.col-sm-6(ng-if="vehicle.aux.notes.bluetooth_kit")
-                            h5 Bluetooth Kit Notes
-                            p {{ vehicle.aux.notes.bluetooth_kit }}
-                        div.col-xs-12.col-sm-6(ng-if="vehicle.aux.notes.smartphone_interface")
-                            h5 Smartphone Interface Notes
-                            p {{ vehicle.aux.notes.smartphone_interface }}
+                    div.col-xs-12
+                        div.row.spaced-small(ng-if="vehicle.aux.notes")
+                            div.col-xs-12.col-sm-6(ng-if="vehicle.aux.notes.bluetooth_kit")
+                                h5 Bluetooth Kit Notes
+                                p {{ vehicle.aux.notes.bluetooth_kit }}
+                            div.col-xs-12.col-sm-6(ng-if="vehicle.aux.notes.smartphone_interface")
+                                h5 Smartphone Interface Notes
+                                p {{ vehicle.aux.notes.smartphone_interface }}
 
 
         // Satellite Radio Installation information
