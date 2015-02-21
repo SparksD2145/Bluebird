@@ -61,8 +61,25 @@
       padding: 15px 10px 10px;
       display: block;
 
+      @media (max-width: 767px) {
+        & i {
+          display: block;
+          width: 100%;
+          font-size: 35px;
+        }
+      }
+
       & span {
         margin-left: 10px;
+        display: inline-block;
+
+        @media(max-width: 767px) {
+          margin-top: 10px;
+          display:block;
+          width: 100%;
+          text-align: center;
+          margin-left: 0;
+        }
       }
     }
   }
