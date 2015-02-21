@@ -2,16 +2,46 @@
     @file Learn mor page of Bluebird.
     @author Thomas Ibarra <sparksd2145@gmail.com>
 
-div.row.spaced.module
+div.row.spaced
     div.col-xs-12.col-sm-6
-        h2 About Bluebird
-        p.
-            Intended as a pocket toolkit, Bluebird is designed to quickly and quietly retrieve product information
-            from either the Bluebird database or the public <strong><a href="http://developer.bestbuy.com" target="_new">Best Buy Developer APIs</a></strong>
-            for use by store representatives and vendors without requiring client devices to reside on the Best Buy internal network.
-            By relying on Best Buy's public APIs instead of the company's internal applications,
-            Bluebird can function outside of the company's internal network, allowing employees to utilize their own devices to assist customers.
-    div.col-xs-12.col-sm-6
+        div.jumbotron.bg-primary.text-center(style="border: 1px solid #5cb85c")
+            h1
+                img(src="/static/images/logos/bluebird-logo-small.png", width="200")
+            br
+            h2 Bluebird
+            h5 Version 0.3.0 (alpha)
+            p
+                h6.
+                    Intended as a pocket toolkit, Bluebird is designed to quickly and quietly retrieve product information
+                    from either the Bluebird database or the public <strong><a href="http://developer.bestbuy.com" target="_new">Best Buy Developer APIs</a></strong>
+                    for use by store representatives and vendors without requiring client devices to reside on the Best Buy internal network.
+                    By relying on Best Buy's public APIs instead of the company's internal applications,
+                    Bluebird can function outside of the company's internal network, allowing employees to utilize their own devices to assist customers.
+
+                br
+                h6 Bluebird continually updates to provide the latest features; Here is a list of new features and improvements!
+            div.container.text-left
+                div.row
+                    div.col-xs-12
+                        ul
+                            li.
+                                <a href="/#!/vehicle-guide"><strong>Vehicle Fit Guide!</strong></a>
+                                <strong class="text-warning">(Currently in Alpha!)</strong>
+                                This tool primarily utilized by Geeksquad Autotech Agents is now unofficially available for use within Bluebird.
+                                This feature's data is retrieved from Geek Squad Central.
+
+                            li.
+                                <strong>Major speed improvements!</strong> Bluebird now utilizes the browser cache and compression to fuel faster finds!
+                            li.
+                                <strong>Updates!</strong> Now you can see when and how Bluebird updates. Nifty!
+                            li.
+                                <strong>RESTful API improvements!</strong> Bluebird's backend code is cleaner and more responsive than ever.
+                                This means that future versions of Bluebird will be much more stable and client friendly.
+
+            br
+            p
+                a.btn.btn-success.btn-lg(href="/#!/" role="button") Awesome!
+    div.col-xs-12.col-sm-6.module
         h3 A Note on Availability
         p.
             When performing product lookups, Bluebird utilizes publicly-available data returned by the
@@ -20,8 +50,7 @@ div.row.spaced.module
             allowing Bluebird to only provide an affirmative or negative "in inventory" result. Theoretically, if Bluebird resided within
             the internal Best Buy network, we could provide more in-depth data; however, as Bluebird is purposefully off the Best Buy
             internal network for use on Bring Your Own Devices, this data simply cannot be retrieved.
-div.row.module
-    div.col-xs-12.col-sm-6
+    div.col-xs-12.col-sm-6.module.spaced
         h3 Development
         p.
             Bluebird is an evolving application whose ongoing development is focused on delivering a performance-heavy, productivity-minded platform.
