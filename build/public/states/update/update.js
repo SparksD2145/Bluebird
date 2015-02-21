@@ -1,1 +1,0 @@
-Bluebird.States.Update={name:"update",templateUrl:"update/update",url:"/update",controller:["$scope",function(){}]};
