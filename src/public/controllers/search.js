@@ -13,7 +13,7 @@ Bluebird.controller('Bluebird.Controllers.Search', [
         $scope.searchQuery = '';
 
         /** Set's the navbar search input's placeholder. */
-        $scope.placeholder = 'Search';
+        $scope.placeholder = 'Product Search';
 
         /** Clears navbar search input's value */
         $scope.clearSearch = function(){
