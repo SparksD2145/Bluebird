@@ -59,8 +59,8 @@ var Bluebird = {};
         Bluebird,
         namespaces,
         angular.module('Bluebird', [
-            'ngSanitize', 'ngAnimate', 'ngResource', // Core angular libraries.
-            'ui.router', 'geolocation', 'monospaced.qrcode', 'ngStorage', // Third-party angular libraries.
+            'ngRoute', 'ngSanitize', 'ngAnimate', 'ngResource', // Core angular libraries.
+            'geolocation', 'monospaced.qrcode', 'ngStorage', // Third-party angular libraries.
             'underscore', 'momentJs', 'modernizr' // Third-party libraries.
         ])
     );
@@ -98,21 +98,26 @@ function Dependency(name, ref, obj){
  * Application-wide configuration for routing based functionality.
  */
 Bluebird.config([
-    '$locationProvider', '$stateProvider', '$urlRouterProvider',
+    '$locationProvider', '$routeProvider',
     'Bluebird.StatesProvider',
-    function($locationProvider, $stateProvider, $router, statesCollection) {
+    function($locationProvider, $router, statesCollection) {
         // Compile states and gather collection.
         var states = statesCollection.compile().getCollection();
 
         // Load states into state provider for addressing.
         _.each(states, function(state){
-            $stateProvider.state(state.name, state);
+
+            if(_.isArray(state.url)){
+                _.each(state.url, function(url){
+                    $router.when(url, state);
+                })
+            } else {
+                $router.when(state.url, state);
+            }
+
+            $router.otherwise('/');
         });
 
-        // When no address is passed, return home.
-        $router.when('', ['$state', function($state){
-            $state.go('home');
-        }]);
 
         // Use Html5 mode, but use crunch-bang (#!) as routing for non-html5 compliant browsers.
         $locationProvider

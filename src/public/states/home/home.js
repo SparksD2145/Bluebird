@@ -5,7 +5,7 @@
 Bluebird.States['Home'] = {
     name: 'home',
     templateUrl: 'home/home',
-    url: '/',
+    url: ['/', '/home', ''],
     controller: [
         '$scope',
         function($scope){

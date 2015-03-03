@@ -7,10 +7,9 @@ Bluebird.States['VehicleGuideDetails'] = {
     templateUrl: 'vehicle-guide/vehicle-details/vehicle-details',
     url: '/vehicle-guide/details/:year/:make/:model?trim',
     controller: [
-        '$scope', '$resource',
-        '$stateParams', '_',
+        '$scope', '$resource','$routeParams', '_',
         'Bluebird.Services.Vehicles',
-        function($scope, $resource, $stateParams, _, vehicles){
+        function($scope, $resource, $routeParams, _, vehicles){
 
             $scope.getVehicle = function(){
                 $scope.vehicleTrimRequired = false;
@@ -42,11 +41,11 @@ Bluebird.States['VehicleGuideDetails'] = {
                 }, year, make, model, trim);
             };
 
-            if(!_.isEmpty($stateParams) && $stateParams.year && $stateParams.make && $stateParams.model) {
-                $scope.yearSelected = $stateParams.year;
-                $scope.makeSelected = $stateParams.make;
-                $scope.modelSelected = $stateParams.model;
-                $scope.trimSelected = $stateParams.trim;
+            if(!_.isEmpty($routeParams) && $routeParams.year && $routeParams.make && $routeParams.model) {
+                $scope.yearSelected = $routeParams.year;
+                $scope.makeSelected = $routeParams.make;
+                $scope.modelSelected = $routeParams.model;
+                $scope.trimSelected = $routeParams.trim;
 
                 $scope.getVehicle();
             }

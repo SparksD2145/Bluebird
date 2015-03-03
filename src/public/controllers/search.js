@@ -7,8 +7,8 @@
  * Controller handling navbar-based search functionality.
  */
 Bluebird.controller('Bluebird.Controllers.Search', [
-    '$scope', '$state',
-    function($scope, $state){
+    '$scope', '$location',
+    function($scope, $location){
         /** Navbar's current contents serve as the model for search queries. */
         $scope.searchQuery = '';
 
@@ -29,7 +29,7 @@ Bluebird.controller('Bluebird.Controllers.Search', [
                 var query = $scope.searchQuery;
 
                 // Navigate to search state.
-                $state.go('search', { query: query });
+                $location('/search').search({ query: query });
             }
         };
 

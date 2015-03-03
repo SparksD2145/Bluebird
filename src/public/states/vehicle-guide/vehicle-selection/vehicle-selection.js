@@ -7,9 +7,8 @@ Bluebird.States['VehicleGuideSelection'] = {
     templateUrl: 'vehicle-guide/vehicle-selection/vehicle-selection',
     url: '/vehicle-guide/selection',
     controller: [
-        '$scope', '$resource',
-        '$state', '$stateParams',
-        function($scope, $resource, $state, $stateParams){
+        '$scope', '$resource', '$location', '$routeParams',
+        function($scope, $resource, $location, $routeParams){
 
             $scope.vehicleMakes = function(){
                 var year = $scope.yearSelected;
@@ -51,17 +50,17 @@ Bluebird.States['VehicleGuideSelection'] = {
             };
 
             $scope.getVehicle = function(){
-                $state.go('vehicleGuideDetails', {
-                    year: $scope.yearSelected,
-                    make: $scope.makeSelected,
-                    model: $scope.modelSelected
-                });
+                $location.path('/vehicle-guide/details/' +
+                    $scope.yearSelected + '/' +
+                    $scope.makeSelected + '/' +
+                    $scope.modelSelected
+                );
             };
 
-            if(!_.isEmpty($stateParams) && $stateParams.year && $stateParams.make && $stateParams.model) {
-                $scope.yearSelected = $stateParams.year;
-                $scope.makeSelected = $stateParams.make;
-                $scope.modelSelected = $stateParams.model;
+            if(!_.isEmpty($routeParams) && $routeParams.year && $routeParams.make && $routeParams.model) {
+                $scope.yearSelected = $routeParams.year;
+                $scope.makeSelected = $routeParams.make;
+                $scope.modelSelected = $routeParams.model;
 
                 $scope.getVehicle();
             }

@@ -36,18 +36,12 @@ Bluebird.provider('Bluebird.States', function StatesCollectionProvider(){
             templateUrl: undefined,
             templateProvider: undefined,
             controller: undefined,
-            controllerProvider: undefined,
             controllerAs: undefined,
-            parent: undefined,
             resolve: undefined,
             url: undefined,
-            views: undefined,
-            abstract: undefined,
-            onEnter: undefined,
-            onExit: undefined,
             reloadOnSearch: undefined,
-            data: undefined,
-            params: undefined
+            redirectTo: undefined,
+            caseInsensitiveMatch: undefined
         };
 
         /**
