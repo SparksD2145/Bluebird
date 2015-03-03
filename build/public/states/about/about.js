@@ -1,0 +1,1 @@
+Bluebird.States.about={name:"about",templateUrl:"about/about",url:"/about"};
