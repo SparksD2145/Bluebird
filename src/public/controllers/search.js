@@ -29,7 +29,7 @@ Bluebird.controller('Bluebird.Controllers.Search', [
                 var query = $scope.searchQuery;
 
                 // Navigate to search state.
-                $location('/search').search({ query: query });
+                $location.path('/search/' + query );
             }
         };
 
