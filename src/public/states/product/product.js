@@ -6,10 +6,10 @@
 Bluebird.States['Product'] = {
     name: 'product',
     controller: [
-        '$scope', '$stateParams', '$resource',
+        '$scope', '$routeParams', '$resource',
         '_',
         'Bluebird.Services.Products', 'Bluebird.Services.Availability',
-        function($scope, $stateParams, $resource, _, Products, Availability){
+        function($scope, $routeParams, $resource, _, Products, Availability){
 
             $scope.showAvailability = function(){
                 $scope.availabilityLoaded = true;
@@ -109,20 +109,20 @@ Bluebird.States['Product'] = {
             };
 
             // Load product.
-            if($stateParams){
+            if($routeParams){
                 try {
-                    $stateParams.query = parseInt($stateParams.query);
+                    $routeParams.query = parseInt($routeParams.query);
                 } catch (err){
                     console.error(err);
                 }
 
-                var product = Products.find($stateParams.query);
+                var product = Products.find($routeParams.query);
 
                 if(!product){
-                    Products.query($stateParams.query, false, function(prd){
+                    Products.query($routeParams.query, false, function(prd){
 
                         if(_.isEmpty(prd)){
-                            Products.query($stateParams.query, true, function(prdt){
+                            Products.query($routeParams.query, true, function(prdt){
                                 if(_.isEmpty(prdt)){
                                     $scope.showProductNotFoundError();
                                 } else {
