@@ -9,11 +9,13 @@ div.row.spaced.module
                     img(src="/static/images/logos/bluebird-logo-small.png").img-responsive.fa-spin
             br
             h3 Retrieving...
+
     div.col-xs-12(ng-show="productNotFound")
         div.alert.alert-danger
             h4
                 strong Darn!
             p It looks like the SKU for this product doesn't exist! Perhaps searching for the product may yeild the products you are looking for.
+
     div.col-xs-12(ng-show="isLoaded && !productNotFound")
         div.container-fluid
             div.row
@@ -152,7 +154,9 @@ div.row.spaced.module
                         div.col-xs-12(ng-show="product.availability.anyStores")
                             table.table.table-striped.table-hover.table-condensed(style="margin-bottom: 0")
                                 thead(style="border-top: none; margin-bottom: 5px")
-                                    h4 Available in the following stores:
+                                    tr
+                                        th
+                                            h4 Available in the following stores:
                                 tr(ng-repeat="store in product.stores", style="border-top: none;")
                                     th(style="border-top: none;")
                                         h6 {{ store.name }}
