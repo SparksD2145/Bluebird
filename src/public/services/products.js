@@ -93,7 +93,9 @@ Bluebird.service('Bluebird.Services.Products', [
             var internalCallback = function(result) {
 
                 // Add to local storage
-                $storage.products[query.toString()] = result;
+                if($storage.products){
+                    $storage.products[query] = result;
+                }
 
                 this.add(result);
                 return callback(result);
@@ -111,12 +113,18 @@ Bluebird.service('Bluebird.Services.Products', [
                 }
             ];
 
-            if(!extendedSearch && _.has(_.keys($storage.products), query)){
-                internalCallback($storage.products[query]);
+            if($storage.products){
+                if(!extendedSearch && _.has(_.keys($storage.products), query)){
+                    internalCallback($storage.products[query]);
+                } else {
+                    if($storage.products[query]) delete $storage.products[query];
+                    api.query.apply(this, args);
+                }
             } else {
-                delete $storage.products[query];
                 api.query.apply(this, args);
             }
+
+
         };
 
         /**
@@ -130,7 +138,9 @@ Bluebird.service('Bluebird.Services.Products', [
             var internalCallback = function(result) {
 
                 // Add to local storage
-                $storage.queries[query.toString()] = result;
+                if($storage.queries){
+                    $storage.queries[query.toString()] = result;
+                }
 
                 return callback(result);
             }.bind(this);
@@ -145,10 +155,14 @@ Bluebird.service('Bluebird.Services.Products', [
                 }
             ];
 
-            if(!extendedSearch && _.has(_.keys($storage.queries), query)){
-                internalCallback($storage.queries[query]);
+            if($storage.queries){
+                if(!extendedSearch && _.has(_.keys($storage.queries), query)){
+                    internalCallback($storage.queries[query]);
+                } else {
+                    if($storage.products[query]) delete $storage.queries[query];
+                    api.query.apply(this, args);
+                }
             } else {
-                delete $storage.queries[query];
                 api.query.apply(this, args);
             }
         };

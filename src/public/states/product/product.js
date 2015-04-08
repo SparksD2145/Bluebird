@@ -11,6 +11,8 @@ Bluebird.States['Product'] = {
         'Bluebird.Services.Products', 'Bluebird.Services.Availability',
         function($scope, $routeParams, $resource, _, Products, Availability){
 
+            $scope.radius = 25;
+
             $scope.showAvailability = function(){
                 $scope.availabilityLoaded = true;
             };
@@ -80,6 +82,8 @@ Bluebird.States['Product'] = {
 
                 // Get product availability if it's available in stores.
                 if(product.availability.hasInStoreAvailability){
+
+                    $scope.allowAlternateAreaSearch = true;
 
                     if(Availability.canQuery()) {
                         Availability.query(product.identifiers.sku, function (stores) {

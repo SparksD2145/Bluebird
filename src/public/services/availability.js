@@ -97,11 +97,9 @@ Bluebird.service('Bluebird.Services.Availability', [
             }.bind(this);
 
 
-            var location = 78232; // @todo do not use magic numbers
-
             geolocation.getLocation()
                 .then(function (geoposition) {
-                    location = geoposition.coords.latitude + ',' + geoposition.coords.longitude;
+                    var location = geoposition.coords.latitude + ',' + geoposition.coords.longitude;
 
                     var args = [
                         {
@@ -117,6 +115,31 @@ Bluebird.service('Bluebird.Services.Availability', [
                     // Could not retrieve geolocation data.
                     callback(new Error(errMsg));
                 });
+        };
+
+        this.queryByZip = function(query, zipcode, radius, callback) {
+            var internalCallback = function(result) {
+                // this.add(result); // @todo add caching to availability
+                return callback(result);
+            }.bind(this);
+
+            if(typeof zipcode == 'undefined'){ return false; }
+            if(!zipcode.test('[0-9]{5}')){ return false; }
+
+
+            // Default to 25 miles if radius is not specified
+            if(!radius) radius = 25;
+
+            var args = [
+                {
+                    query: query,
+                    location: zipcode,
+                    distance: radius
+                }, function (products) {
+                    internalCallback(products);
+                }
+            ];
+            api.query.apply(this, args);
         };
 
         this.canQuery = function(){
