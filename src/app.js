@@ -66,9 +66,6 @@ app.use(express.static(path.join(__dirname, 'public'), { maxAge: '3d' }));
 // Mount directory "/bower_components" as public facing directory "/libraries"
 app.use('/libraries', express.static(path.join(__dirname, '../bower_components'), { maxAge: '3d' }));
 
-// Mount directory "/bower_components" as public facing directory "/libraries"
-app.use('/external-libraries', express.static(path.join(__dirname, '../external_components'), { maxAge: '3d' }));
-
 // Enable RouteController to handle application routes
 var routeController = require('./controllers/RouteController');
 app.use(new routeController((app)));
