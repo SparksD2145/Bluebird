@@ -9,11 +9,13 @@ div.row.spaced.module
                     img(src="/static/images/logos/bluebird-logo-small.png").img-responsive.fa-spin
             br
             h3 Retrieving...
+
     div.col-xs-12(ng-show="productNotFound")
         div.alert.alert-danger
             h4
                 strong Darn!
             p It looks like the SKU for this product doesn't exist! Perhaps searching for the product may yeild the products you are looking for.
+
     div.col-xs-12(ng-show="isLoaded && !productNotFound")
         div.container-fluid
             div.row
@@ -152,7 +154,9 @@ div.row.spaced.module
                         div.col-xs-12(ng-show="product.availability.anyStores")
                             table.table.table-striped.table-hover.table-condensed(style="margin-bottom: 0")
                                 thead(style="border-top: none; margin-bottom: 5px")
-                                    h4 Available in the following stores:
+                                    tr
+                                        th
+                                            h4 Available in the following stores:
                                 tr(ng-repeat="store in product.stores", style="border-top: none;")
                                     th(style="border-top: none;")
                                         h6 {{ store.name }}
@@ -161,13 +165,30 @@ div.row.spaced.module
                                         abbr(title="Phone Number") P
                                         | : &nbsp;
                                         a(ng-href="{{ store.phone }}") {{ store.phoneNumber }}
+
+                                //Alternate search
+                                //gtfoot(ng-if="allowAlternateAreaSearch")
+                                    tr
+                                        td
+                                            select(ng-model="radius")
+                                                option(value=5) Check within 5 Miles of
+                                                option(value=10) Check within 10 Miles of
+                                                option(value=15) Check within 15 Miles of
+                                                option(value=20) Check within 20 Miles of
+                                                option(value=25) Check within 25 Miles of
+                                                option(value=30) Check within 30 Miles of
+                                                option(value=35) Check within 35 Miles of
+                                            | &nbsp;
+                                            input(type="text", maxlength=5, ng-model="zipcode", placeholder="Zip Code")
+
+
                     div.row(ng-show="!product.availability.anyStores && availabilityLoaded").spaced
                         div.col-xs-12
                             h4 Availability
                         div.col-xs-12.spaced-small
                             div.alert.alert-warning
                                 strong Darn! &nbsp;
-                                span It seems this product is not in stock nearby. &nbsp;
+                                span It seems this product is not in stock within a 25 mile radius of your current location. &nbsp;
                                 span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order!
 
                 // Protection Plans
