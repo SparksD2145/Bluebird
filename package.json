@@ -1,6 +1,6 @@
 {
   "name": "Bluebird",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "A product search engine for best buy employees and vendors.",
   "main": "Bluebird.js",
   "subdomain": "sparksd2145-bluebird-prod",
