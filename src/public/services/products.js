@@ -5,14 +5,18 @@
 
 Bluebird.service('Bluebird.Services.Products', [
     '$resource',
-    '_',
-    function ProductCollection($resource, _){
+    '$localStorage', '_',
+    function ProductCollection($resource, $storage, _){
         /**
          * Internal storage for products within the collection.
          * @type {Array}
          * @internal
          */
         var productsStored = [];
+
+        /** Internal storage under local storage */
+        $storage.products = {};
+        $storage.queries = {};
 
         /** Products API */
         var api = $resource('/api/product');
@@ -109,7 +113,17 @@ Bluebird.service('Bluebird.Services.Products', [
                 }
             ];
 
-            api.query.apply(this, args);
+            if($storage.products){
+                if(!extendedSearch && _.has(_.keys($storage.products), query)){
+                    internalCallback($storage.products[query]);
+                } else {
+                    if($storage.products[query]) delete $storage.products[query];
+                    api.query.apply(this, args);
+                }
+            } else {
+                api.query.apply(this, args);
+            }
+
 
         };
 
@@ -125,7 +139,7 @@ Bluebird.service('Bluebird.Services.Products', [
 
                 // Add to local storage
                 if($storage.queries){
-                    $storage.queries[query] = result;
+                    $storage.queries[query.toString()] = result;
                 }
 
                 return callback(result);
@@ -141,7 +155,16 @@ Bluebird.service('Bluebird.Services.Products', [
                 }
             ];
 
-            api.query.apply(this, args);
+            if($storage.queries){
+                if(!extendedSearch && _.has(_.keys($storage.queries), query)){
+                    internalCallback($storage.queries[query]);
+                } else {
+                    if($storage.products[query]) delete $storage.queries[query];
+                    api.query.apply(this, args);
+                }
+            } else {
+                api.query.apply(this, args);
+            }
         };
     }
 ]);
