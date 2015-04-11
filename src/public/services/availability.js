@@ -124,8 +124,6 @@ Bluebird.service('Bluebird.Services.Availability', [
             }.bind(this);
 
             if(typeof zipcode == 'undefined'){ return false; }
-            if(!zipcode.test('[0-9]{5}')){ return false; }
-
 
             // Default to 25 miles if radius is not specified
             if(!radius) radius = 25;

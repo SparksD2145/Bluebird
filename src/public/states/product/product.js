@@ -23,6 +23,66 @@ Bluebird.States['Product'] = {
                 $scope.productNotFound = true;
             };
 
+            $scope.getAvailabilityByZipCode = function(){
+                $scope.getAvailability(
+                    $scope.product,
+                    true,
+                    angular.element('#zipcodeText').val(),
+                    angular.element('#radiusValue').val()
+                );
+            };
+
+            $scope.getAvailability = function(product, byZipCode, zipcode, radius){
+                if(!product) product = $scope.product;
+                if(!zipcode) zipcode = $scope.zipcode;
+                if(!radius) radius = $scope.radius;
+
+                $scope.availabilityLoaded = false;
+
+                // Get product availability if it's available in stores.
+                if(product.availability.hasInStoreAvailability){
+
+                    $scope.allowAlternateAreaSearch = true;
+
+                    if(!byZipCode){
+                        if(Availability.canQuery()) {
+                            Availability.query(product.identifiers.sku, function (stores) {
+
+                                if (stores instanceof Error) {
+                                    // Geolocation service could not be utilized
+                                    $scope.showGeolocationError();
+                                }
+
+                                product.stores = stores;
+                                product.availability.anyStores = !_.isEmpty(product.stores);
+
+                                $scope.showAvailability();
+
+                                return product;
+                            });
+                        } else {
+                            $scope.showGeolocationError();
+                            $scope.showAvailability();
+                        }
+                    } else {
+                        Availability.queryByZip(product.identifiers.sku, zipcode, radius, function (stores) {
+
+                            product.stores = stores;
+                            product.availability.anyStores = !_.isEmpty(product.stores);
+
+                            $scope.showAvailability();
+
+                            return product;
+                        });
+                    }
+
+                } else {
+                    product.availability.anyStores = false;
+                    $scope.showAvailability();
+                    return product;
+                }
+            };
+
             // Rebuild product information to better display information to user
             var rebuildProduct = function(product){
                 // Unescape the long description returned by the server.
@@ -80,36 +140,9 @@ Bluebird.States['Product'] = {
                 $scope.product = product;
                 $scope.isLoaded = true;
 
-                // Get product availability if it's available in stores.
-                if(product.availability.hasInStoreAvailability){
+                $scope.getAvailability(product);
 
-                    $scope.allowAlternateAreaSearch = true;
-
-                    if(Availability.canQuery()) {
-                        Availability.query(product.identifiers.sku, function (stores) {
-
-                            if (stores instanceof Error) {
-                                // Geolocation service could not be utilized
-                                $scope.showGeolocationError();
-                            }
-
-                            product.stores = stores;
-                            product.availability.anyStores = !_.isEmpty(product.stores);
-
-                            $scope.showAvailability();
-
-                            return product;
-                        });
-                    } else {
-                        $scope.showGeolocationError();
-                        $scope.showAvailability();
-                    }
-
-                } else {
-                    product.availability.anyStores = false;
-                    $scope.showAvailability();
-                    return product;
-                }
+                return product;
             };
 
             // Load product.
