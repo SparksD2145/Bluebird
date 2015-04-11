@@ -14,7 +14,7 @@ div.row.spaced.module
         div.alert.alert-danger
             h4
                 strong Darn!
-            p It looks like the SKU for this product doesn't exist! Perhaps searching for the product may yeild the products you are looking for.
+            p It looks like the SKU for this product doesn't exist! Perhaps searching for the product by name might yield the product you are looking for.
 
     div.col-xs-12(ng-show="isLoaded && !productNotFound")
         div.container-fluid
@@ -148,7 +148,8 @@ div.row.spaced.module
                         div.col-xs-12.spaced-small
                             div.alert.alert-warning
                                 strong Uh oh! &nbsp;
-                                span It seems this as though your device's location abilities are either disabled or simply unusable. Availability is, well, unavailable for the time being.
+                                span It seems this as though your device's geolocation abilities are either disabled or simply unusable. Availability by current location is, well, unavailable for the time being.
+
                 div.col-xs-12.col-sm-6.spaced(ng-show="!geolocationUnavailable && availabilityLoaded")
                     div.row
                         div.col-xs-12(ng-show="product.availability.anyStores")
@@ -166,11 +167,16 @@ div.row.spaced.module
                                         | : &nbsp;
                                         a(ng-href="{{ store.phone }}") {{ store.phoneNumber }}
 
-                                //Alternate search
-                                //gtfoot(ng-if="allowAlternateAreaSearch")
-                                    tr
-                                        td
-                                            select(ng-model="radius")
+                    // Alternate area search
+                    div.row.spaced-small(ng-if="allowAlternateAreaSearch")
+                        div.col-xs-12
+                            h5 Alternate Zip Code Search
+                        div.col-xs-12
+                            table
+                                tr
+                                    td
+                                        form(ng-submit="getAvailabilityByZipCode()")
+                                            select(ng-model="radius", id="radiusValue")
                                                 option(value=5) Check within 5 Miles of
                                                 option(value=10) Check within 10 Miles of
                                                 option(value=15) Check within 15 Miles of
@@ -179,7 +185,9 @@ div.row.spaced.module
                                                 option(value=30) Check within 30 Miles of
                                                 option(value=35) Check within 35 Miles of
                                             | &nbsp;
-                                            input(type="text", maxlength=5, ng-model="zipcode", placeholder="Zip Code")
+                                            input(type="text", maxlength=5, ng-model="zipcode", id="zipcodeText", placeholder="Zip Code")
+                                            | &nbsp;
+                                            button(ng-click="getAvailabilityByZipCode()") Check!
 
 
                     div.row(ng-show="!product.availability.anyStores && availabilityLoaded").spaced
