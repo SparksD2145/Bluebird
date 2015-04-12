@@ -125,7 +125,7 @@ ProductRepository.prototype.buildQuery = function(queryArray, isSearch){
             dbQueries.push(andQuery(subQueries));
 
             _.each(tokens, function (token, index, list) {
-                list[index] = '(' + "name=" + token + "*" + '|' + "name=" + token + "*" + '&marketplace=true' + ')';
+                list[index] = '(' + "name=" + token + "*" +'&marketplace=*&active=*' + ')';
                 if (index != 0) list[index] = '&' + list[index];
             });
 
