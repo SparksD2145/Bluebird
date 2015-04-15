@@ -109,11 +109,14 @@ div.row.spaced.module
                                         div(style="padding: 1px;")
                                             qrcode(data="{{ product.identifiers.upc }}", size="80")
                                             h6.text-muted UPC
-                                    div.col-xs-6.col-sm-4
+                                    div.col-xs-6.col-sm-4(ng-if="product.urls.mobileUrl")
                                         div(style="padding: 1px;")
                                             a(ng-href="{{ product.urls.mobileUrl }}", target="_new")
                                                 qrcode(data="{{ product.urls.mobileUrl }}", size="80")
                                                 h6 BestBuy.com URL
+                                    div.col-xs-6.col-sm-4(ng-if="!product.urls.mobileUrl")
+                                        div(style="padding: 35px 10px; height: 90px; vertical-align:middle;").panel.panel-warning
+                                            h6.text-warning URL Unavailable!
 
                 // Details
                 div.col-xs-12.col-sm-6
@@ -167,29 +170,6 @@ div.row.spaced.module
                                         | : &nbsp;
                                         a(ng-href="{{ store.phone }}") {{ store.phoneNumber }}
 
-                    // Alternate area search
-                    div.row.spaced-small(ng-if="allowAlternateAreaSearch")
-                        div.col-xs-12
-                            h5 Alternate Zip Code Search
-                        div.col-xs-12
-                            table
-                                tr
-                                    td
-                                        form(ng-submit="getAvailabilityByZipCode()")
-                                            select(ng-model="radius", id="radiusValue")
-                                                option(value=5) Check within 5 Miles of
-                                                option(value=10) Check within 10 Miles of
-                                                option(value=15) Check within 15 Miles of
-                                                option(value=20) Check within 20 Miles of
-                                                option(value=25) Check within 25 Miles of
-                                                option(value=30) Check within 30 Miles of
-                                                option(value=35) Check within 35 Miles of
-                                            | &nbsp;
-                                            input(type="text", maxlength=5, ng-model="zipcode", id="zipcodeText", placeholder="Zip Code")
-                                            | &nbsp;
-                                            button(ng-click="getAvailabilityByZipCode()") Check!
-
-
                     div.row(ng-show="!product.availability.anyStores && availabilityLoaded").spaced
                         div.col-xs-12
                             h4 Availability
@@ -197,11 +177,36 @@ div.row.spaced.module
                             div.alert.alert-warning
                                 strong Darn! &nbsp;
                                 span It seems this product is not in stock within a 25 mile radius of your current location. &nbsp;
-                                span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order!
+                                span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order! &nbsp;
+                                span(ng-if="!product.availability.hasOnlineAvailability") It looks like it isn't available for online ordering either! &nbsp;
+                                span(ng-if="product.availability.isActive == false"): strong This may be because the product is no longer active in our inventory.
+
+                    // Alternate area search
+                    div.row.spaced(ng-if="allowAlternateAreaSearch")
+                        div.col-xs-12
+                            h4 Alternate Zip Code Search
+                    div.row.spaced-small
+                        div.col-xs-12
+                            form(ng-submit="getAvailabilityByZipCode()")
+                                div.row
+                                    div.col-xs-6
+                                        select(ng-model="radius", id="radiusValue", style="width:100%;")
+                                            option(value=5) Check within 5 Miles of
+                                            option(value=10) Check within 10 Miles of
+                                            option(value=20) Check within 20 Miles of
+                                            option(value=30) Check within 30 Miles of
+                                            option(value=40) Check within 40 Miles of
+                                            option(value=50) Check within 50 Miles of
+                                            option(value=60) Check within 60 Miles of
+                                    div.col-xs-6
+                                        input(type="text", maxlength=5, ng-model="zipcode", id="zipcodeText", placeholder="Zip Code", style="width:100%;")
+                                div.row.spaced-small
+                                    div.col-xs-12
+                                        button.btn.btn-primary.btn-sm(ng-click="getAvailabilityByZipCode()", style="width:100%;") Check!
 
                 // Protection Plans
                 div.col-xs-12.col-sm-6.spaced
-                    div.row
+                    div.row.spaced
                         div.col-xs-12(ng-if="product.plans.protectionPlans.length > 0")
                             h4 Protection Plans
                             div.row.spaced-small(ng-repeat="plan in product.plans.protectionPlans")
