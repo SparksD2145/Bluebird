@@ -142,12 +142,6 @@ Bluebird.States['Search'] = {
                     defaultOrder: new Button({
                         text: 'Default Order'
                     }),
-                    'identifiers.manufacturer': new Button({
-                        text: 'By Manufacturer'
-                    }),
-                    'identifiers.color': new Button({
-                        text: 'By Color'
-                    }),
                     'identifiers.sku': new Button({
                         text: 'By Sku'
                     }),
