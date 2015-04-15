@@ -5,7 +5,7 @@
 Bluebird.States['VehicleGuideSelection'] = {
     name: 'vehicleGuideSelection',
     templateUrl: 'vehicle-guide/vehicle-selection/vehicle-selection',
-    url: '/vehicle-guide/selection',
+    url: '/vehicle-guide',
     controller: [
         '$scope', '$resource', '$location', '$routeParams',
         function($scope, $resource, $location, $routeParams){
