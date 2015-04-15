@@ -167,6 +167,15 @@ div.row.spaced.module
                                         | : &nbsp;
                                         a(ng-href="{{ store.phone }}") {{ store.phoneNumber }}
 
+                    div.row(ng-show="!product.availability.anyStores && availabilityLoaded").spaced
+                        div.col-xs-12
+                            h4 Availability
+                        div.col-xs-12.spaced-small
+                            div.alert.alert-warning
+                                strong Darn! &nbsp;
+                                span It seems this product is not in stock within a 25 mile radius of your current location. &nbsp;
+                                span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order!
+
                     // Alternate area search
                     div.row.spaced-small(ng-if="allowAlternateAreaSearch")
                         div.col-xs-12
@@ -188,16 +197,6 @@ div.row.spaced.module
                                             input(type="text", maxlength=5, ng-model="zipcode", id="zipcodeText", placeholder="Zip Code")
                                             | &nbsp;
                                             button(ng-click="getAvailabilityByZipCode()") Check!
-
-
-                    div.row(ng-show="!product.availability.anyStores && availabilityLoaded").spaced
-                        div.col-xs-12
-                            h4 Availability
-                        div.col-xs-12.spaced-small
-                            div.alert.alert-warning
-                                strong Darn! &nbsp;
-                                span It seems this product is not in stock within a 25 mile radius of your current location. &nbsp;
-                                span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order!
 
                 // Protection Plans
                 div.col-xs-12.col-sm-6.spaced
