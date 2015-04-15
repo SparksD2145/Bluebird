@@ -1,1 +1,0 @@
-Bluebird.States.VehicleGuideStart={name:"vehicleGuide",templateUrl:"vehicle-guide/start/vehicle-start",url:"/vehicle-guide"};
