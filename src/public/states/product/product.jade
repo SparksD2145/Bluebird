@@ -109,7 +109,7 @@ div.row.spaced.module
                                         div(style="padding: 1px;")
                                             qrcode(data="{{ product.identifiers.upc }}", size="80")
                                             h6.text-muted UPC
-                                    div.col-xs-6.col-sm-4
+                                    div.col-xs-6.col-sm-4(ng-if="product.urls.mobileUrl")
                                         div(style="padding: 1px;")
                                             a(ng-href="{{ product.urls.mobileUrl }}", target="_new")
                                                 qrcode(data="{{ product.urls.mobileUrl }}", size="80")
@@ -174,7 +174,9 @@ div.row.spaced.module
                             div.alert.alert-warning
                                 strong Darn! &nbsp;
                                 span It seems this product is not in stock within a 25 mile radius of your current location. &nbsp;
-                                span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order!
+                                span(ng-if="product.availability.hasOnlineAvailability") However, it is available for online order! &nbsp;
+                                span(ng-if="!product.availability.hasOnlineAvailability") It looks like it isn't available for online ordering either! &nbsp;
+                                span(ng-if="product.availability.isActive == false"): strong This may be because the product is no longer active in our inventory.
 
                     // Alternate area search
                     div.row.spaced-small(ng-if="allowAlternateAreaSearch")
