@@ -182,7 +182,7 @@ div.row.spaced.module
                                 span(ng-if="product.availability.isActive == false"): strong This may be because the product is no longer active in our inventory.
 
                     // Alternate area search
-                    div.row.spaced(ng-if="allowAlternateAreaSearch")
+                    div.row.spaced(ng-if="allowAlternateAreaSearch && product.availability.isActive != false")
                         div.col-xs-12
                             h4 Alternate Zip Code Search
                     div.row.spaced-small
@@ -194,6 +194,7 @@ div.row.spaced.module
                                             option(value=5) Check within 5 Miles of
                                             option(value=10) Check within 10 Miles of
                                             option(value=20) Check within 20 Miles of
+                                            option(value=25 selected="true") Check within 20 Miles of
                                             option(value=30) Check within 30 Miles of
                                             option(value=40) Check within 40 Miles of
                                             option(value=50) Check within 50 Miles of
