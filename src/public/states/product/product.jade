@@ -182,7 +182,7 @@ div.row.spaced.module
                                 span(ng-if="product.availability.isActive == false"): strong This may be because the product is no longer active in our inventory.
 
                     // Alternate area search
-                    div.row.spaced(ng-if="allowAlternateAreaSearch")
+                    div.row.spaced(ng-if="allowAlternateAreaSearch && product.availability.isActive != false")
                         div.col-xs-12
                             h4 Alternate Zip Code Search
                     div.row.spaced-small
