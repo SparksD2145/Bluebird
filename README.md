@@ -13,7 +13,7 @@ Bluebird requires NodeJS, and an installation of MongoDB. Developers will need a
     
 
 #####Version
-0.3.5
+0.3.6
 
 
 [Best Buy Developer APIs]:http://developer.bestbuy.com
