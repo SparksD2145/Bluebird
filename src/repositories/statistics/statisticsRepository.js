@@ -37,4 +37,15 @@ StatisticsRepository.prototype.addQuery = function(queryString, request){
     });
 };
 
+/*
+ * Retrieve all queries in database
+ * @param next Callback function
+ */
+StatisticsRepository.prototype.getAllQueries = function(next){
+    Query
+        .aggregate()
+        .project({ _id: 0, query: 1 })
+        .exec(next);
+};
+
 module.exports = StatisticsRepository;

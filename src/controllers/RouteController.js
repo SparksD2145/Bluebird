@@ -247,6 +247,25 @@ function RouteController(app) {
             if(_.isEmpty(req.params) || _.isEmpty(req.params.resource)) sendGeneralFailure();
             if(_.isEmpty(req.params) || _.isEmpty(req.params.subresource)) sendGeneralFailure();
 
+            /** Statistics API */
+
+            /* GET /api/stats */
+            if(req.params.resource.toLowerCase() == 'statistics'){
+                if(req.params.subresource.toLowerCase() == 'getallqueries'){
+                    StatisticsRepository.getAllQueries(function (err, result){
+
+
+                        result = _.countBy(result, function(r){ return r.query; });
+
+                        var response = {
+                            size: _.size(result),
+                            result: result
+                        };
+                        res.json(response);
+                    });
+                }
+            }
+
             /** Vehicle Guide API */
 
             /* GET /api/vehicle */
@@ -295,6 +314,8 @@ function RouteController(app) {
                     });
                 }
             }
+
+
         });
     })();
 
