@@ -35,6 +35,17 @@ Bluebird.controller('Bluebird.Controllers.Search', [
 
         $scope.openSidebar = function(){
             angular.element('#sidebar').toggleClass('open');
-        }
+        };
     }
 ]);
+
+/**
+ * Directive handling dismissal of search focused keyboard
+ */
+Bluebird.directive("touchDismissSearch", function () {
+    return function(scope, element) {
+        element.on("touchstart", function() {
+            angular.element('[ng-controller="Bluebird.Controllers.Search"] [type=search]').blur();
+        });
+    };
+});
