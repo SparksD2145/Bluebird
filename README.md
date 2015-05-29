@@ -1,5 +1,5 @@
 # Bluebird
-An unofficial product reference engine for best buy employees and vendors, powered by the [Best Buy Developer APIs], [GeekSquad Central] and the Bluebird engine. Bluebird is privately developed by the [Bluebird team].
+An unofficial product reference engine for best buy employees and vendors, powered by the [Best Buy Developer APIs] and the Bluebird engine. Bluebird is privately developed by the [Bluebird team].
 
 ###Requirements
 Bluebird requires NodeJS, and an installation of MongoDB. Developers will need a development API Key from the [Best Buy Developer APIs], injected either as an environment variable or stored within config.js.
@@ -17,4 +17,3 @@ Bluebird requires NodeJS, and an installation of MongoDB. Developers will need a
 
 [Best Buy Developer APIs]:http://developer.bestbuy.com
 [Bluebird Team]:http://bluebird.website/team
-[GeekSquad Central]:http://bluebird.website/team
