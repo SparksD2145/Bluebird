@@ -34,10 +34,6 @@ function RouteController(app) {
     var StatisticsRepository = require('../repositories/statistics/statisticsRepository');
     StatisticsRepository = new StatisticsRepository(app);
 
-    /** Require VehicleGuideRepository for vehicle fit guide operations */
-    var VehicleGuideRepository = require('../repositories/vehicleGuide/vehicleGuideRepository');
-    VehicleGuideRepository = new VehicleGuideRepository(app);
-
     /** Registers URL Route Parameters with Application */
     (function DefineRouteParameters(){
         debug.log('Defining Route Parameters.');
@@ -205,36 +201,6 @@ function RouteController(app) {
                     }
                 );
             }
-
-            if(req.params.resource.toLowerCase() == 'vehicle'){
-                if(typeof req.query.make === 'undefined' ||
-                    typeof req.query.year === 'undefined' ||
-                    typeof req.query.model == 'undefined') {
-
-                    new Failure()
-                        .badRequest(res, 'A neccessary parameter was not provided.');
-
-                    return false;
-                }
-
-                // If trim was provided, use trim.
-                req.query.trim = req.query.trim? req.query.trim : false;
-
-                return VehicleGuideRepository.getVehicle(req.query.year, req.query.make, req.query.model, req.query.trim, function (result) {
-                    if (result instanceof Error) {
-                        debug.error(result);
-
-                        new Failure()
-                            .serverFailure(res, 'The server encountered an error while processing the request.');
-
-                        return false;
-
-                    } else {
-                        return Success()
-                            .withData(res, result);
-                    }
-                });
-            }
         });
 
         /* GET /api/:resource */
@@ -265,57 +231,6 @@ function RouteController(app) {
                     });
                 }
             }
-
-            /** Vehicle Guide API */
-
-            /* GET /api/vehicle */
-            if(req.params.resource.toLowerCase() == 'vehicle'){
-
-                if(req.params.subresource.toLowerCase() == 'years') {
-                    return VehicleGuideRepository.getVehicleYears(function (result) {
-                        if (result instanceof Error) {
-                            console.error('Error:', result.message);
-                            sendGeneralFailure();
-                        } else {
-                            res.json(result);
-                        }
-                    });
-                }
-
-                if(req.params.subresource.toLowerCase() == 'makes') {
-                    if(typeof req.query.year === 'undefined') {
-                        sendGeneralFailure();
-                        return false;
-                    }
-                    return VehicleGuideRepository.getVehicleMakes(req.query.year, function (result) {
-                        if (result instanceof Error) {
-                            console.error('Error:', result.message);
-                            sendGeneralFailure();
-                        } else {
-                            res.json(result);
-                        }
-                    });
-                }
-
-                if(req.params.subresource.toLowerCase() == 'models') {
-                    if(typeof req.query.make === 'undefined' || typeof req.query.year === 'undefined' ) {
-                        sendGeneralFailure();
-                        return false;
-                    }
-
-                    return VehicleGuideRepository.getVehicleModels(req.query.year, req.query.make, function (result) {
-                        if (result instanceof Error) {
-                            console.error('Error:', result.message);
-                            sendGeneralFailure();
-                            return false;
-                        } else {
-                            res.json(result);
-                        }
-                    });
-                }
-            }
-
-
         });
     })();
 
