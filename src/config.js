@@ -42,10 +42,6 @@ environments['production'] = {
         key: env.BBY_API_KEY,
         active: true
     },
-    vehicleGuide: {
-        url: 'http://geeksquadcentral.com/services/fitguide/v1/vehicles',
-        active: true
-    },
     less: {
         force: false,
         once: true
